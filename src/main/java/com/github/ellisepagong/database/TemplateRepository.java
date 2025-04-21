@@ -11,6 +11,8 @@ public interface TemplateRepository extends CrudRepository<Template, Integer> {
 
     List<Template> findByUserId(Integer userId);
 
-    List<Template> findByUserIdAndIsArchivedFalse(int userId);
+    List<Template> findByUserIdAndArchivedFalse(int userId);
+
+    List<Template> findByUserIdAndTemplateId(int userId, int templateId);
 
 }

@@ -23,19 +23,24 @@ public class TaskController {
         return this.taskRepository.findAll();
     }
 
+    @GetMapping("/tasks/{id}")
+    public Optional<Task> searchTaskById(@PathVariable("id") int id){
+        return this.taskRepository.findById(id);
+    }
+
     @GetMapping("/tasks/ret")
-    public List<Task> searchTask(@RequestParam(name = "userId") Integer id,
+    public List<Task> searchTask(@RequestParam(name = "userId") Integer userId,
                                  @RequestParam(name ="notArchived", required = false) Boolean notArchived,
                                  @RequestParam(name ="templateId", required = false) Integer templateId){
 
-        if ((id != null) && (id > 0)){ // checks id validity
+        if ((userId != null) && (userId > 0)){ // checks id validity
             if (notArchived != null) {
                 if((templateId != null) && (templateId > 0)){ // for selecting tasks associated with a template
-                    return this.taskRepository.findByUserIdAndTemplateIdAndIsArchivedFalse(id, templateId); //TODO: test
+                    return this.taskRepository.findActiveTasksByUserAndTemplate(userId, templateId); //TODO: test
                 }
-                return this.taskRepository.findByUserIdAndIsArchivedFalse(id); // tested curl "http://localhost:8080/tasks/ret?userId=1&notArchived=true"
+                return this.taskRepository.findByUserIdAndArchivedFalse(userId); // tested curl "http://localhost:8080/tasks/ret?userId=1&notArchived=true"
             }
-            return this.taskRepository.findByUserId(id); // tested
+            return this.taskRepository.findByUserId(userId); // tested
         }
         return new ArrayList<>();
     }
@@ -60,9 +65,6 @@ public class TaskController {
 
         Task taskToUpdate = taskToUpdateOptional.get();
 
-        if (t.getTaskName() != null) {
-            taskToUpdate.setTaskName(t.getTaskName());
-        }
         if (t.getTaskName() != null) {
             taskToUpdate.setTaskName(t.getTaskName());
         }

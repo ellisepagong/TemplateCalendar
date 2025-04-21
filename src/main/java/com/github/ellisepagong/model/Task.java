@@ -36,7 +36,7 @@ public class Task {
     private Integer saved_id;
 
     @Column(name = "is_archived")
-    private Boolean isArchived;
+    private Boolean archived;
 
 
     public Integer getUserId() {
@@ -104,10 +104,10 @@ public class Task {
     }
 
     public Boolean isArchived() {
-        return isArchived;
+        return archived;
     }
 
     public void setArchived(Boolean archived) {
-        isArchived = archived;
+        this.archived = archived;
     }
 }

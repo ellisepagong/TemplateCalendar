@@ -26,8 +26,17 @@ public class TemplateController {
 
     @GetMapping("/templates/ret")
     public List<Template> searchTemplates(@RequestParam(name = "userId") Integer id,
-                                 @RequestParam(name ="notArchived", required = false) Boolean notArchived){
-        // TODO
+                                          @RequestParam(name ="notArchived", required = false) Boolean notArchived,
+                                          @RequestParam(name ="templateId", required = false) Integer templateId){
+        if ((id != null) && (id > 0)){
+            if (notArchived!= null){
+                return templateRepository.findByUserIdAndArchivedFalse(id);
+            }
+            if((templateId != null) && (templateId > 0)){
+                return templateRepository.findByUserIdAndTemplateId(id, templateId);
+            }
+            return templateRepository.findByUserId(id);
+        }
         return new ArrayList<>();
 
     }
@@ -48,7 +57,27 @@ public class TemplateController {
         }
 
         Template templateToUpdate = templateToUpdateOptional.get();
-        // TODO add setters
+
+        if (t.getUserId() != null) {
+            templateToUpdate.setUserId(t.getUserId());
+        }
+
+        if (t.getSavedId() != null) {
+            templateToUpdate.setSavedId(t.getSavedId());
+        }
+
+        if (t.getName() != null) {
+            templateToUpdate.setName(t.getName());
+        }
+
+        if (t.getDate() != null) {
+            templateToUpdate.setDate(t.getDate());
+        }
+
+        if (t.getArchived() != null) {
+            templateToUpdate.setArchived(t.getArchived());
+        }
+
         return templateToUpdate;
     }
 
