@@ -3,8 +3,11 @@ package com.github.ellisepagong.database;
 import com.github.ellisepagong.model.Task;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,12 +22,10 @@ public class TaskController {
     // GET
 
     @GetMapping("/tasks")
-    public Iterable<Task> getAllTasks(){
-        return this.taskRepository.findAll();
-    }
+    public Iterable<Task> getAllTasks(){return this.taskRepository.findAll();}                                          //TESTED WITH POSTMAN
 
     @GetMapping("/tasks/{id}")
-    public Optional<Task> searchTaskById(@PathVariable("id") int id){
+    public Optional<Task> searchTaskById(@PathVariable("id") int id){                                                   //TESTED WITH POSTMAN
         return this.taskRepository.findById(id);
     }
 
@@ -36,27 +37,30 @@ public class TaskController {
         if ((userId != null) && (userId > 0)){ // checks id validity
             if (notArchived != null) {
                 if((templateId != null) && (templateId > 0)){ // for selecting tasks associated with a template
-                    return this.taskRepository.findActiveTasksByUserAndTemplate(userId, templateId); //TODO: test
+                    return this.taskRepository.findByUserIdAndArchivedFalseAndTemplateId(userId, templateId);           // TODO: Test with templates
                 }
-                return this.taskRepository.findByUserIdAndArchivedFalse(userId); // tested curl "http://localhost:8080/tasks/ret?userId=1&notArchived=true"
+                return this.taskRepository.findByUserIdAndArchivedFalse(userId);                                        //TESTED WITH POSTMAN
             }
-            return this.taskRepository.findByUserId(userId); // tested
+            return this.taskRepository.findByUserId(userId);                                                            //TESTED WITH POSTMAN
         }
         return new ArrayList<>();
     }
 
     // POST
 
-    @PostMapping("/tasks") //TODO: test
-    public Task createNewTask(@RequestBody Task task){
-        Task newTask = this.taskRepository.save(task); // returns same object but with task_id
-        return newTask;
+    @PostMapping("/tasks")
+    public Task createNewTask(@RequestBody Task task){                                                                  // TESTED WITH POSTMAN
+        if (task.isDateValid()){                                                                                        // TESTED WITH POSTMAN
+            Task newTask = this.taskRepository.save(task); // returns same object but with task_id
+            return newTask;
+        }
+        return null;
     }
 
 
     // PUT
 
-    @PutMapping("/tasks/{id}") //TODO: test
+    @PutMapping("/tasks/{id}")
     public Task updateTask(@PathVariable("id") Integer id, @RequestBody Task t){
         Optional<Task> taskToUpdateOptional = this.taskRepository.findById(id);
         if (!taskToUpdateOptional.isPresent()){ //checks if task id is valid
@@ -74,27 +78,32 @@ public class TaskController {
         }
 
         if (t.getTaskDate() != null) {
-            taskToUpdate.setTaskDate(t.getTaskDate());
+            if(t.isDateValid()){
+                taskToUpdate.setTaskDate(t.getTaskDate());
+            }else{
+                return null;
+            }
+
         }
 
         if (t.getTemplate() != null) {
             taskToUpdate.setTemplate(t.getTemplate());
         }
 
-        if (t.getTemplateID() != null) {
-            taskToUpdate.setTemplateID(t.getTemplateID());
+        if (t.getTemplateId() != null) {
+            taskToUpdate.setTemplateId(t.getTemplateId());
         }
 
-        if (t.isSaved() != null) {
-            taskToUpdate.setSaved(t.isSaved());
+        if (t.getSaved() != null) {
+            taskToUpdate.setSaved(t.getSaved());
         }
 
-        if (t.getSaved_id() != null) {
-            taskToUpdate.setSaved_id(t.getSaved_id());
+        if (t.getSavedId() != null) {
+            taskToUpdate.setSavedId(t.getSavedId());
         }
 
-        if (t.isArchived() != null) {
-            taskToUpdate.setArchived(t.isArchived());
+        if (t.getArchived() != null) {
+            taskToUpdate.setArchived(t.getArchived());
         }
 
         this.taskRepository.save(taskToUpdate); // unsure?
@@ -102,10 +111,52 @@ public class TaskController {
         return taskToUpdate;
     }
 
+    // PATCH
+    @PatchMapping("/tasks/{id}")
+    public Task patchTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {                   //TESTED WITH POSTMAN
+        Optional<Task> taskToUpdateOptional = this.taskRepository.findById(id);
+        if (!taskToUpdateOptional.isPresent()) {
+            return null;
+        }
+
+        Task taskToUpdate = taskToUpdateOptional.get();
+
+        if (updates.containsKey("taskName")) {
+            taskToUpdate.setTaskName((String) updates.get("taskName"));
+        }
+
+        if (updates.containsKey("taskDesc")) {
+            taskToUpdate.setTaskDesc((String) updates.get("taskDesc"));
+        }
+
+        if (updates.containsKey("taskDate")) {
+            try {
+                LocalDate parsedDate = LocalDate.parse((String) updates.get("taskDate"));
+                Date sqlDate = Date.valueOf(parsedDate);
+
+                if (!sqlDate.before(Date.valueOf(LocalDate.now()))) {
+                    taskToUpdate.setTaskDate(sqlDate);
+                } else {
+                    return null; // Invalid date
+                }
+            } catch (Exception e) {
+                return null; // Invalid format
+            }
+        }
+
+        if (updates.containsKey("archived")) {
+            taskToUpdate.setArchived((Boolean) updates.get("archived"));
+        }
+
+        this.taskRepository.save(taskToUpdate);
+        return taskToUpdate;
+    }
+
+
     // DELETE
 
-    @DeleteMapping("/tasks/{id}") // TODO: test
-    public Task deleteTask(@PathVariable("id") Integer id){
+    @DeleteMapping("/tasks/{id}")
+    public Task deleteTask(@PathVariable("id") Integer id){                                                             // TESTED WITH POSTMAN
         Optional<Task> taskToDeleteOptional = this.taskRepository.findById(id);
         if (!taskToDeleteOptional.isPresent()){ //checks if task id is valid
             return null;

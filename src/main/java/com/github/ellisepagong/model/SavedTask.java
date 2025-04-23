@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class SavedTask {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer savedTaskId;
 
     @Column(name = "user_id")

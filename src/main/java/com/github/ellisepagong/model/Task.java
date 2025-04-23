@@ -2,13 +2,14 @@ package com.github.ellisepagong.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer task_id;
 
     @Column(name = "user_id")
@@ -24,20 +25,27 @@ public class Task {
     private Date taskDate;
 
     @Column(name = "is_template")
-    private Boolean isTemplate;
+    private Boolean template;
 
-    @Column(name = "template_id", nullable = true)
-    private Integer templateID;
+    @Column(name = "template_id")
+    private Integer templateId;
 
     @Column(name = "is_saved")
-    private Boolean isSaved;
+    private Boolean saved;
 
-    @Column(name = "saved_id", nullable = true)
-    private Integer saved_id;
+    @Column(name = "saved_id")
+    private Integer savedId;
 
     @Column(name = "is_archived")
     private Boolean archived;
 
+    public Integer getTask_id() {
+        return task_id;
+    }
+
+    public void setTask_id(Integer task_id) {
+        this.task_id = task_id;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -72,42 +80,47 @@ public class Task {
     }
 
     public Boolean getTemplate() {
-        return isTemplate;
+        return template;
     }
 
     public void setTemplate(Boolean template) {
-        isTemplate = template;
+        this.template = template;
     }
 
-    public Integer getTemplateID() {
-        return templateID;
+    public Integer getTemplateId() {
+        return templateId;
     }
 
-    public void setTemplateID(Integer templateID) {
-        this.templateID = templateID;
+    public void setTemplateId(Integer templateId) {
+        this.templateId = templateId;
     }
 
-    public Boolean isSaved() {
-        return isSaved;
+    public Boolean getSaved() {
+        return saved;
     }
 
     public void setSaved(Boolean saved) {
-        isSaved = saved;
+        this.saved = saved;
     }
 
-    public Integer getSaved_id() {
-        return saved_id;
+    public Integer getSavedId() {
+        return savedId;
     }
 
-    public void setSaved_id(Integer saved_id) {
-        this.saved_id = saved_id;
+    public void setSavedId(Integer savedId) {
+        this.savedId = savedId;
     }
 
-    public Boolean isArchived() {
+    public Boolean getArchived() {
         return archived;
     }
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
+
+    public boolean isDateValid(){ // checks if date is before current date or not
+       return taskDate != null && !(this.taskDate.before(Date.valueOf(LocalDate.now())));
+    }
+
 }

@@ -15,8 +15,7 @@ public interface TaskRepository extends CrudRepository<Task, Integer>{
 
     List<Task> findByUserIdAndArchivedFalse(Integer userId);
 
-    @Query("SELECT t FROM Task t WHERE t.userId = :userId AND t.templateID = :templateID AND t.archived = false")
-    List<Task> findActiveTasksByUserAndTemplate(@Param("userId") Integer userId, @Param("templateID") Integer templateID);
+    List<Task> findByUserIdAndArchivedFalseAndTemplateId(Integer userId, Integer templateID);
 
 
 
