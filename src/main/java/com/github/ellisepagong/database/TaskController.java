@@ -1,5 +1,6 @@
 package com.github.ellisepagong.database;
 
+import com.github.ellisepagong.model.SavedTask;
 import com.github.ellisepagong.model.Task;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskRepository taskRepository;
+    private final SavedTaskRepository savedTaskRepository;
 
-    public TaskController(final TaskRepository taskRepository) {
+    public TaskController(final TaskRepository taskRepository, SavedTaskRepository savedTaskRepository) {
         this.taskRepository = taskRepository;
+        this.savedTaskRepository = savedTaskRepository;
     }
 
     // GET
@@ -53,6 +56,39 @@ public class TaskController {
         if (task.isDateValid()){                                                                                        // TESTED WITH POSTMAN
             Task newTask = this.taskRepository.save(task); // returns same object but with task_id
             return newTask;
+        }
+        return null;
+    }
+
+    @PostMapping("/tasks/saved/{savedId}")
+    public Task newTaskFromSaved(@PathVariable("savedId") Integer savedId, @RequestBody Map<String, Object> date){      // TESTED WITH POSTMAN
+        Optional<SavedTask> savedTaskOptional = this.savedTaskRepository.findBySavedTaskId(savedId);
+        if(date.containsKey("taskDate")) {
+            if (savedTaskOptional.isPresent()) {
+                SavedTask savedTask = savedTaskOptional.get();
+
+                Task newTask = new Task();
+
+                newTask.setUserId(savedTask.getUserId());
+                newTask.setTaskName(savedTask.getTaskName());
+                newTask.setTaskDesc(savedTask.getTaskDesc());
+                try {
+                    LocalDate parsedDate = LocalDate.parse((String) date.get("taskDate"));
+                    Date sqlDate = Date.valueOf(parsedDate);
+
+                    if (!sqlDate.before(Date.valueOf(LocalDate.now()))) {
+                        newTask.setTaskDate(sqlDate);
+                    } else {
+                        return null; // Invalid date
+                    }
+                } catch (Exception e) {
+                    return null; // Invalid format
+                }
+                newTask.setSaved(true);
+                newTask.setSavedId(savedId);
+
+                return this.taskRepository.save(newTask);
+            }
         }
         return null;
     }
@@ -106,7 +142,7 @@ public class TaskController {
             taskToUpdate.setArchived(t.getArchived());
         }
 
-        this.taskRepository.save(taskToUpdate); // unsure?
+        this.taskRepository.save(taskToUpdate);
 
         return taskToUpdate;
     }

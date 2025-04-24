@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SavedTaskRepository extends CrudRepository<SavedTask, Integer> {
@@ -13,5 +14,5 @@ public interface SavedTaskRepository extends CrudRepository<SavedTask, Integer> 
 
     List<SavedTask> findByUserIdAndArchivedFalse(Integer userId);
 
-    List<SavedTask> findByUserIdAndSavedTaskIdAndArchivedFalse(Integer userId, Integer taskId);
+    Optional<SavedTask> findBySavedTaskId(Integer SavedTaskId);
 }
