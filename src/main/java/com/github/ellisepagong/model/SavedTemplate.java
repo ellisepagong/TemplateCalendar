@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class SavedTemplate {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer savedTemplateId;
 
     @Column(name = "user_id")

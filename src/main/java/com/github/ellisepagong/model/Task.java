@@ -123,4 +123,19 @@ public class Task {
        return taskDate != null && !(this.taskDate.before(Date.valueOf(LocalDate.now())));
     }
 
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaults(){  // for adding enw entries
+        if (this.archived == null){
+            this.archived = false;
+        }
+        if (this.template == null){
+            this.template = false;
+        }
+        if (this.saved == null){
+            this.saved = false;
+        }
+    }
+
 }

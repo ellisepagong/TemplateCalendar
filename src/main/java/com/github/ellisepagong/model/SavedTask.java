@@ -17,7 +17,8 @@ public class SavedTask {
     private String taskName;
 
     @Column(name = "saved_task_description")
-    private String taskDescription;
+    private String taskDesc;
+
 
     @Column(name = "is_archived")
     private Boolean archived;
@@ -47,12 +48,12 @@ public class SavedTask {
         this.taskName = taskName;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public String getTaskDesc() {
+        return taskDesc;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setTaskDesc(String taskDesc) {
+        this.taskDesc = taskDesc;
     }
 
     public Boolean getArchived() {
@@ -62,4 +63,14 @@ public class SavedTask {
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaults(){
+        if (this.archived == null){
+            this.archived = false;
+        }
+    }
+
+
 }
