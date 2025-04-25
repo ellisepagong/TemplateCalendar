@@ -2,6 +2,8 @@ package com.github.ellisepagong.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "saved_template")
 public class SavedTemplate {
@@ -49,5 +51,13 @@ public class SavedTemplate {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaults(){
+        if (this.archived == null) {
+            this.archived = false;
+        }
     }
 }

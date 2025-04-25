@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +20,7 @@ public class SavedTemplateController  {
     // GET
     @GetMapping("/savedTemplates")
     Iterable<SavedTemplate> getAllSavedTemplates(){
-        return this.savedTemplateRepository.findAll(); // todo: test
+        return this.savedTemplateRepository.findAll();                                                                  // TESTED IN POSTMAN
     }
 
     @GetMapping("/savedTemplates/ret")
@@ -28,58 +29,50 @@ public class SavedTemplateController  {
                                                  @RequestParam(name = "archived", required = false) Boolean isArchived){
         if ((id != null) && (id > 0)){ // checks id validity
             if (isArchived != null) {
-                if((templateId != null) && (templateId > 0)){ // for selecting tasks associated with a template
-                    return this.savedTemplateRepository.findByUserIdAndSavedTemplateIdAndArchivedFalse(id, templateId); //TODO: test
-                }
-                return this.savedTemplateRepository.findByUserIdAndArchivedFalse(id); // todo: test
+                return this.savedTemplateRepository.findByUserIdAndArchivedFalse(id);                                   // TESTED IN POSTMAN
             }
-            return this.savedTemplateRepository.findByUserId(id); // todo test
+            if((templateId != null) && (templateId > 0)){
+                return this.savedTemplateRepository.findByUserIdAndSavedTemplateId(id, templateId);                     // TESTED IN POSTMAN
+            }
+            return this.savedTemplateRepository.findByUserId(id);                                                       // TESTED IN POSTMAN
         }
         return new ArrayList<>();
     }
 
     // POST
 
-    @PostMapping("/savedTemplates") //TODO: test
-    public SavedTemplate createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate){
+    @PostMapping("/savedTemplates")
+    public SavedTemplate createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate){                              // TESTED IN POSTMAN
         SavedTemplate newSavedTemplate = this.savedTemplateRepository.save(savedTemplate); // returns same object but with id
         return newSavedTemplate;
     }
 
-    // PUT
-
-    @PutMapping("/savedTemplates/{id}") //TODO: test
-    public SavedTemplate updateSavedTemplate(@PathVariable("id") Integer id, @RequestBody SavedTemplate t) {
-        Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findById(id);
+    // PATCH
+    @PatchMapping("/savedTemplates/{templateId}")
+    public SavedTemplate updateSavedTemplate(@PathVariable("templateId") Integer templateId,                            // TESTED WITH POSTMAN
+                                             @RequestBody Map<String, Object> updates) {
+        Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findBySavedTemplateId(templateId);
         if (!templateToUpdateOptional.isPresent()) { //checks if id is valid
             return null;
         }
 
         SavedTemplate templateToUpdate = templateToUpdateOptional.get();
 
-        if (t.getUserId() != null) {
-            templateToUpdate.setUserId(t.getUserId());
+        if (updates.containsKey("templateName")) {
+            templateToUpdate.setTemplateName((String) updates.get("templateName"));
         }
 
-        if (t.getTemplateName()!= null) {
-            templateToUpdate.setTemplateName(t.getTemplateName());
+        if (updates.containsKey("archived")) {
+            templateToUpdate.setArchived((boolean) updates.get("archived"));
         }
 
-        if (t.getSavedTemplateId() != null) {
-            templateToUpdate.setSavedTemplateId(t.getSavedTemplateId());
-        }
-
-        if (t.getArchived() != null) {
-            templateToUpdate.setArchived(t.getArchived());
-        }
-
-        return templateToUpdate;
+        return this.savedTemplateRepository.save(templateToUpdate);
     }
 
     // DELETE
 
-    @DeleteMapping("/savedTemplates/{id}") // TODO: test
-    public SavedTemplate deleteSavedTemplate(@PathVariable("id") Integer id){
+    @DeleteMapping("/savedTemplates/{id}")
+    public SavedTemplate deleteSavedTemplate(@PathVariable("id") Integer id){                                           // TESTED WITH POSTMAN
         Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findById(id);
         if (!templateToDeleteOptional.isPresent()){ //checks if id is valid
             return null;
