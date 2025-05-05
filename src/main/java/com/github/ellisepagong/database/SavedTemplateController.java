@@ -18,10 +18,6 @@ public class SavedTemplateController  {
     }
 
     // GET
-    @GetMapping("/savedTemplates")
-    Iterable<SavedTemplate> getAllSavedTemplates(){
-        return this.savedTemplateRepository.findAll();                                                                  // TESTED IN POSTMAN
-    }
 
     @GetMapping("/savedTemplates/ret")
     List<SavedTemplate> searchSavedTemplates(@RequestParam(name = "id") Integer id,
@@ -62,10 +58,6 @@ public class SavedTemplateController  {
             templateToUpdate.setTemplateName((String) updates.get("templateName"));
         }
 
-        if (updates.containsKey("archived")) {
-            templateToUpdate.setArchived((boolean) updates.get("archived"));
-        }
-
         return this.savedTemplateRepository.save(templateToUpdate);
     }
 
@@ -78,7 +70,7 @@ public class SavedTemplateController  {
             return null;
         }
         SavedTemplate templateToDelete = templateToDeleteOptional.get();
-        this.savedTemplateRepository.delete(templateToDelete);
+        templateToDelete.setArchived(true);
         return templateToDelete;
     }
 

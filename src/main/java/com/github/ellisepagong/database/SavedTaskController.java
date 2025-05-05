@@ -19,11 +19,6 @@ public class SavedTaskController {
 
     // GET
 
-    @GetMapping("/savedTasks")
-    public Iterable<SavedTask> getAllSavedTasks(){
-        return this.savedTaskRepository.findAll();                                                                      // TESTED WITH POSTMAN
-    }
-
     @GetMapping("/savedTasks/{id}")
     public Optional<SavedTask> searchSavedTaskById(@PathVariable("id") int id){                                         // TESTED WITH POSTMAN
         return this.savedTaskRepository.findById(id);
@@ -48,34 +43,6 @@ public class SavedTaskController {
     public SavedTask createNewSavedTask(@RequestBody SavedTask task){                                                   // TESTED WITH POSTMAN
         SavedTask newTask = this.savedTaskRepository.save(task); // returns same object but with id
         return newTask;
-    }
-
-    //PUT
-
-    @PutMapping("/savedTasks/{id}")
-    public SavedTask updateSavedTask(@PathVariable("id") Integer id, @RequestBody SavedTask t){                         // TESTED WITH POSTMAN
-        Optional<SavedTask> taskToUpdateOptional = this.savedTaskRepository.findById(id);
-        if (!taskToUpdateOptional.isPresent()){ //checks if task id is valid
-            return null;
-        }
-
-        SavedTask taskToUpdate = taskToUpdateOptional.get();
-
-        if (t.getTaskName() != null) {
-            taskToUpdate.setTaskName(t.getTaskName());
-        }
-
-        if (t.getArchived() != null) {
-            taskToUpdate.setArchived(t.getArchived());
-        }
-
-        if (t.getTaskDesc() != null) {
-            taskToUpdate.setTaskDesc(t.getTaskDesc());
-        }
-
-        this.savedTaskRepository.save(taskToUpdate); // unsure?
-
-        return taskToUpdate;
     }
 
     // PATCH
@@ -118,8 +85,6 @@ public class SavedTaskController {
     }
 
 
-
-
     //DELETE
 
     @DeleteMapping("/savedTasks/{id}")
@@ -129,7 +94,7 @@ public class SavedTaskController {
             return null;
         }
         SavedTask taskToDelete = taskToDeleteOptional.get();
-        this.savedTaskRepository.delete(taskToDelete);
+        taskToDelete.setArchived(true);
         return taskToDelete;
     }
 }

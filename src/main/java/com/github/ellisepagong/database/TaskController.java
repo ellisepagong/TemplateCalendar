@@ -23,10 +23,6 @@ public class TaskController {
     }
 
     // GET
-
-    @GetMapping("/tasks")
-    public Iterable<Task> getAllTasks(){return this.taskRepository.findAll();}                                          //TESTED WITH POSTMAN
-
     @GetMapping("/tasks/{id}")
     public Optional<Task> searchTaskById(@PathVariable("id") int id){                                                   //TESTED WITH POSTMAN
         return this.taskRepository.findById(id);
@@ -50,7 +46,6 @@ public class TaskController {
     }
 
     // POST
-
     @PostMapping("/tasks")
     public Task createNewTask(@RequestBody Task task){                                                                  // TESTED WITH POSTMAN
         if (task.isDateValid()){                                                                                        // TESTED WITH POSTMAN
@@ -93,60 +88,6 @@ public class TaskController {
         return null;
     }
 
-
-    // PUT
-
-    @PutMapping("/tasks/{id}")
-    public Task updateTask(@PathVariable("id") Integer id, @RequestBody Task t){
-        Optional<Task> taskToUpdateOptional = this.taskRepository.findById(id);
-        if (!taskToUpdateOptional.isPresent()){ //checks if task id is valid
-            return null;
-        }
-
-        Task taskToUpdate = taskToUpdateOptional.get();
-
-        if (t.getTaskName() != null) {
-            taskToUpdate.setTaskName(t.getTaskName());
-        }
-
-        if (t.getTaskDesc() != null) {
-            taskToUpdate.setTaskDesc(t.getTaskDesc());
-        }
-
-        if (t.getTaskDate() != null) {
-            if(t.isDateValid()){
-                taskToUpdate.setTaskDate(t.getTaskDate());
-            }else{
-                return null;
-            }
-
-        }
-
-        if (t.getTemplate() != null) {
-            taskToUpdate.setTemplate(t.getTemplate());
-        }
-
-        if (t.getTemplateId() != null) {
-            taskToUpdate.setTemplateId(t.getTemplateId());
-        }
-
-        if (t.getSaved() != null) {
-            taskToUpdate.setSaved(t.getSaved());
-        }
-
-        if (t.getSavedId() != null) {
-            taskToUpdate.setSavedId(t.getSavedId());
-        }
-
-        if (t.getArchived() != null) {
-            taskToUpdate.setArchived(t.getArchived());
-        }
-
-        this.taskRepository.save(taskToUpdate);
-
-        return taskToUpdate;
-    }
-
     // PATCH
     @PatchMapping("/tasks/{id}")
     public Task patchTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {                   //TESTED WITH POSTMAN
@@ -180,10 +121,6 @@ public class TaskController {
             }
         }
 
-        if (updates.containsKey("archived")) {
-            taskToUpdate.setArchived((Boolean) updates.get("archived"));
-        }
-
         this.taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
@@ -198,7 +135,7 @@ public class TaskController {
             return null;
         }
         Task taskToDelete = taskToDeleteOptional.get();
-        this.taskRepository.delete(taskToDelete);
+        taskToDelete.setArchived(true);
         return taskToDelete;
     }
 

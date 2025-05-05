@@ -9,7 +9,7 @@ import java.sql.Date;
 public class Template {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer templateId;
 
     @Column(name = "user_id")
@@ -47,7 +47,7 @@ public class Template {
         return savedId;
     }
 
-    public void setSavedId(Integer savedId) {
+    public void setSavedTemplateId(Integer savedId) {
         this.savedId = savedId;
     }
 
@@ -73,5 +73,13 @@ public class Template {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaults(){
+        if (this.archived == null) {
+            this.archived = false;
+        }
     }
 }

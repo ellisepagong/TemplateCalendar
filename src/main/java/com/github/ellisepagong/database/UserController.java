@@ -37,16 +37,14 @@ public class UserController {
                 return null;
             }
         }
-
         return null;
     }
 
 
     //POST
-
     @PostMapping("/users")
     public User createNewUser(@RequestBody User user){                                                                  //TESTED W POSTMAN
-        User newUser = this.userRepository.save(user); // returns same object but with id
+        User newUser = this.userRepository.save(user);
         return newUser;
     }
 
@@ -65,56 +63,19 @@ public class UserController {
         return null;
     }
 
-    //PUT
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable("id") Integer id, @RequestBody User u) {                                       //TESTED W POSTMAN
-        Optional<User> userToUpdateOptional = this.userRepository.findById(id);
-        if (!userToUpdateOptional.isPresent()) { //checks if id is valid
-            return null;
-        }
-
-        User userToUpdate = userToUpdateOptional.get();
-
-        if (u.getFirstName() != null) {
-            userToUpdate.setFirstName(u.getFirstName());
-        }
-
-        if (u.getLastName() != null) {
-            userToUpdate.setLastName(u.getLastName());
-        }
-
-        if (u.getEmail() != null) {
-            userToUpdate.setEmail(u.getEmail());
-        }
-
-        if (u.getPassword() != null) {
-            userToUpdate.setPassword(u.getPassword());
-        }
-
-        if (u.getUsername() != null) {
-            userToUpdate.setUsername(u.getUsername());
-        }
-
-        return userRepository.save(userToUpdate);
-    }
-
     // PATCH
     @PatchMapping("/users/{id}")
     public User updateUserFields(@PathVariable Integer id, @RequestBody Map<String, Object> updates) {                  //TESTED W POSTMAN
         Optional<User> userOptional = userRepository.findById(id);
 
         if (userOptional.isPresent()) {
-
             User user = userOptional.get();
-
             if (updates.containsKey("lastName")) {
                 user.setLastName((String) updates.get("lastName"));
             }
-
             if (updates.containsKey("firstName")) {
                 user.setFirstName((String) updates.get("firstName"));
             }
-
 
             return userRepository.save(user);
         }
@@ -125,7 +86,6 @@ public class UserController {
 
 
     //DELETE
-
     @DeleteMapping("/users/{id}")                                                                                       //TESTED W POSTMAN
     public User deleteTask(@PathVariable("id") Integer id){
         Optional<User> userToDeleteOptional = this.userRepository.findById(id);

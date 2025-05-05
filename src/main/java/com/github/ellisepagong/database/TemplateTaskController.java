@@ -25,7 +25,7 @@ public class TemplateTaskController {
     }
 
     @GetMapping("/templateTasks/{templateTaskId}")
-    public Optional<TemplateTask> searchTemplateTaskById(@PathVariable("templateTaskId") int id){                                   // TESTED WITH POSTMAN
+    public Optional<TemplateTask> searchTemplateTaskById(@PathVariable("templateTaskId") int id){                       // TESTED WITH POSTMAN
         return this.templateTaskRepository.findById(id);
     }
 
@@ -81,15 +81,6 @@ public class TemplateTaskController {
                 Object value = updates.get("taskDesc");
                 if (value instanceof String) {
                     templateTaskToUpdate.setTemplateTaskDesc((String) value);
-                }
-            }
-
-            if (updates.containsKey("archived")) {
-                Object value = updates.get("archived");
-                if (value instanceof Boolean) {
-                    templateTaskToUpdate.setArchived((Boolean) value);
-                } else if (value instanceof String) {
-                    templateTaskToUpdate.setArchived(Boolean.parseBoolean((String) value));
                 }
             }
 
