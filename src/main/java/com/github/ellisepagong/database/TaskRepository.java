@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Integer>{
@@ -15,8 +16,5 @@ public interface TaskRepository extends CrudRepository<Task, Integer>{
 
     List<Task> findByUserIdAndArchivedFalse(Integer userId);
 
-    List<Task> findByUserIdAndArchivedFalseAndTemplateId(Integer userId, Integer templateID);
-
-
-
+    Optional<Task> findByTaskIdAndArchivedFalse(Integer id);
 }

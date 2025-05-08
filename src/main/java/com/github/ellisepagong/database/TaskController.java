@@ -2,6 +2,9 @@ package com.github.ellisepagong.database;
 
 import com.github.ellisepagong.model.SavedTask;
 import com.github.ellisepagong.model.Task;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -24,39 +27,42 @@ public class TaskController {
 
     // GET
     @GetMapping("/tasks/{id}")
-    public Optional<Task> searchTaskById(@PathVariable("id") int id){                                                   //TESTED WITH POSTMAN
-        return this.taskRepository.findById(id);
+    public ResponseEntity<?> searchTaskById(@PathVariable("id") int id){                                             //TESTED WITH POSTMAN
+        Optional<Task> findTask = this.taskRepository.findByTaskIdAndArchivedFalse(id);
+        if (findTask.isPresent()){
+            return ResponseEntity.ok(findTask.get());
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Active task by that ID");
+        }
     }
 
     @GetMapping("/tasks/ret")
-    public List<Task> searchTask(@RequestParam(name = "userId") Integer userId,
-                                 @RequestParam(name ="notArchived", required = false) Boolean notArchived,
-                                 @RequestParam(name ="templateId", required = false) Integer templateId){
+    public ResponseEntity<?> searchTask(@RequestParam(name = "userId") Integer userId,
+                                        @RequestParam(name ="notArchived", required = false) Boolean notArchived){
 
         if ((userId != null) && (userId > 0)){ // checks id validity
             if (notArchived != null) {
-                if((templateId != null) && (templateId > 0)){ // for selecting tasks associated with a template
-                    return this.taskRepository.findByUserIdAndArchivedFalseAndTemplateId(userId, templateId);           // TODO: Test with templates
-                }
-                return this.taskRepository.findByUserIdAndArchivedFalse(userId);                                        //TESTED WITH POSTMAN
+                return ResponseEntity.ok(this.taskRepository.findByUserIdAndArchivedFalse(userId));                     //TESTED WITH POSTMAN
             }
-            return this.taskRepository.findByUserId(userId);                                                            //TESTED WITH POSTMAN
+            return ResponseEntity.ok(this.taskRepository.findByUserId(userId));                                         //TESTED WITH POSTMAN
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid User Id");
         }
-        return new ArrayList<>();
+
     }
 
     // POST
     @PostMapping("/tasks")
-    public Task createNewTask(@RequestBody Task task){                                                                  // TESTED WITH POSTMAN
+    public ResponseEntity<?> createNewTask(@RequestBody Task task){                                                                  // TESTED WITH POSTMAN
         if (task.isDateValid()){                                                                                        // TESTED WITH POSTMAN
             Task newTask = this.taskRepository.save(task); // returns same object but with task_id
-            return newTask;
+            return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date");
     }
 
     @PostMapping("/tasks/saved/{savedId}")
-    public Task newTaskFromSaved(@PathVariable("savedId") Integer savedId, @RequestBody Map<String, Object> date){      // TESTED WITH POSTMAN
+    public ResponseEntity<?> newTaskFromSaved(@PathVariable("savedId") Integer savedId, @RequestBody Map<String, Object> date){      // TESTED WITH POSTMAN
         Optional<SavedTask> savedTaskOptional = this.savedTaskRepository.findBySavedTaskId(savedId);
         if(date.containsKey("taskDate")) {
             if (savedTaskOptional.isPresent()) {
@@ -74,26 +80,26 @@ public class TaskController {
                     if (!sqlDate.before(Date.valueOf(LocalDate.now()))) {
                         newTask.setTaskDate(sqlDate);
                     } else {
-                        return null; // Invalid date
+                        ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date");
                     }
                 } catch (Exception e) {
-                    return null; // Invalid format
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect date format"); // Invalid format
                 }
                 newTask.setSaved(true);
                 newTask.setSavedId(savedId);
 
-                return this.taskRepository.save(newTask);
+                return ResponseEntity.status(HttpStatus.CREATED).body(this.taskRepository.save(newTask));
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No taskDate argument");
     }
 
     // PATCH
     @PatchMapping("/tasks/{id}")
-    public Task patchTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {                   //TESTED WITH POSTMAN
+    public ResponseEntity<?> patchTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {                   //TESTED WITH POSTMAN
         Optional<Task> taskToUpdateOptional = this.taskRepository.findById(id);
         if (!taskToUpdateOptional.isPresent()) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task Found");
         }
 
         Task taskToUpdate = taskToUpdateOptional.get();
@@ -114,29 +120,27 @@ public class TaskController {
                 if (!sqlDate.before(Date.valueOf(LocalDate.now()))) {
                     taskToUpdate.setTaskDate(sqlDate);
                 } else {
-                    return null; // Invalid date
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date"); // Invalid date
                 }
             } catch (Exception e) {
-                return null; // Invalid format
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect date format"); // Invalid format
             }
         }
-
-        this.taskRepository.save(taskToUpdate);
-        return taskToUpdate;
+        return ResponseEntity.ok(this.taskRepository.save(taskToUpdate));
     }
 
 
     // DELETE
 
     @DeleteMapping("/tasks/{id}")
-    public Task deleteTask(@PathVariable("id") Integer id){                                                             // TESTED WITH POSTMAN
-        Optional<Task> taskToDeleteOptional = this.taskRepository.findById(id);
+    public ResponseEntity<?> deleteTask(@PathVariable("id") Integer id){                                                             // TESTED WITH POSTMAN
+        Optional<Task> taskToDeleteOptional = this.taskRepository.findByTaskIdAndArchivedFalse(id);
         if (!taskToDeleteOptional.isPresent()){ //checks if task id is valid
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task Found");
         }
         Task taskToDelete = taskToDeleteOptional.get();
         taskToDelete.setArchived(true);
-        return taskToDelete;
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
 }

@@ -10,7 +10,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer task_id;
+    private Integer taskId;
 
     @Column(name = "user_id")
     private Integer userId;
@@ -39,12 +39,12 @@ public class Task {
     @Column(name = "is_archived")
     private Boolean archived;
 
-    public Integer getTask_id() {
-        return task_id;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(Integer task_id) {
-        this.task_id = task_id;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public Integer getUserId() {
