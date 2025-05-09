@@ -14,5 +14,7 @@ public interface SavedTaskRepository extends CrudRepository<SavedTask, Integer> 
 
     List<SavedTask> findByUserIdAndArchivedFalse(Integer userId);
 
+    Optional<SavedTask> findBySavedTaskIdAndArchivedFalse(Integer savedTaskId);
+
     Optional<SavedTask> findBySavedTaskId(Integer SavedTaskId);
 }
