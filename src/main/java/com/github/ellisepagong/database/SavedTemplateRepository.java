@@ -17,4 +17,6 @@ public interface SavedTemplateRepository extends CrudRepository<SavedTemplate, I
     List<SavedTemplate> findByUserIdAndSavedTemplateId(Integer id, Integer templateId);
 
     Optional<SavedTemplate> findBySavedTemplateId(Integer templateId);
+
+    Optional<SavedTemplate> findBySavedTemplateIdAndArchivedFalse(Integer templateId);
 }

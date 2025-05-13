@@ -89,7 +89,7 @@ public class SavedTaskController {
 
     @DeleteMapping("/savedTasks/{id}")
     public ResponseEntity<?> deleteSavedTask(@PathVariable("id") Integer id){                                                   // TESTED WITH POSTMAN
-        Optional<SavedTask> taskToDeleteOptional = this.savedTaskRepository.findById(id);
+        Optional<SavedTask> taskToDeleteOptional = this.savedTaskRepository.findBySavedTaskIdAndArchivedFalse(id);
         if (!taskToDeleteOptional.isPresent()){ //checks if task id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Saved Task not Found");
         }

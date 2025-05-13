@@ -1,8 +1,12 @@
 package com.github.ellisepagong.database;
 
 import com.github.ellisepagong.model.TemplateTask;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,33 +23,33 @@ public class TemplateTaskController {
 
     // GET
 
-    @GetMapping("/templateTasks")
-    public Iterable<TemplateTask> getAllTemplateTasks(){
-        return this.templateTaskRepository.findAll();                                                                   // TESTED WITH POSTMAN
-    }
-
     @GetMapping("/templateTasks/{templateTaskId}")
-    public Optional<TemplateTask> searchTemplateTaskById(@PathVariable("templateTaskId") int id){                       // TESTED WITH POSTMAN
-        return this.templateTaskRepository.findById(id);
+    public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id){                       // TESTED WITH POSTMAN
+        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(id);
+        if(templateTaskOptional.isPresent()){
+            return ResponseEntity.ok(templateTaskOptional.get());
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found for Template");
+        }
     }
 
     @GetMapping("/templateTasks/ret")
-    public List<TemplateTask> searchTemplateTasks(@RequestParam(name = "userId", required = false) Integer userId,
+    public ResponseEntity<?> searchTemplateTasks(@RequestParam(name = "userId", required = false) Integer userId,
                                                   @RequestParam(name ="templateId", required = false) Integer templateId){
 
-        if(userId != null){
-            return this.templateTaskRepository.findByUserId(userId);                                                    // TESTED IN POSTMAN
+        if(userId != null) {
+            return ResponseEntity.ok(templateTaskRepository.findByUserIdAndArchivedFalse(userId));
+        }else if(templateId != null){
+            return ResponseEntity.ok(templateTaskRepository.findByTemplateIdAndArchivedFalse(templateId));
+        } else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Arguments. Please include userId or templateId");
         }
-        if(templateId != null){
-            return this.templateTaskRepository.findByTemplateId(templateId);                                            // TESTED IN POSTMAN
-        }
-        return new ArrayList<>();
     }
 
     // POST
 
     @PostMapping("/templateTasks")
-    public Iterable<TemplateTask> createNewSavedTask(@RequestBody List<TemplateTask> tasks){                            // TESTED WITH POSTMAN
+    public ResponseEntity<?> createNewSavedTask(@RequestBody List<TemplateTask> tasks){                            // TESTED WITH POSTMAN
         Integer refUserId = tasks.get(0).getUserId();
         Integer refTemplateId = tasks.get(0).getTemplateId();
 
@@ -53,17 +57,17 @@ public class TemplateTaskController {
             TemplateTask task = tasks.get(i);
 
             if (!task.getUserId().equals(refUserId) || !task.getTemplateId().equals(refTemplateId)) {
-                return null;
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Id or Template Id does not match.");
             }
         }
-        return templateTaskRepository.saveAll(tasks);
+        return ResponseEntity.status(HttpStatus.CREATED).body(templateTaskRepository.saveAll(tasks));
     }
 
     // PATCH
     @PatchMapping("/templateTasks/{templateTaskId}")
-    public TemplateTask updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
+    public ResponseEntity<?>  updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
                                            @RequestBody Map<String, Object> updates){
-        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskId(taskId);
+        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
 
         if(templateTaskOptional.isPresent()){
 
@@ -84,26 +88,25 @@ public class TemplateTaskController {
                 }
             }
 
-            templateTaskRepository.save(templateTaskToUpdate);
-
-            return templateTaskToUpdate;
+            return ResponseEntity.ok(templateTaskRepository.save(templateTaskToUpdate));
+        }else{
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Template Task does not exist");
         }
-
-        return null;
     }
 
     // delete
 
     @DeleteMapping("/templateTasks/{templateTaskId}")
-    public TemplateTask deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId){                             // TESTED IN POSTMAN
-        Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findByTemplateTaskId(taskId);
+    public ResponseEntity<?>  deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId){                             // TESTED IN POSTMAN
+        Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
 
-        if (templateTaskToDeleteOptional.isPresent()){
+        if (templateTaskToDeleteOptional.isPresent()) {
             TemplateTask templateTaskToDelete = templateTaskToDeleteOptional.get();
-            this.templateTaskRepository.delete(templateTaskToDelete);
-            return templateTaskToDelete;
+            templateTaskToDelete.setArchived(true);
+            return ResponseEntity.ok(this.templateTaskRepository.save(templateTaskToDelete));
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task Found");
         }
-        return null;
     }
 
 
