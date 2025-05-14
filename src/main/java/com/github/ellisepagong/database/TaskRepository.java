@@ -17,4 +17,6 @@ public interface TaskRepository extends CrudRepository<Task, Integer>{
     List<Task> findByUserIdAndArchivedFalse(Integer userId);
 
     Optional<Task> findByTaskIdAndArchivedFalse(Integer id);
+
+    List<Task> findByTemplateIdAndArchivedFalse(Integer templateId);
 }

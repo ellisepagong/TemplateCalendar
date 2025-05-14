@@ -37,16 +37,15 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/ret")
-    public ResponseEntity<?> searchTask(@RequestParam(name = "userId") Integer userId,
-                                        @RequestParam(name ="notArchived", required = false) Boolean notArchived){
+    public ResponseEntity<?> searchTask(@RequestParam(name = "userId", required = false) Integer userId,
+                                        @RequestParam(name ="templateId", required = false) Integer templateId){
 
-        if ((userId != null) && (userId > 0)){ // checks id validity
-            if (notArchived != null) {
-                return ResponseEntity.ok(this.taskRepository.findByUserIdAndArchivedFalse(userId));                     //TESTED WITH POSTMAN
-            }
-            return ResponseEntity.ok(this.taskRepository.findByUserId(userId));                                         //TESTED WITH POSTMAN
+        if ((userId != null)){ // checks id validity
+            return ResponseEntity.ok(this.taskRepository.findByUserIdAndArchivedFalse(userId));
+        }else if(templateId!=null){
+            return ResponseEntity.ok(this.taskRepository.findByTemplateIdAndArchivedFalse(templateId));
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid User Id");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Parameters. Please include either userId or templateId");
         }
 
     }

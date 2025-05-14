@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TemplateRepository extends CrudRepository<Template, Integer> {
@@ -14,5 +15,7 @@ public interface TemplateRepository extends CrudRepository<Template, Integer> {
     List<Template> findByUserIdAndArchivedFalse(int userId);
 
     List<Template> findByUserIdAndTemplateId(int userId, int templateId);
+
+    Optional<Template> findByTemplateIdAndArchivedFalse(int templateId);
 
 }
