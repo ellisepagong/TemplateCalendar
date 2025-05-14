@@ -19,10 +19,10 @@ public class Template {
     private Integer savedId;
 
     @Column(name = "template_name")
-    private String name;
+    private String templateName;
 
     @Column(name = "assign_date")
-    private Date date;
+    private Date templateDate;
 
     @Column(name = "is_archived")
     private Boolean archived;
@@ -51,20 +51,20 @@ public class Template {
         this.savedId = savedId;
     }
 
-    public String getName() {
-        return name;
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTemplateDate() {
+        return templateDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTemplateDate(Date templateDate) {
+        this.templateDate = templateDate;
     }
 
     public Boolean getArchived() {

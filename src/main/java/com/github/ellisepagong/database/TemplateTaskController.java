@@ -2,12 +2,9 @@ package com.github.ellisepagong.database;
 
 import com.github.ellisepagong.model.TemplateTask;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,24 +21,26 @@ public class TemplateTaskController {
     // GET
 
     @GetMapping("/templateTasks/{templateTaskId}")
-    public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id){                       // TESTED WITH POSTMAN
+    public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id) {
         Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(id);
-        if(templateTaskOptional.isPresent()){
+        if (templateTaskOptional.isPresent()) {
             return ResponseEntity.ok(templateTaskOptional.get());
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found for Template");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task found");
         }
     }
 
-    @GetMapping("/templateTasks/ret")
-    public ResponseEntity<?> searchTemplateTasks(@RequestParam(name = "userId", required = false) Integer userId,
-                                                  @RequestParam(name ="templateId", required = false) Integer templateId){
+    @GetMapping("/templateTasks/")
+    public ResponseEntity<?> searchTemplateTasks(@RequestParam(name = "templateId", required = false) Integer templateId) {
 
-        if(userId != null) {
-            return ResponseEntity.ok(templateTaskRepository.findByUserIdAndArchivedFalse(userId));
-        }else if(templateId != null){
-            return ResponseEntity.ok(templateTaskRepository.findByTemplateIdAndArchivedFalse(templateId));
-        } else{
+        if (templateId != null) {
+            List<TemplateTask> templateTaskList = this.templateTaskRepository.findByTemplateIdAndArchivedFalse(templateId);
+            if(templateTaskList.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found for Template");
+            }else{
+                return ResponseEntity.ok(templateTaskList);
+            }
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Arguments. Please include userId or templateId");
         }
     }
@@ -49,7 +48,7 @@ public class TemplateTaskController {
     // POST
 
     @PostMapping("/templateTasks")
-    public ResponseEntity<?> createNewSavedTask(@RequestBody List<TemplateTask> tasks){                            // TESTED WITH POSTMAN
+    public ResponseEntity<?> createNewSavedTask(@RequestBody List<TemplateTask> tasks) {                            // TESTED WITH POSTMAN
         Integer refUserId = tasks.get(0).getUserId();
         Integer refTemplateId = tasks.get(0).getTemplateId();
 
@@ -65,11 +64,11 @@ public class TemplateTaskController {
 
     // PATCH
     @PatchMapping("/templateTasks/{templateTaskId}")
-    public ResponseEntity<?>  updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
-                                           @RequestBody Map<String, Object> updates){
+    public ResponseEntity<?> updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
+                                                @RequestBody Map<String, Object> updates) {
         Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
 
-        if(templateTaskOptional.isPresent()){
+        if (templateTaskOptional.isPresent()) {
 
             TemplateTask templateTaskToUpdate = templateTaskOptional.get();
 
@@ -89,27 +88,25 @@ public class TemplateTaskController {
             }
 
             return ResponseEntity.ok(templateTaskRepository.save(templateTaskToUpdate));
-        }else{
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Template Task does not exist");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Template Task does not exist");
         }
     }
 
     // delete
 
     @DeleteMapping("/templateTasks/{templateTaskId}")
-    public ResponseEntity<?>  deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId){                             // TESTED IN POSTMAN
+    public ResponseEntity<?> deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId) {                             // TESTED IN POSTMAN
         Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
 
         if (templateTaskToDeleteOptional.isPresent()) {
             TemplateTask templateTaskToDelete = templateTaskToDeleteOptional.get();
             templateTaskToDelete.setArchived(true);
             return ResponseEntity.ok(this.templateTaskRepository.save(templateTaskToDelete));
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task Found");
         }
     }
-
-
 
 
 }

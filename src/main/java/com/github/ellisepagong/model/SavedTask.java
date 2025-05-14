@@ -19,7 +19,6 @@ public class SavedTask {
     @Column(name = "saved_task_description")
     private String taskDesc;
 
-
     @Column(name = "is_archived")
     private Boolean archived;
 

@@ -21,7 +21,7 @@ public class TemplateController {
     private final SavedTemplateRepository savedTemplateRepository;
     private final TemplateTaskRepository templateTaskRepository;
     private final TaskRepository taskRepository;
-    
+
     public TemplateController(TemplateRepository templateRepository, SavedTemplateRepository savedTemplateRepository, TemplateTaskRepository templateTaskRepository, TaskRepository taskRepository) {
         this.templateRepository = templateRepository;
         this.savedTemplateRepository = savedTemplateRepository;
@@ -33,33 +33,33 @@ public class TemplateController {
     // GET
 
     @GetMapping("/templates/")
-    public ResponseEntity<?> searchTemplates(@RequestParam(value = "userId", required = false) Integer userId, @RequestParam(value = "templateId", required = false) Integer templateId){
-        if (userId != null){
+    public ResponseEntity<?> searchTemplates(@RequestParam(value = "userId", required = false) Integer userId, @RequestParam(value = "templateId", required = false) Integer templateId) {
+        if (userId != null) {
             List<Template> templateList = this.templateRepository.findByUserIdAndArchivedFalse(userId);
-            if (templateList.isEmpty()){
+            if (templateList.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Templates Found");
-            }else{
+            } else {
                 return ResponseEntity.ok(templateList);
             }
-        }else if(templateId != null){
+        } else if (templateId != null) {
             Optional<Template> templateOptional = this.templateRepository.findByTemplateIdAndArchivedFalse(templateId);
-            if (templateOptional.isEmpty()){
+            if (templateOptional.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Template Found");
-            }else{
+            } else {
                 return ResponseEntity.ok(templateOptional);
             }
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Parameters");
         }
     }
 
     // POST
     @PostMapping("/templates/saved/{savedTemplateId}") // TODO test
-        public ResponseEntity<?> newTemplateFromSaved(@PathVariable("savedTemplateId") Integer savedtemplateId,
-                                             @RequestBody Map<String, Object> date){
+    public ResponseEntity<?> newTemplateFromSaved(@PathVariable("savedTemplateId") Integer savedtemplateId,
+                                                  @RequestBody Map<String, Object> date) {
         Optional<SavedTemplate> savedTemplateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(savedtemplateId);
-        if(date.containsKey("templateDate")){
-            if(!savedTemplateOptional.isPresent()) {
+        if (date.containsKey("templateDate")) {
+            if (!savedTemplateOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
             }
             SavedTemplate savedTemplate = savedTemplateOptional.get();
@@ -67,14 +67,14 @@ public class TemplateController {
             Template newTemplate = new Template();
 
             newTemplate.setSavedTemplateId(savedTemplate.getSavedTemplateId()); // saved id
-            newTemplate.setName(savedTemplate.getTemplateName());
+            newTemplate.setTemplateName(savedTemplate.getTemplateName());
             newTemplate.setUserId(savedTemplate.getUserId());
             try {
                 LocalDate parsedDate = LocalDate.parse((String) date.get("templateDate"));
                 Date sqlDate = Date.valueOf(parsedDate);
 
                 if (!sqlDate.before(Date.valueOf(LocalDate.now()))) {
-                    newTemplate.setDate(sqlDate);
+                    newTemplate.setTemplateDate(sqlDate);
                 } else {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date");
                 }
@@ -83,16 +83,16 @@ public class TemplateController {
             }
 
             List<TemplateTask> templateTasks = this.templateTaskRepository.findByTemplateId(savedtemplateId);
-            if (templateTasks.isEmpty()){
+            if (templateTasks.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found from Template");
             }
-            newTemplate =  this.templateRepository.save(newTemplate);
-            for(int i = 0; i<templateTasks.size(); i++){
+            newTemplate = this.templateRepository.save(newTemplate);
+            for (int i = 0; i < templateTasks.size(); i++) {
                 Task newTask = getTask(templateTasks, i, newTemplate);
                 this.taskRepository.save(newTask);
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(newTemplate);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No templateDate parameter");
         }
     }
@@ -106,23 +106,21 @@ public class TemplateController {
         newTask.setTaskDesc(tempTemplateTask.getTemplateTaskDesc());
         newTask.setTemplate(true);
         newTask.setTemplateId(newTemplate.getTemplateId());
-        newTask.setTaskDate(newTemplate.getDate());
+        newTask.setTaskDate(newTemplate.getTemplateDate());
         return newTask;
     }
 
 
     // PATCH
-    @PatchMapping("/templates/{id}") //TODO: test
+    @PatchMapping("/templates/{id}")
     public ResponseEntity<?> updateTemplate(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {
         Optional<Template> templateToUpdateOptional = this.templateRepository.findById(id);
-        if (!templateToUpdateOptional.isPresent()) { //checks if id is valid
+        if (!templateToUpdateOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Template Found");
         }
-
         Template templateToUpdate = templateToUpdateOptional.get();
-
         if (updates.containsKey("taskDate")) {
-            templateToUpdate.setDate((Date) updates.get("taskDate"));
+            templateToUpdate.setTemplateDate((Date) updates.get("taskDate"));
         }
 
         return ResponseEntity.ok(this.templateRepository.save(templateToUpdate));
@@ -131,9 +129,9 @@ public class TemplateController {
     // DELETE
 
     @DeleteMapping("/templates/{id}") // TODO: test
-    public ResponseEntity<?> deleteTemplate(@PathVariable("id") Integer id){
+    public ResponseEntity<?> deleteTemplate(@PathVariable("id") Integer id) {
         Optional<Template> templateToDeleteOptional = this.templateRepository.findByTemplateIdAndArchivedFalse(id);
-        if (!templateToDeleteOptional.isPresent()){ //checks if id is valid
+        if (!templateToDeleteOptional.isPresent()) { //checks if id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Template Found");
         }
         Template templateToDelete = templateToDeleteOptional.get();
