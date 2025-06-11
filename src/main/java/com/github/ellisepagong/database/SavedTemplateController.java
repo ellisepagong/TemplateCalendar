@@ -67,7 +67,7 @@ public class SavedTemplateController {
         SavedTemplate templateToUpdate = templateToUpdateOptional.get();
 
         if (updates.containsKey("templateName")) {
-            templateToUpdate.setTemplateName((String) updates.get("templateName"));
+            templateToUpdate.setSavedTemplateName((String) updates.get("templateName"));
         }
 
         return ResponseEntity.ok(this.savedTemplateRepository.save(templateToUpdate));

@@ -67,7 +67,7 @@ public class TemplateController {
             Template newTemplate = new Template();
 
             newTemplate.setSavedTemplateId(savedTemplate.getSavedTemplateId()); // saved id
-            newTemplate.setTemplateName(savedTemplate.getTemplateName());
+            newTemplate.setTemplateName(savedTemplate.getSavedTemplateName());
             newTemplate.setTemplateUserId(savedTemplate.getSavedTemplateUserId());
             try {
                 LocalDate parsedDate = LocalDate.parse((String) date.get("templateDate"));

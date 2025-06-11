@@ -14,7 +14,7 @@ public class SavedTemplate {
     private Integer savedTemplateUserId;
 
     @Column(name = "saved_template_name")
-    private String templateName;
+    private String savedTemplateName;
 
     @Column(name ="is_archived")
     private Boolean archived;
@@ -35,12 +35,12 @@ public class SavedTemplate {
         this.savedTemplateUserId = savedTemplateUserId;
     }
 
-    public String getTemplateName() {
-        return templateName;
+    public String getSavedTemplateName() {
+        return savedTemplateName;
     }
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
+    public void setSavedTemplateName(String savedTemplateName) {
+        this.savedTemplateName = savedTemplateName;
     }
 
     public Boolean getArchived() {
