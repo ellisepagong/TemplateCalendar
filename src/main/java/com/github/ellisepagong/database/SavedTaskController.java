@@ -34,7 +34,7 @@ public class SavedTaskController {
     public ResponseEntity<?> searchSavedTask(@RequestParam(name = "userId", required = false) Integer id) {
 
         if (id != null) {
-            List<SavedTask> savedTaskList = this.savedTaskRepository.findByUserIdAndArchivedFalse(id);
+            List<SavedTask> savedTaskList = this.savedTaskRepository.findBySavedTaskUserIdAndArchivedFalse(id);
             if (savedTaskList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Tasks Found");
             }else{
@@ -65,14 +65,14 @@ public class SavedTaskController {
         if (updates.containsKey("taskName")) {
             Object value = updates.get("taskName");
             if (value instanceof String) {
-                taskToUpdate.setTaskName((String) value);
+                taskToUpdate.setSavedTaskName((String) value);
             }
         }
 
         if (updates.containsKey("taskDesc")) {
             Object value = updates.get("taskDesc");
             if (value instanceof String) {
-                taskToUpdate.setTaskDesc((String) value);
+                taskToUpdate.setSavedTaskDesc((String) value);
             }
         }
 

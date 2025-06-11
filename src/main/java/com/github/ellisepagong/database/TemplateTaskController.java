@@ -22,7 +22,7 @@ public class TemplateTaskController {
 
     @GetMapping("/templateTasks/{templateTaskId}")
     public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id) {
-        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(id);
+        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(id);
         if (templateTaskOptional.isPresent()) {
             return ResponseEntity.ok(templateTaskOptional.get());
         } else {
@@ -34,7 +34,7 @@ public class TemplateTaskController {
     public ResponseEntity<?> searchTemplateTasks(@RequestParam(name = "templateId", required = false) Integer templateId) {
 
         if (templateId != null) {
-            List<TemplateTask> templateTaskList = this.templateTaskRepository.findByTemplateIdAndArchivedFalse(templateId);
+            List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateIdAndArchivedFalse(templateId);
             if(templateTaskList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found for Template");
             }else{
@@ -49,13 +49,13 @@ public class TemplateTaskController {
 
     @PostMapping("/templateTasks")
     public ResponseEntity<?> createNewSavedTask(@RequestBody List<TemplateTask> tasks) {                            // TESTED WITH POSTMAN
-        Integer refUserId = tasks.get(0).getUserId();
-        Integer refTemplateId = tasks.get(0).getTemplateId();
+        Integer refUserId = tasks.get(0).getSavedTemplateTaskUserId();
+        Integer refTemplateId = tasks.get(0).getSavedTemplateTaskTemplateId();
 
         for (int i = 0; i < tasks.size(); i++) {
             TemplateTask task = tasks.get(i);
 
-            if (!task.getUserId().equals(refUserId) || !task.getTemplateId().equals(refTemplateId)) {
+            if (!task.getSavedTemplateTaskUserId().equals(refUserId) || !task.getSavedTemplateTaskTemplateId().equals(refTemplateId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Id or Template Id does not match.");
             }
         }
@@ -66,7 +66,7 @@ public class TemplateTaskController {
     @PatchMapping("/templateTasks/{templateTaskId}")
     public ResponseEntity<?> updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
                                                 @RequestBody Map<String, Object> updates) {
-        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
+        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(taskId);
 
         if (templateTaskOptional.isPresent()) {
 
@@ -75,7 +75,7 @@ public class TemplateTaskController {
             if (updates.containsKey("taskName")) {
                 Object value = updates.get("taskName");
                 if (value instanceof String) {
-                    templateTaskToUpdate.setTemplateTaskName((String) value);
+                    templateTaskToUpdate.setSavedTemplateTaskName((String) value);
                 }
             }
 
@@ -83,7 +83,7 @@ public class TemplateTaskController {
             if (updates.containsKey("taskDesc")) {
                 Object value = updates.get("taskDesc");
                 if (value instanceof String) {
-                    templateTaskToUpdate.setTemplateTaskDesc((String) value);
+                    templateTaskToUpdate.setSavedTemplateTaskDesc((String) value);
                 }
             }
 
@@ -97,7 +97,7 @@ public class TemplateTaskController {
 
     @DeleteMapping("/templateTasks/{templateTaskId}")
     public ResponseEntity<?> deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId) {                             // TESTED IN POSTMAN
-        Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findByTemplateTaskIdAndArchivedFalse(taskId);
+        Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(taskId);
 
         if (templateTaskToDeleteOptional.isPresent()) {
             TemplateTask templateTaskToDelete = templateTaskToDeleteOptional.get();

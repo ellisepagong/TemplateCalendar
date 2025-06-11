@@ -39,7 +39,7 @@ public class TaskController {
                                         @RequestParam(name = "templateId", required = false) Integer templateId) {
 
         if ((userId != null)) { // checks id validity
-            List<Task> taskList = this.taskRepository.findByUserIdAndArchivedFalse(userId);
+            List<Task> taskList = this.taskRepository.findByTaskUserIdAndArchivedFalse(userId);
 
             if (taskList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks Found");
@@ -47,7 +47,7 @@ public class TaskController {
                 return ResponseEntity.ok(taskList);
             }
         } else if (templateId != null) {
-            List<Task> taskList = this.taskRepository.findByTemplateIdAndArchivedFalse(templateId);
+            List<Task> taskList = this.taskRepository.findByTaskTemplateIdAndArchivedFalse(templateId);
 
             if (taskList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks Found");
@@ -79,9 +79,9 @@ public class TaskController {
 
                 Task newTask = new Task();
 
-                newTask.setUserId(savedTask.getUserId());
-                newTask.setTaskName(savedTask.getTaskName());
-                newTask.setTaskDesc(savedTask.getTaskDesc());
+                newTask.setTaskUserId(savedTask.getSavedTaskUserId());
+                newTask.setTaskName(savedTask.getSavedTaskName());
+                newTask.setTaskDesc(savedTask.getSavedTaskDesc());
                 try {
                     LocalDate parsedDate = LocalDate.parse((String) date.get("taskDate"));
                     Date sqlDate = Date.valueOf(parsedDate);
@@ -95,7 +95,7 @@ public class TaskController {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect date format. Must be yyyy-mm-dd");
                 }
                 newTask.setSaved(true);
-                newTask.setSavedId(savedId);
+                newTask.setTaskSavedId(savedId);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body(this.taskRepository.save(newTask));
             }else{

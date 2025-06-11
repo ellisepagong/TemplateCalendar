@@ -36,7 +36,7 @@ public class SavedTemplateController {
     @GetMapping("/savedTemplates/")
     ResponseEntity<?> searchSavedTemplates(@RequestParam(name = "id", required = false) Integer id) {
         if (id != null) {
-            List<SavedTemplate> savedTemplateList = this.savedTemplateRepository.findByUserIdAndArchivedFalse(id);
+            List<SavedTemplate> savedTemplateList = this.savedTemplateRepository.findBySavedTemplateUserIdAndArchivedFalse(id);
 
             if (savedTemplateList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Templates Found");
@@ -83,7 +83,7 @@ public class SavedTemplateController {
         }
         SavedTemplate templateToDelete = templateToDeleteOptional.get();
         templateToDelete.setArchived(true);
-        List<TemplateTask> templateTaskList = this.templateTaskRepository.findByTemplateId(templateToDelete.getSavedTemplateId());
+        List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateId(templateToDelete.getSavedTemplateId());
         for (int i = 0; i < templateTaskList.size(); i++) {
             TemplateTask task = templateTaskList.get(i);
             task.setArchived(true);

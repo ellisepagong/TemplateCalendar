@@ -10,11 +10,7 @@ import java.util.Optional;
 @Repository
 public interface TemplateRepository extends CrudRepository<Template, Integer> {
 
-    List<Template> findByUserId(Integer userId);
-
-    List<Template> findByUserIdAndArchivedFalse(int userId);
-
-    List<Template> findByUserIdAndTemplateId(int userId, int templateId);
+    List<Template> findByTemplateUserIdAndArchivedFalse(int userId);
 
     Optional<Template> findByTemplateIdAndArchivedFalse(int templateId);
 

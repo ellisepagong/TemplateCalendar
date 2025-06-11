@@ -10,9 +10,7 @@ import java.util.Optional;
 @Repository
 public interface SavedTaskRepository extends CrudRepository<SavedTask, Integer> {
 
-    List<SavedTask> findByUserId(Integer userId);
-
-    List<SavedTask> findByUserIdAndArchivedFalse(Integer userId);
+    List<SavedTask> findBySavedTaskUserIdAndArchivedFalse(Integer userId);
 
     Optional<SavedTask> findBySavedTaskIdAndArchivedFalse(Integer savedTaskId);
 

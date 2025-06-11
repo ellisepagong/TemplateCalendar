@@ -35,7 +35,7 @@ public class TemplateController {
     @GetMapping("/templates/")
     public ResponseEntity<?> searchTemplates(@RequestParam(value = "userId", required = false) Integer userId, @RequestParam(value = "templateId", required = false) Integer templateId) {
         if (userId != null) {
-            List<Template> templateList = this.templateRepository.findByUserIdAndArchivedFalse(userId);
+            List<Template> templateList = this.templateRepository.findByTemplateUserIdAndArchivedFalse(userId);
             if (templateList.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Templates Found");
             } else {
@@ -68,7 +68,7 @@ public class TemplateController {
 
             newTemplate.setSavedTemplateId(savedTemplate.getSavedTemplateId()); // saved id
             newTemplate.setTemplateName(savedTemplate.getTemplateName());
-            newTemplate.setUserId(savedTemplate.getUserId());
+            newTemplate.setTemplateUserId(savedTemplate.getSavedTemplateUserId());
             try {
                 LocalDate parsedDate = LocalDate.parse((String) date.get("templateDate"));
                 Date sqlDate = Date.valueOf(parsedDate);
@@ -82,7 +82,7 @@ public class TemplateController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date Format");
             }
 
-            List<TemplateTask> templateTasks = this.templateTaskRepository.findByTemplateId(savedtemplateId);
+            List<TemplateTask> templateTasks = this.templateTaskRepository.findBySavedTemplateTaskTemplateId(savedtemplateId);
             if (templateTasks.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Tasks found from Template");
             }
@@ -101,11 +101,11 @@ public class TemplateController {
         TemplateTask tempTemplateTask = templateTasks.get(i);
         Task newTask = new Task();
 
-        newTask.setUserId(tempTemplateTask.getUserId());
-        newTask.setTaskName(tempTemplateTask.getTemplateTaskName());
-        newTask.setTaskDesc(tempTemplateTask.getTemplateTaskDesc());
+        newTask.setTaskUserId(tempTemplateTask.getSavedTemplateTaskUserId());
+        newTask.setTaskName(tempTemplateTask.getSavedTemplateTaskName());
+        newTask.setTaskDesc(tempTemplateTask.getSavedTemplateTaskDesc());
         newTask.setTemplate(true);
-        newTask.setTemplateId(newTemplate.getTemplateId());
+        newTask.setTaskTemplateId(newTemplate.getTemplateId());
         newTask.setTaskDate(newTemplate.getTemplateDate());
         return newTask;
     }
@@ -136,7 +136,7 @@ public class TemplateController {
         }
         Template templateToDelete = templateToDeleteOptional.get();
         templateToDelete.setArchived(true);
-        List<Task> taskList = this.taskRepository.findByTemplateIdAndArchivedFalse(templateToDelete.getTemplateId());
+        List<Task> taskList = this.taskRepository.findByTaskTemplateIdAndArchivedFalse(templateToDelete.getTemplateId());
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
             task.setArchived(true);

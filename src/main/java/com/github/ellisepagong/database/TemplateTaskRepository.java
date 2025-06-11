@@ -8,15 +8,13 @@ import java.util.Optional;
 
 public interface TemplateTaskRepository extends CrudRepository<TemplateTask, Integer> {
 
-    List<TemplateTask> findByUserId(int id);
+    List<TemplateTask> findBySavedTemplateTaskTemplateId(int id);
 
-    List<TemplateTask> findByTemplateId(int id);
+    Optional<TemplateTask> findBySavedTemplateTaskId(int id);
 
-    Optional<TemplateTask> findByTemplateTaskId(int id);
+    Optional<TemplateTask> findBySavedTemplateTaskIdAndArchivedFalse(int id);
 
-    Optional<TemplateTask> findByTemplateTaskIdAndArchivedFalse(int id);
+    List<TemplateTask> findBySavedTemplateTaskUserIdAndArchivedFalse(int userId);
 
-    List<TemplateTask> findByUserIdAndArchivedFalse(int userId);
-
-    List<TemplateTask> findByTemplateIdAndArchivedFalse(int templateId);
+    List<TemplateTask> findBySavedTemplateTaskTemplateIdAndArchivedFalse(int templateId);
 }

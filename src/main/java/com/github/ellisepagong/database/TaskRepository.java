@@ -10,11 +10,9 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Integer> {
 
-    List<Task> findByUserId(Integer userId);
-
-    List<Task> findByUserIdAndArchivedFalse(Integer userId);
+    List<Task> findByTaskUserIdAndArchivedFalse(Integer userId);
 
     Optional<Task> findByTaskIdAndArchivedFalse(Integer id);
 
-    List<Task> findByTemplateIdAndArchivedFalse(Integer templateId);
+    List<Task> findByTaskTemplateIdAndArchivedFalse(Integer templateId);
 }

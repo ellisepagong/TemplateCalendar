@@ -13,10 +13,10 @@ public class Template {
     private Integer templateId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer templateUserId;
 
     @Column(name = "saved_template_id")
-    private Integer savedId;
+    private Integer templateSavedId;
 
     @Column(name = "template_name")
     private String templateName;
@@ -35,20 +35,20 @@ public class Template {
         this.templateId = templateId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getTemplateUserId() {
+        return templateUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setTemplateUserId(Integer templateUserId) {
+        this.templateUserId = templateUserId;
     }
 
-    public Integer getSavedId() {
-        return savedId;
+    public Integer getTemplateSavedId() {
+        return templateSavedId;
     }
 
     public void setSavedTemplateId(Integer savedId) {
-        this.savedId = savedId;
+        this.templateSavedId = savedId;
     }
 
     public String getTemplateName() {

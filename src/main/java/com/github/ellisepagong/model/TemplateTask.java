@@ -7,19 +7,19 @@ import jakarta.persistence.*;
 public class TemplateTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer templateTaskId;
+    private Integer savedTemplateTaskId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer savedTemplateTaskUserId;
 
     @Column(name = "saved_template_id")
-    private Integer templateId;
+    private Integer savedTemplateTaskTemplateId;
 
     @Column(name = "template_task_name")
-    private String templateTaskName;
+    private String savedTemplateTaskName;
 
     @Column(name = "template_task_description")
-    private String templateTaskDesc;
+    private String savedTemplateTaskDesc;
 
     @Column(name = "is_archived")
     private Boolean archived;
@@ -32,44 +32,44 @@ public class TemplateTask {
         this.archived = archived;
     }
 
-    public String getTemplateTaskDesc() {
-        return templateTaskDesc;
+    public String getSavedTemplateTaskDesc() {
+        return savedTemplateTaskDesc;
     }
 
-    public void setTemplateTaskDesc(String templateTaskDesc) {
-        this.templateTaskDesc = templateTaskDesc;
+    public void setSavedTemplateTaskDesc(String savedTemplateTaskDesc) {
+        this.savedTemplateTaskDesc = savedTemplateTaskDesc;
     }
 
-    public String getTemplateTaskName() {
-        return templateTaskName;
+    public String getSavedTemplateTaskName() {
+        return savedTemplateTaskName;
     }
 
-    public void setTemplateTaskName(String templateTaskName) {
-        this.templateTaskName = templateTaskName;
+    public void setSavedTemplateTaskName(String savedTemplateTaskName) {
+        this.savedTemplateTaskName = savedTemplateTaskName;
     }
 
-    public Integer getTemplateId() {
-        return templateId;
+    public Integer getSavedTemplateTaskTemplateId() {
+        return savedTemplateTaskTemplateId;
     }
 
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
+    public void setSavedTemplateTaskTemplateId(Integer savedTemplateTaskTemplateId) {
+        this.savedTemplateTaskTemplateId = savedTemplateTaskTemplateId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSavedTemplateTaskUserId() {
+        return savedTemplateTaskUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSavedTemplateTaskUserId(Integer savedTemplateTaskUserId) {
+        this.savedTemplateTaskUserId = savedTemplateTaskUserId;
     }
 
-    public Integer getTemplateTaskId() {
-        return templateTaskId;
+    public Integer getSavedTemplateTaskId() {
+        return savedTemplateTaskId;
     }
 
-    public void setTemplateTaskId(Integer templateTaskId) {
-        this.templateTaskId = templateTaskId;
+    public void setSavedTemplateTaskId(Integer savedTemplateTaskId) {
+        this.savedTemplateTaskId = savedTemplateTaskId;
     }
 
     @PrePersist

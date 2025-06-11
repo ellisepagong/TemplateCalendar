@@ -2,8 +2,6 @@ package com.github.ellisepagong.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "saved_template")
 public class SavedTemplate {
@@ -13,7 +11,7 @@ public class SavedTemplate {
     private Integer savedTemplateId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer savedTemplateUserId;
 
     @Column(name = "saved_template_name")
     private String templateName;
@@ -29,12 +27,12 @@ public class SavedTemplate {
         this.savedTemplateId = savedTemplateId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSavedTemplateUserId() {
+        return savedTemplateUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSavedTemplateUserId(Integer savedTemplateUserId) {
+        this.savedTemplateUserId = savedTemplateUserId;
     }
 
     public String getTemplateName() {
