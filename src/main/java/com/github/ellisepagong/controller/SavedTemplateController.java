@@ -1,5 +1,7 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.SavedTemplateRepository;
+import com.github.ellisepagong.repository.TemplateTaskRepository;
 import com.github.ellisepagong.model.SavedTemplate;
 import com.github.ellisepagong.model.TemplateTask;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/savedTemplates")
 public class SavedTemplateController {
 
     private final SavedTemplateRepository savedTemplateRepository;
@@ -23,7 +26,7 @@ public class SavedTemplateController {
 
     // GET
 
-    @GetMapping("/savedTemplates/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<?> searchSavedTemplate(@PathVariable("id") Integer savedTemplateId) {
         Optional<SavedTemplate> savedTemplateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(savedTemplateId);
         if (savedTemplateOptional.isPresent()) {
@@ -33,7 +36,7 @@ public class SavedTemplateController {
         }
     }
 
-    @GetMapping("/savedTemplates/")
+    @GetMapping("/")
     ResponseEntity<?> searchSavedTemplates(@RequestParam(name = "id", required = false) Integer id) {
         if (id != null) {
             List<SavedTemplate> savedTemplateList = this.savedTemplateRepository.findBySavedTemplateUserIdAndArchivedFalse(id);
@@ -50,14 +53,14 @@ public class SavedTemplateController {
 
     // POST
 
-    @PostMapping("/savedTemplates")
+    @PostMapping("")
     public ResponseEntity<?> createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate) {
         SavedTemplate newSavedTemplate = this.savedTemplateRepository.save(savedTemplate);
         return ResponseEntity.status(HttpStatus.CREATED).body(newSavedTemplate);
     }
 
     // PATCH
-    @PatchMapping("/savedTemplates/{templateId}")
+    @PatchMapping("/{templateId}")
     public ResponseEntity<?> updateSavedTemplate(@PathVariable("templateId") Integer templateId,
                                                  @RequestBody Map<String, Object> updates) {
         Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(templateId);
@@ -75,7 +78,7 @@ public class SavedTemplateController {
 
     // DELETE
 
-    @DeleteMapping("/savedTemplates/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSavedTemplate(@PathVariable("id") Integer id) {
         Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(id);
         if (!templateToDeleteOptional.isPresent()) {

@@ -1,5 +1,6 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.UserRepository;
 import com.github.ellisepagong.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
+
+
 
     private final UserRepository userRepository;
 
@@ -18,14 +22,8 @@ public class UserController {
     }
 
     //GET
-    @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(this.userRepository.findAll());
-    }
-
-    @GetMapping("/users/")
-    public ResponseEntity<?> searchUser(@RequestParam(name = "userId") Integer id) {
-
+    @GetMapping("/{id}")
+    public ResponseEntity<?> searchUser(@PathVariable Integer id) {
         if (id != null) {
             Optional<User> user = userRepository.findById(id);
             if (user.isPresent()) {
@@ -39,35 +37,36 @@ public class UserController {
     }
 
 
-    //POST
-    @PostMapping("/users")
-    public ResponseEntity<?> createNewUser(@RequestBody User user) {
-        User newUser = this.userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-    }
-
-    @PostMapping("/users/login")
-    public ResponseEntity<?> authenticate(@RequestBody Map<String, Object> details) {
-        if (details.containsKey("username") && details.containsKey("password")) {
-            Optional<User> userOptional = this.userRepository.findByUsername(String.valueOf(details.get("username")));
-            if (userOptional.isPresent()) { //TODO: add hashing
-                User user = userOptional.get();
-                String pass = user.getPassword();
-                if (pass.equals(String.valueOf(details.get("password")))) {
-                    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-                } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Password does not match");
-                }
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not Found");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Username or Password Parameter found");
-        }
-    }
+//    //POST MOVED TO AuthController.java
+//    @PostMapping("/users")
+//    public ResponseEntity<?> createNewUser(@RequestBody User user) {
+//        user.setPassword();
+//        User newUser = this.userRepository.save(user);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+//    }
+//
+//    @PostMapping("/users/login")
+//    public ResponseEntity<?> authenticate(@RequestBody Map<String, Object> details) {
+//        if (details.containsKey("username") && details.containsKey("password")) {
+//            Optional<User> userOptional = this.userRepository.findByEmail(String.valueOf(details.get("username")));
+//            if (userOptional.isPresent()) {
+//                User user = userOptional.get();
+//                String pass = user.getPassword();
+//                if (pass.equals(String.valueOf(details.get("password")))) {
+//                    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+//                } else {
+//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Password does not match");
+//                }
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not Found");
+//            }
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Username or Password Parameter found");
+//        }
+//    }
 
     // PATCH
-    @PatchMapping("/users/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateUserFields(@PathVariable Integer id, @RequestBody Map<String, Object> updates) {
         Optional<User> userOptional = userRepository.findById(id);
 
@@ -79,6 +78,7 @@ public class UserController {
             if (updates.containsKey("firstName")) {
                 user.setFirstName((String) updates.get("firstName"));
             }
+            //todo: add password change
 
             return ResponseEntity.ok(userRepository.save(user));
         } else {
@@ -88,7 +88,7 @@ public class UserController {
 
 
     //DELETE
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable("id") Integer id) {
         Optional<User> userToDeleteOptional = this.userRepository.findById(id);
         if (!userToDeleteOptional.isPresent()) { //checks if id is valid

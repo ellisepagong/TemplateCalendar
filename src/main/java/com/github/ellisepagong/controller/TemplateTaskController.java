@@ -1,5 +1,6 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.TemplateTaskRepository;
 import com.github.ellisepagong.model.TemplateTask;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("templateTasks")
 public class TemplateTaskController {
 
     private final TemplateTaskRepository templateTaskRepository;
@@ -20,7 +22,7 @@ public class TemplateTaskController {
 
     // GET
 
-    @GetMapping("/templateTasks/{templateTaskId}")
+    @GetMapping("/{templateTaskId}")
     public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id) {
         Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(id);
         if (templateTaskOptional.isPresent()) {
@@ -30,9 +32,8 @@ public class TemplateTaskController {
         }
     }
 
-    @GetMapping("/templateTasks/")
-    public ResponseEntity<?> searchTemplateTasks(@RequestParam(name = "templateId", required = false) Integer templateId) {
-
+    @GetMapping("/{templateId}")
+    public ResponseEntity<?> searchTemplateTasks(@PathVariable("templateId") Integer templateId) {
         if (templateId != null) {
             List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateIdAndArchivedFalse(templateId);
             if(templateTaskList.isEmpty()){
@@ -47,7 +48,7 @@ public class TemplateTaskController {
 
     // POST
 
-    @PostMapping("/templateTasks")
+    @PostMapping
     public ResponseEntity<?> createNewSavedTask(@RequestBody List<TemplateTask> tasks) {                            // TESTED WITH POSTMAN
         Integer refUserId = tasks.get(0).getSavedTemplateTaskUserId();
         Integer refTemplateId = tasks.get(0).getSavedTemplateTaskTemplateId();
@@ -63,7 +64,7 @@ public class TemplateTaskController {
     }
 
     // PATCH
-    @PatchMapping("/templateTasks/{templateTaskId}")
+    @PatchMapping("/{templateTaskId}")
     public ResponseEntity<?> updateTemplateTask(@PathVariable("templateTaskId") Integer taskId,                              // TESTED WITH POSTMAN
                                                 @RequestBody Map<String, Object> updates) {
         Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(taskId);
@@ -95,7 +96,7 @@ public class TemplateTaskController {
 
     // delete
 
-    @DeleteMapping("/templateTasks/{templateTaskId}")
+    @DeleteMapping("/{templateTaskId}")
     public ResponseEntity<?> deleteTemplateTask(@PathVariable("templateTaskId") Integer taskId) {                             // TESTED IN POSTMAN
         Optional<TemplateTask> templateTaskToDeleteOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(taskId);
 
