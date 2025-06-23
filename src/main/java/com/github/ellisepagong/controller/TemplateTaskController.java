@@ -22,18 +22,9 @@ public class TemplateTaskController {
 
     // GET
 
-    @GetMapping("/{templateTaskId}")
-    public ResponseEntity<?> searchTemplateTaskById(@PathVariable("templateTaskId") int id) {
-        Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(id);
-        if (templateTaskOptional.isPresent()) {
-            return ResponseEntity.ok(templateTaskOptional.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task found");
-        }
-    }
-
-    @GetMapping("/{templateId}")
-    public ResponseEntity<?> searchTemplateTasks(@PathVariable("templateId") Integer templateId) {
+    @GetMapping("/")
+    public ResponseEntity<?> searchTemplateTaskById(@RequestParam(value = "templateTaskId", required = false) Integer templateTaskId,
+                                                    @RequestParam(value = "templateId", required = false) Integer templateId) {
         if (templateId != null) {
             List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateIdAndArchivedFalse(templateId);
             if(templateTaskList.isEmpty()){
@@ -41,8 +32,15 @@ public class TemplateTaskController {
             }else{
                 return ResponseEntity.ok(templateTaskList);
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Arguments. Please include userId or templateId");
+        } else if (templateTaskId != null) {
+            Optional<TemplateTask> templateTaskOptional = this.templateTaskRepository.findBySavedTemplateTaskIdAndArchivedFalse(templateTaskId);
+            if (templateTaskOptional.isPresent()) {
+                return ResponseEntity.ok(templateTaskOptional.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Task found");
+            }
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please Specify templateTaskId or templateId parameters");
         }
     }
 
@@ -53,9 +51,7 @@ public class TemplateTaskController {
         Integer refUserId = tasks.get(0).getSavedTemplateTaskUserId();
         Integer refTemplateId = tasks.get(0).getSavedTemplateTaskTemplateId();
 
-        for (int i = 0; i < tasks.size(); i++) {
-            TemplateTask task = tasks.get(i);
-
+        for (TemplateTask task : tasks) {
             if (!task.getSavedTemplateTaskUserId().equals(refUserId) || !task.getSavedTemplateTaskTemplateId().equals(refTemplateId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Id or Template Id does not match.");
             }

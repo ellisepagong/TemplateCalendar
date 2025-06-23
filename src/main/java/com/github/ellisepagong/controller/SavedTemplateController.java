@@ -64,16 +64,17 @@ public class SavedTemplateController {
     public ResponseEntity<?> updateSavedTemplate(@PathVariable("templateId") Integer templateId,
                                                  @RequestBody Map<String, Object> updates) {
         Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(templateId);
-        if (!templateToUpdateOptional.isPresent()) { //checks if id is valid
+        if (templateToUpdateOptional.isEmpty()) { //checks if id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
         SavedTemplate templateToUpdate = templateToUpdateOptional.get();
 
-        if (updates.containsKey("templateName")) {
-            templateToUpdate.setSavedTemplateName((String) updates.get("templateName"));
+        if (updates.containsKey("savedTemplateName")) {
+            templateToUpdate.setSavedTemplateName((String) updates.get("savedTemplateName"));
+            this.savedTemplateRepository.save(templateToUpdate);
         }
 
-        return ResponseEntity.ok(this.savedTemplateRepository.save(templateToUpdate));
+        return ResponseEntity.ok(templateToUpdate);
     }
 
     // DELETE
@@ -81,14 +82,13 @@ public class SavedTemplateController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSavedTemplate(@PathVariable("id") Integer id) {
         Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(id);
-        if (!templateToDeleteOptional.isPresent()) {
+        if (templateToDeleteOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
         SavedTemplate templateToDelete = templateToDeleteOptional.get();
         templateToDelete.setArchived(true);
         List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateId(templateToDelete.getSavedTemplateId());
-        for (int i = 0; i < templateTaskList.size(); i++) {
-            TemplateTask task = templateTaskList.get(i);
+        for (TemplateTask task : templateTaskList) {
             task.setArchived(true);
         }
         this.templateTaskRepository.saveAll(templateTaskList);

@@ -1,9 +1,11 @@
 package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.model.UserDTO;
 import com.github.ellisepagong.repository.UserRepository;
 import com.github.ellisepagong.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -13,12 +15,12 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-
-
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //GET
@@ -27,7 +29,7 @@ public class UserController {
         if (id != null) {
             Optional<User> user = userRepository.findById(id);
             if (user.isPresent()) {
-                return ResponseEntity.ok(user.get());
+                return ResponseEntity.ok(new UserDTO(user.get()));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No User Found");
             }
@@ -37,7 +39,7 @@ public class UserController {
     }
 
 
-//    //POST MOVED TO AuthController.java
+//    // ALL POST MOVED TO AuthController.java
 //    @PostMapping("/users")
 //    public ResponseEntity<?> createNewUser(@RequestBody User user) {
 //        user.setPassword();
@@ -78,9 +80,19 @@ public class UserController {
             if (updates.containsKey("firstName")) {
                 user.setFirstName((String) updates.get("firstName"));
             }
-            //todo: add password change
-
-            return ResponseEntity.ok(userRepository.save(user));
+            if (updates.containsKey("newPassword")){
+                if (updates.containsKey("oldPassword")){
+                    String oldPass = updates.get("oldPassword").toString();
+                    if (passwordEncoder.matches(oldPass, user.getPassword())){
+                        user.setPassword(passwordEncoder.encode(updates.get("newPassword").toString()));
+                    }else{
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Old password does not match");
+                    }
+                }else{
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Must contain oldPassword parameter for changes to password");
+                }
+            }
+            return ResponseEntity.ok(new UserDTO((userRepository.save(user))));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found");
         }
@@ -91,7 +103,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable("id") Integer id) {
         Optional<User> userToDeleteOptional = this.userRepository.findById(id);
-        if (!userToDeleteOptional.isPresent()) { //checks if id is valid
+        if (userToDeleteOptional.isEmpty()) { //checks if id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found");
         }
         User userToDelete = userToDeleteOptional.get();
