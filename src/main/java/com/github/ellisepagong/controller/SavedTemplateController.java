@@ -1,5 +1,7 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.SavedTemplateRepository;
+import com.github.ellisepagong.repository.TemplateTaskRepository;
 import com.github.ellisepagong.model.SavedTemplate;
 import com.github.ellisepagong.model.TemplateTask;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/savedTemplates")
 public class SavedTemplateController {
 
     private final SavedTemplateRepository savedTemplateRepository;
@@ -23,7 +26,7 @@ public class SavedTemplateController {
 
     // GET
 
-    @GetMapping("/savedTemplates/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<?> searchSavedTemplate(@PathVariable("id") Integer savedTemplateId) {
         Optional<SavedTemplate> savedTemplateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(savedTemplateId);
         if (savedTemplateOptional.isPresent()) {
@@ -33,7 +36,7 @@ public class SavedTemplateController {
         }
     }
 
-    @GetMapping("/savedTemplates/")
+    @GetMapping("/")
     ResponseEntity<?> searchSavedTemplates(@RequestParam(name = "id", required = false) Integer id) {
         if (id != null) {
             List<SavedTemplate> savedTemplateList = this.savedTemplateRepository.findBySavedTemplateUserIdAndArchivedFalse(id);
@@ -50,42 +53,42 @@ public class SavedTemplateController {
 
     // POST
 
-    @PostMapping("/savedTemplates")
+    @PostMapping("")
     public ResponseEntity<?> createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate) {
         SavedTemplate newSavedTemplate = this.savedTemplateRepository.save(savedTemplate);
         return ResponseEntity.status(HttpStatus.CREATED).body(newSavedTemplate);
     }
 
     // PATCH
-    @PatchMapping("/savedTemplates/{templateId}")
+    @PatchMapping("/{templateId}")
     public ResponseEntity<?> updateSavedTemplate(@PathVariable("templateId") Integer templateId,
                                                  @RequestBody Map<String, Object> updates) {
         Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(templateId);
-        if (!templateToUpdateOptional.isPresent()) { //checks if id is valid
+        if (templateToUpdateOptional.isEmpty()) { //checks if id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
         SavedTemplate templateToUpdate = templateToUpdateOptional.get();
 
-        if (updates.containsKey("templateName")) {
-            templateToUpdate.setSavedTemplateName((String) updates.get("templateName"));
+        if (updates.containsKey("savedTemplateName")) {
+            templateToUpdate.setSavedTemplateName((String) updates.get("savedTemplateName"));
+            this.savedTemplateRepository.save(templateToUpdate);
         }
 
-        return ResponseEntity.ok(this.savedTemplateRepository.save(templateToUpdate));
+        return ResponseEntity.ok(templateToUpdate);
     }
 
     // DELETE
 
-    @DeleteMapping("/savedTemplates/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSavedTemplate(@PathVariable("id") Integer id) {
         Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(id);
-        if (!templateToDeleteOptional.isPresent()) {
+        if (templateToDeleteOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
         SavedTemplate templateToDelete = templateToDeleteOptional.get();
         templateToDelete.setArchived(true);
         List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateId(templateToDelete.getSavedTemplateId());
-        for (int i = 0; i < templateTaskList.size(); i++) {
-            TemplateTask task = templateTaskList.get(i);
+        for (TemplateTask task : templateTaskList) {
             task.setArchived(true);
         }
         this.templateTaskRepository.saveAll(templateTaskList);

@@ -1,5 +1,6 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.SavedTaskRepository;
 import com.github.ellisepagong.model.SavedTask;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/savedTasks")
 public class SavedTaskController {
 
     private final SavedTaskRepository savedTaskRepository;
@@ -20,7 +22,7 @@ public class SavedTaskController {
 
     // GET
 
-    @GetMapping("/savedTasks/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> searchSavedTaskById(@PathVariable("id") int id) {
         Optional<SavedTask> savedTaskOptional = this.savedTaskRepository.findBySavedTaskIdAndArchivedFalse(id);
         if (savedTaskOptional.isPresent()) {
@@ -30,7 +32,7 @@ public class SavedTaskController {
         }
     }
 
-    @GetMapping("/savedTasks/")
+    @GetMapping("/")
     public ResponseEntity<?> searchSavedTask(@RequestParam(name = "userId", required = false) Integer id) {
 
         if (id != null) {
@@ -47,30 +49,30 @@ public class SavedTaskController {
 
     //POST
 
-    @PostMapping("/savedTasks")
+    @PostMapping()
     public ResponseEntity<?> createNewSavedTask(@RequestBody SavedTask task) {
         SavedTask newTask = this.savedTaskRepository.save(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
     }
 
     // PATCH
-    @PatchMapping("/savedTasks/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateSavedTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {
         Optional<SavedTask> taskToUpdateOptional = savedTaskRepository.findById(id);
-        if (!taskToUpdateOptional.isPresent()) {
+        if (taskToUpdateOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Task Found");
         }
         SavedTask taskToUpdate = taskToUpdateOptional.get();
 
-        if (updates.containsKey("taskName")) {
-            Object value = updates.get("taskName");
+        if (updates.containsKey("savedTaskName")) {
+            Object value = updates.get("savedTaskName");
             if (value instanceof String) {
                 taskToUpdate.setSavedTaskName((String) value);
             }
         }
 
-        if (updates.containsKey("taskDesc")) {
-            Object value = updates.get("taskDesc");
+        if (updates.containsKey("savedTaskDesc")) {
+            Object value = updates.get("savedTaskDesc");
             if (value instanceof String) {
                 taskToUpdate.setSavedTaskDesc((String) value);
             }
@@ -84,10 +86,10 @@ public class SavedTaskController {
 
     //DELETE
 
-    @DeleteMapping("/savedTasks/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSavedTask(@PathVariable("id") Integer id) {
         Optional<SavedTask> taskToDeleteOptional = this.savedTaskRepository.findBySavedTaskIdAndArchivedFalse(id);
-        if (!taskToDeleteOptional.isPresent()) { //checks if task id is valid
+        if (taskToDeleteOptional.isEmpty()) { //checks if task id is valid
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Saved Task not Found");
         }
         SavedTask taskToDelete = taskToDeleteOptional.get();

@@ -1,5 +1,9 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.SavedTemplateRepository;
+import com.github.ellisepagong.repository.TaskRepository;
+import com.github.ellisepagong.repository.TemplateRepository;
+import com.github.ellisepagong.repository.TemplateTaskRepository;
 import com.github.ellisepagong.model.SavedTemplate;
 import com.github.ellisepagong.model.Task;
 import com.github.ellisepagong.model.Template;
@@ -15,6 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/templates")
 public class TemplateController {
 
     private final TemplateRepository templateRepository;
@@ -32,7 +37,7 @@ public class TemplateController {
 
     // GET
 
-    @GetMapping("/templates/")
+    @GetMapping("/")
     public ResponseEntity<?> searchTemplates(@RequestParam(value = "userId", required = false) Integer userId, @RequestParam(value = "templateId", required = false) Integer templateId) {
         if (userId != null) {
             List<Template> templateList = this.templateRepository.findByTemplateUserIdAndArchivedFalse(userId);
@@ -54,7 +59,7 @@ public class TemplateController {
     }
 
     // POST
-    @PostMapping("/templates/saved/{savedTemplateId}") // TODO test
+    @PostMapping("/saved/{savedTemplateId}")
     public ResponseEntity<?> newTemplateFromSaved(@PathVariable("savedTemplateId") Integer savedtemplateId,
                                                   @RequestBody Map<String, Object> date) {
         Optional<SavedTemplate> savedTemplateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(savedtemplateId);
@@ -112,7 +117,7 @@ public class TemplateController {
 
 
     // PATCH
-    @PatchMapping("/templates/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateTemplate(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {
         Optional<Template> templateToUpdateOptional = this.templateRepository.findById(id);
         if (!templateToUpdateOptional.isPresent()) {
@@ -128,7 +133,7 @@ public class TemplateController {
 
     // DELETE
 
-    @DeleteMapping("/templates/{id}") // TODO: test
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTemplate(@PathVariable("id") Integer id) {
         Optional<Template> templateToDeleteOptional = this.templateRepository.findByTemplateIdAndArchivedFalse(id);
         if (!templateToDeleteOptional.isPresent()) { //checks if id is valid

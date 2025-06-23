@@ -1,5 +1,7 @@
-package com.github.ellisepagong.database;
+package com.github.ellisepagong.controller;
 
+import com.github.ellisepagong.repository.SavedTaskRepository;
+import com.github.ellisepagong.repository.TaskRepository;
 import com.github.ellisepagong.model.SavedTask;
 import com.github.ellisepagong.model.Task;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskRepository taskRepository;
@@ -24,7 +27,7 @@ public class TaskController {
     }
 
     // GET
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> searchTaskById(@PathVariable("id") int id) {
         Optional<Task> findTask = this.taskRepository.findByTaskIdAndArchivedFalse(id);
         if (findTask.isPresent()) {
@@ -34,7 +37,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/tasks/")
+    @GetMapping("/")
     public ResponseEntity<?> searchTask(@RequestParam(name = "userId", required = false) Integer userId,
                                         @RequestParam(name = "templateId", required = false) Integer templateId) {
 
@@ -61,7 +64,7 @@ public class TaskController {
     }
 
     // POST
-    @PostMapping("/tasks")
+    @PostMapping()
     public ResponseEntity<?> createNewTask(@RequestBody Task task) {
         if (task.isDateValid()) {
             Task newTask = this.taskRepository.save(task);
@@ -70,7 +73,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Date");
     }
 
-    @PostMapping("/tasks/saved/{savedId}")
+    @PostMapping("/saved/{savedId}")
     public ResponseEntity<?> newTaskFromSaved(@PathVariable("savedId") Integer savedId, @RequestBody Map<String, Object> date) {
         Optional<SavedTask> savedTaskOptional = this.savedTaskRepository.findBySavedTaskId(savedId);
         if (date.containsKey("taskDate")) {
@@ -106,7 +109,7 @@ public class TaskController {
     }
 
     // PATCH
-    @PatchMapping("/tasks/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> patchTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {
         Optional<Task> taskToUpdateOptional = this.taskRepository.findById(id);
         if (!taskToUpdateOptional.isPresent()) {
@@ -143,7 +146,7 @@ public class TaskController {
 
     // DELETE
 
-    @DeleteMapping("/tasks/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable("id") Integer id) {
         Optional<Task> taskToDeleteOptional = this.taskRepository.findByTaskIdAndArchivedFalse(id);
         if (!taskToDeleteOptional.isPresent()) {
