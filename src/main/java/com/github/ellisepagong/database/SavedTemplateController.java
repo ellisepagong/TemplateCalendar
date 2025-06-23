@@ -1,92 +1,96 @@
 package com.github.ellisepagong.database;
 
 import com.github.ellisepagong.model.SavedTemplate;
+import com.github.ellisepagong.model.TemplateTask;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-public class SavedTemplateController  {
+public class SavedTemplateController {
 
     private final SavedTemplateRepository savedTemplateRepository;
+    private final TemplateTaskRepository templateTaskRepository;
 
-    public SavedTemplateController(SavedTemplateRepository savedTemplateRepository) {
+    public SavedTemplateController(SavedTemplateRepository savedTemplateRepository, TemplateTaskRepository templateTaskRepository) {
         this.savedTemplateRepository = savedTemplateRepository;
+        this.templateTaskRepository = templateTaskRepository;
     }
 
     // GET
-    @GetMapping("/savedTemplates")
-    Iterable<SavedTemplate> getAllSavedTemplates(){
-        return this.savedTemplateRepository.findAll(); // todo: test
+
+    @GetMapping("/savedTemplates/{id}")
+    ResponseEntity<?> searchSavedTemplate(@PathVariable("id") Integer savedTemplateId) {
+        Optional<SavedTemplate> savedTemplateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(savedTemplateId);
+        if (savedTemplateOptional.isPresent()) {
+            return ResponseEntity.ok(savedTemplateOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
+        }
     }
 
-    @GetMapping("/savedTemplates/ret")
-    List<SavedTemplate> searchSavedTemplates(@RequestParam(name = "id") Integer id,
-                                                 @RequestParam(name = "templateId", required = false) Integer templateId,
-                                                 @RequestParam(name = "archived", required = false) Boolean isArchived){
-        if ((id != null) && (id > 0)){ // checks id validity
-            if (isArchived != null) {
-                if((templateId != null) && (templateId > 0)){ // for selecting tasks associated with a template
-                    return this.savedTemplateRepository.findByUserIdAndSavedTemplateIdAndArchivedFalse(id, templateId); //TODO: test
-                }
-                return this.savedTemplateRepository.findByUserIdAndArchivedFalse(id); // todo: test
+    @GetMapping("/savedTemplates/")
+    ResponseEntity<?> searchSavedTemplates(@RequestParam(name = "id", required = false) Integer id) {
+        if (id != null) {
+            List<SavedTemplate> savedTemplateList = this.savedTemplateRepository.findBySavedTemplateUserIdAndArchivedFalse(id);
+
+            if (savedTemplateList.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Templates Found");
+            }else{
+                return ResponseEntity.ok(savedTemplateList);
             }
-            return this.savedTemplateRepository.findByUserId(id); // todo test
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Arguments");
         }
-        return new ArrayList<>();
     }
 
     // POST
 
-    @PostMapping("/savedTemplates") //TODO: test
-    public SavedTemplate createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate){
-        SavedTemplate newSavedTemplate = this.savedTemplateRepository.save(savedTemplate); // returns same object but with id
-        return newSavedTemplate;
+    @PostMapping("/savedTemplates")
+    public ResponseEntity<?> createNewSavedTemplate(@RequestBody SavedTemplate savedTemplate) {
+        SavedTemplate newSavedTemplate = this.savedTemplateRepository.save(savedTemplate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newSavedTemplate);
     }
 
-    // PUT
-
-    @PutMapping("/savedTemplates/{id}") //TODO: test
-    public SavedTemplate updateSavedTemplate(@PathVariable("id") Integer id, @RequestBody SavedTemplate t) {
-        Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findById(id);
+    // PATCH
+    @PatchMapping("/savedTemplates/{templateId}")
+    public ResponseEntity<?> updateSavedTemplate(@PathVariable("templateId") Integer templateId,
+                                                 @RequestBody Map<String, Object> updates) {
+        Optional<SavedTemplate> templateToUpdateOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(templateId);
         if (!templateToUpdateOptional.isPresent()) { //checks if id is valid
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
-
         SavedTemplate templateToUpdate = templateToUpdateOptional.get();
 
-        if (t.getUserId() != null) {
-            templateToUpdate.setUserId(t.getUserId());
+        if (updates.containsKey("templateName")) {
+            templateToUpdate.setSavedTemplateName((String) updates.get("templateName"));
         }
 
-        if (t.getTemplateName()!= null) {
-            templateToUpdate.setTemplateName(t.getTemplateName());
-        }
-
-        if (t.getSavedTemplateId() != null) {
-            templateToUpdate.setSavedTemplateId(t.getSavedTemplateId());
-        }
-
-        if (t.getArchived() != null) {
-            templateToUpdate.setArchived(t.getArchived());
-        }
-
-        return templateToUpdate;
+        return ResponseEntity.ok(this.savedTemplateRepository.save(templateToUpdate));
     }
 
     // DELETE
 
-    @DeleteMapping("/savedTemplates/{id}") // TODO: test
-    public SavedTemplate deleteSavedTemplate(@PathVariable("id") Integer id){
-        Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findById(id);
-        if (!templateToDeleteOptional.isPresent()){ //checks if id is valid
-            return null;
+    @DeleteMapping("/savedTemplates/{id}")
+    public ResponseEntity<?> deleteSavedTemplate(@PathVariable("id") Integer id) {
+        Optional<SavedTemplate> templateToDeleteOptional = this.savedTemplateRepository.findBySavedTemplateIdAndArchivedFalse(id);
+        if (!templateToDeleteOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Template Found");
         }
         SavedTemplate templateToDelete = templateToDeleteOptional.get();
-        this.savedTemplateRepository.delete(templateToDelete);
-        return templateToDelete;
+        templateToDelete.setArchived(true);
+        List<TemplateTask> templateTaskList = this.templateTaskRepository.findBySavedTemplateTaskTemplateId(templateToDelete.getSavedTemplateId());
+        for (int i = 0; i < templateTaskList.size(); i++) {
+            TemplateTask task = templateTaskList.get(i);
+            task.setArchived(true);
+        }
+        this.templateTaskRepository.saveAll(templateTaskList);
+        this.savedTemplateRepository.save(templateToDelete);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
 }

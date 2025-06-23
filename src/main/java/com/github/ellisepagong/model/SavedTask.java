@@ -11,14 +11,13 @@ public class SavedTask {
     private Integer savedTaskId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer savedTaskUserId;
 
     @Column(name = "saved_task_name")
-    private String taskName;
+    private String savedTaskName;
 
     @Column(name = "saved_task_description")
-    private String taskDesc;
-
+    private String savedTaskDesc;
 
     @Column(name = "is_archived")
     private Boolean archived;
@@ -32,28 +31,28 @@ public class SavedTask {
         this.savedTaskId = savedTaskId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSavedTaskUserId() {
+        return savedTaskUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSavedTaskUserId(Integer savedTaskUserId) {
+        this.savedTaskUserId = savedTaskUserId;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getSavedTaskName() {
+        return savedTaskName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setSavedTaskName(String savedTaskName) {
+        this.savedTaskName = savedTaskName;
     }
 
-    public String getTaskDesc() {
-        return taskDesc;
+    public String getSavedTaskDesc() {
+        return savedTaskDesc;
     }
 
-    public void setTaskDesc(String taskDesc) {
-        this.taskDesc = taskDesc;
+    public void setSavedTaskDesc(String savedTaskDesc) {
+        this.savedTaskDesc = savedTaskDesc;
     }
 
     public Boolean getArchived() {

@@ -1,9 +1,10 @@
 package com.github.ellisepagong.database;
 
 import com.github.ellisepagong.model.SavedTask;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,117 +20,79 @@ public class SavedTaskController {
 
     // GET
 
-    @GetMapping("/savedTasks")
-    public Iterable<SavedTask> getAllSavedTasks(){
-        return this.savedTaskRepository.findAll();                                                                      // TESTED WITH POSTMAN
-    }
-
     @GetMapping("/savedTasks/{id}")
-    public Optional<SavedTask> searchSavedTaskById(@PathVariable("id") int id){                                         // TESTED WITH POSTMAN
-        return this.savedTaskRepository.findById(id);
+    public ResponseEntity<?> searchSavedTaskById(@PathVariable("id") int id) {
+        Optional<SavedTask> savedTaskOptional = this.savedTaskRepository.findBySavedTaskIdAndArchivedFalse(id);
+        if (savedTaskOptional.isPresent()) {
+            return ResponseEntity.ok(savedTaskOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Task Found");
+        }
     }
 
-    @GetMapping("/savedTasks/ret")
-    public List<SavedTask> searchSavedTask(@RequestParam(name = "userId") Integer id,
-                                 @RequestParam(name ="notArchived", required = false) Boolean notArchived){
+    @GetMapping("/savedTasks/")
+    public ResponseEntity<?> searchSavedTask(@RequestParam(name = "userId", required = false) Integer id) {
 
-        if ((id != null) && (id > 0)){ // checks id validity
-            if (notArchived != null) {
-                return this.savedTaskRepository.findByUserIdAndArchivedFalse(id);                                       // TESTED WITH POSTMAN
+        if (id != null) {
+            List<SavedTask> savedTaskList = this.savedTaskRepository.findBySavedTaskUserIdAndArchivedFalse(id);
+            if (savedTaskList.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Tasks Found");
+            }else{
+                return ResponseEntity.ok(savedTaskList);
             }
-            return this.savedTaskRepository.findByUserId(id);                                                           // TESTED WITH POSTMAN
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Arguments");
         }
-        return new ArrayList<>();
     }
 
     //POST
 
     @PostMapping("/savedTasks")
-    public SavedTask createNewSavedTask(@RequestBody SavedTask task){                                                   // TESTED WITH POSTMAN
-        SavedTask newTask = this.savedTaskRepository.save(task); // returns same object but with id
-        return newTask;
-    }
-
-    //PUT
-
-    @PutMapping("/savedTasks/{id}")
-    public SavedTask updateSavedTask(@PathVariable("id") Integer id, @RequestBody SavedTask t){                         // TESTED WITH POSTMAN
-        Optional<SavedTask> taskToUpdateOptional = this.savedTaskRepository.findById(id);
-        if (!taskToUpdateOptional.isPresent()){ //checks if task id is valid
-            return null;
-        }
-
-        SavedTask taskToUpdate = taskToUpdateOptional.get();
-
-        if (t.getTaskName() != null) {
-            taskToUpdate.setTaskName(t.getTaskName());
-        }
-
-        if (t.getArchived() != null) {
-            taskToUpdate.setArchived(t.getArchived());
-        }
-
-        if (t.getTaskDesc() != null) {
-            taskToUpdate.setTaskDesc(t.getTaskDesc());
-        }
-
-        this.savedTaskRepository.save(taskToUpdate); // unsure?
-
-        return taskToUpdate;
+    public ResponseEntity<?> createNewSavedTask(@RequestBody SavedTask task) {
+        SavedTask newTask = this.savedTaskRepository.save(task);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
     }
 
     // PATCH
     @PatchMapping("/savedTasks/{id}")
-    public SavedTask updateSavedTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {        // TESTED WITH POSTMAN
+    public ResponseEntity<?> updateSavedTask(@PathVariable("id") Integer id, @RequestBody Map<String, Object> updates) {
         Optional<SavedTask> taskToUpdateOptional = savedTaskRepository.findById(id);
         if (!taskToUpdateOptional.isPresent()) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Saved Task Found");
         }
         SavedTask taskToUpdate = taskToUpdateOptional.get();
 
         if (updates.containsKey("taskName")) {
             Object value = updates.get("taskName");
             if (value instanceof String) {
-                taskToUpdate.setTaskName((String) value);
+                taskToUpdate.setSavedTaskName((String) value);
             }
         }
-
 
         if (updates.containsKey("taskDesc")) {
             Object value = updates.get("taskDesc");
             if (value instanceof String) {
-                taskToUpdate.setTaskDesc((String) value);
+                taskToUpdate.setSavedTaskDesc((String) value);
             }
         }
 
+        taskToUpdate = savedTaskRepository.save(taskToUpdate);
 
-        if (updates.containsKey("archived")) {
-            Object value = updates.get("archived");
-            if (value instanceof Boolean) {
-                taskToUpdate.setArchived((Boolean) value);
-            } else if (value instanceof String) {
-                taskToUpdate.setArchived(Boolean.parseBoolean((String) value));
-            }
-        }
-
-        savedTaskRepository.save(taskToUpdate);
-
-        return taskToUpdate;
+        return ResponseEntity.ok(taskToUpdate);
     }
-
-
 
 
     //DELETE
 
     @DeleteMapping("/savedTasks/{id}")
-    public SavedTask deleteSavedTask(@PathVariable("id") Integer id){                                                   // TESTED WITH POSTMAN
-        Optional<SavedTask> taskToDeleteOptional = this.savedTaskRepository.findById(id);
-        if (!taskToDeleteOptional.isPresent()){ //checks if task id is valid
-            return null;
+    public ResponseEntity<?> deleteSavedTask(@PathVariable("id") Integer id) {
+        Optional<SavedTask> taskToDeleteOptional = this.savedTaskRepository.findBySavedTaskIdAndArchivedFalse(id);
+        if (!taskToDeleteOptional.isPresent()) { //checks if task id is valid
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Saved Task not Found");
         }
         SavedTask taskToDelete = taskToDeleteOptional.get();
-        this.savedTaskRepository.delete(taskToDelete);
-        return taskToDelete;
+        taskToDelete.setArchived(true);
+        this.savedTaskRepository.save(taskToDelete);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

@@ -9,20 +9,20 @@ import java.sql.Date;
 public class Template {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer templateId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer templateUserId;
 
     @Column(name = "saved_template_id")
-    private Integer savedId;
+    private Integer templateSavedId;
 
     @Column(name = "template_name")
-    private String name;
+    private String templateName;
 
     @Column(name = "assign_date")
-    private Date date;
+    private Date templateDate;
 
     @Column(name = "is_archived")
     private Boolean archived;
@@ -35,36 +35,36 @@ public class Template {
         this.templateId = templateId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getTemplateUserId() {
+        return templateUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setTemplateUserId(Integer templateUserId) {
+        this.templateUserId = templateUserId;
     }
 
-    public Integer getSavedId() {
-        return savedId;
+    public Integer getTemplateSavedId() {
+        return templateSavedId;
     }
 
-    public void setSavedId(Integer savedId) {
-        this.savedId = savedId;
+    public void setSavedTemplateId(Integer savedId) {
+        this.templateSavedId = savedId;
     }
 
-    public String getName() {
-        return name;
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTemplateDate() {
+        return templateDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTemplateDate(Date templateDate) {
+        this.templateDate = templateDate;
     }
 
     public Boolean getArchived() {
@@ -73,5 +73,13 @@ public class Template {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaults(){
+        if (this.archived == null) {
+            this.archived = false;
+        }
     }
 }

@@ -10,10 +10,10 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer task_id;
+    private Integer taskId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer taskUserId;
 
     @Column(name = "task_name")
     private String taskName;
@@ -28,31 +28,31 @@ public class Task {
     private Boolean template;
 
     @Column(name = "template_id")
-    private Integer templateId;
+    private Integer taskTemplateId;
 
     @Column(name = "is_saved")
     private Boolean saved;
 
     @Column(name = "saved_id")
-    private Integer savedId;
+    private Integer taskSavedId;
 
     @Column(name = "is_archived")
     private Boolean archived;
 
-    public Integer getTask_id() {
-        return task_id;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(Integer task_id) {
-        this.task_id = task_id;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getTaskUserId() {
+        return taskUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setTaskUserId(Integer taskUserId) {
+        this.taskUserId = taskUserId;
     }
 
     public String getTaskName() {
@@ -87,12 +87,12 @@ public class Task {
         this.template = template;
     }
 
-    public Integer getTemplateId() {
-        return templateId;
+    public Integer getTaskTemplateId() {
+        return taskTemplateId;
     }
 
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
+    public void setTaskTemplateId(Integer taskTemplateId) {
+        this.taskTemplateId = taskTemplateId;
     }
 
     public Boolean getSaved() {
@@ -103,12 +103,12 @@ public class Task {
         this.saved = saved;
     }
 
-    public Integer getSavedId() {
-        return savedId;
+    public Integer getTaskSavedId() {
+        return taskSavedId;
     }
 
-    public void setSavedId(Integer savedId) {
-        this.savedId = savedId;
+    public void setTaskSavedId(Integer taskSavedId) {
+        this.taskSavedId = taskSavedId;
     }
 
     public Boolean getArchived() {
