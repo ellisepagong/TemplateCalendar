@@ -25,8 +25,6 @@ This project serves as a hands-on refresher of backend Java development, as well
 
 - Reviewing and recalling **Java backend** and **OOP fundamentals**
 
-- Practicing **industry-standard backend architecture** rather than university-taught patterns
-
 - Strengthening **database design** and SQL proficiency through **PostgreSQL**, with prior experience in MySQL, MariaDB, and JDBC
 
 - Building familiarity with the **Spring Boot ecosystem** (JPA, repositories, controllers, and service layers)
@@ -49,7 +47,7 @@ This project serves as a hands-on refresher of backend Java development, as well
 
 - Add authentication and user sessions
 
-- Integrate with a frontend (React, Vue, etc.)
+- Integrate with a frontend (TypeScript, React, etc.)
 
     - Apply frontend web testing methods with Selenium
 
