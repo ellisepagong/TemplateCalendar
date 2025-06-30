@@ -1,55 +1,64 @@
 
-# 📚 Template Calendar
+# 📚 Template Calendar (Ongoing Project)
+
+## 🗓️ Project Description
+
+This is an ongoing project for a web-based calendar application designed around flexible, habit-based planning. Instead of assigning recurring tasks to rigid schedules, users can create reusable task templates (like a "Grocery Run" or "Monthly budget check") and assign them to any date that fits their availability.
+
+The app aims to support:
+
+- Delegation of grouped tasks
+
+- Scheduling of recurring but irregular routines
+
+- A more adaptable alternative to traditional calendar apps
+
+Designed for users who plan around routines but need the flexibility to shift things when life gets busy.
 
 
-## 🗓️ Application Goal
-The application is a calendar planner focused on helping users maintain routines and structure. Specifically, it:
-
-- Allows users to delegate “sets” of tasks and chores for habit/routine-based planning
-
-- Enables day-to-day task tracking, as well as template-based task delegation
-
-- Aims to help users:
-
-    - Build and maintain good habits
-
-    - Manage stress
-
-    - Provide a sense of control over time and personal responsibilities
-
-    - Stay organized around household or personal needs
-
-
-## 🧩 Project Description & Personal Goals
-This project serves as a hands-on refresher of backend Java development, as well as a learning tool and a portfolio piece with a strong focus on:
+## 🧩 Personal Goals
+This project serves as a hands-on refresher of backend Java development, as well as a learning tool and a portfolio piece with the goals of:
 
 - Reviewing and recalling **Java backend** and **OOP fundamentals**
 
-- Strengthening **database design** and SQL proficiency through **PostgreSQL**, with prior experience in MySQL, MariaDB, and JDBC
-
 - Building familiarity with the **Spring Boot ecosystem** (JPA, repositories, controllers, and service layers)
 
-- Applying previous experience in **API testing** using tools like **Postman** and manual API validation
+- Learning **API containerization** with Docker
+
+- Improving understanding of **JavaScript**, with previous experience with in-line JavaScript in HTML and CSS
+
+- Applying previous experience in **software automation testing** with Selenium, and learning **API testing** with Postman.
 
 
-## 🛠️ Tech Stack
-- Java 21.0.3
+## 🛠️ Tech Stack and Tools
 
-- Spring Boot
+| Backend           | Frontend |
+| :---------------- | :------ | 
+| Java 21.0.3        |   HTML   |
+| Spring Boot/Security|   CSS   | 
+| Spring Data JPA/Hibernate   |  JavaScript   |
+| PostgreSQL   |  React   |
+| Postman   |  Selenium   |
 
-- Spring Data JPA
-
-- PostgreSQL
 
 
 
-##  📌 Future Directives
+##  📌 Current Progress and Future Directives
 
-- Add authentication and user sessions
+| Implemented       | In Progress | To-Do |
+| :---------------- | :------ | :------ |
+| HTTPS endpoints | Frontend Implementation | API Containerization |
+| User Authentication | ------ | Frontend Integration|
+| Testing with Postman | ------ | Testing with Selenium |
 
-- Integrate with a frontend (TypeScript, React, etc.)
+##  🖼️ UI Mockup
 
-    - Apply frontend web testing methods with Selenium
-
+![Login page](frontend\assets\mockup\login.png)
+![Register page](frontend\assets\mockup\register.png)
+![Calendar View](frontend\assets\mockup\calendar.png)
+![Tasks View](frontend\assets\mockup\tasks.png)
+![Templates View](frontend\assets\mockup\templates.png)
+![Day View 1](frontend\assets\mockup\today.png)
+![Day View 2](frontend\assets\mockup\empty.png)
 
 
