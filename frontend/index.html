@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link rel="stylesheet" href="css/index.css">
+    <title>Template Calendar | A Project by Ellise Pag-ong</title>
+</head>
+<body>
+    <div class="container-login" id="login-card"> <!--single column layout-->
+        <img src="assets\login-user.png"  class="img-container"/>
+        <h1>Welcome!<br>Please Log in to Continue</h1>
+        <div class="form">
+            <input type="text" placeholder="EMAIL" id="loginEmail">
+            <input type="password" placeholder="PASSWORD" id="loginPassword">
+            <button id="login" class="button-login">LOGIN</button>
+            <button id="to-register" class="button-login">REGISTER</button>
+        </div>
+    </div>
+    <div class="hidden" id="register-card"> <!--Register/Two Column layout-->
+        <img src="assets\add-user.png" class="img-container"/>
+        <h1>Welcome, new user!<br>Please Enter the following details:</h1>
+        <div class="form">
+            <div>
+                <input type="text" placeholder="FIRST NAME" id="regFName">
+                <input type="password" placeholder="PASSWORD" id="regPassword">
+            </div>
+            <div>
+                <input type="text" placeholder="LAST NAME" id="regLName">
+                <input type="password" placeholder="RETYPE PASSWORD" id="regPasswordValidate">
+            </div>
+            <div style="text-align:justify; padding-left: 50px;">
+                <input type="text" placeholder="EMAIL" id="regEmail" style="margin:0em">
+            </div>
+            <div>
+                <button id="to-login" class="button-reg">BACK TO LOG IN</button>
+                <button id="register" class="button-reg">REGISTER</button>
+            </div>
+            
+           
+            
+        </div>
+    </div>
+    <div class="attribution">
+      <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
+    </div>
+    <script src="js/index.js" defer></script>
+</body>
+</html>
