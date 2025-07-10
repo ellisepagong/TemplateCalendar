@@ -1,15 +1,34 @@
+// Calendar get dates
+
 function generateCalendar(month, year, today) {
     const grid = document.getElementById("calendar-grid");
     grid.innerHTML = ""; // clear previous
   
     const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
     const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monthNames = [
+        "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+        "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+    ];
+    const monthYearHeader = document.getElementById("month-year");
+    if (monthYearHeader) {
+        monthYearHeader.textContent = `${monthNames[month]} ${year}`;
+    }
+
     var totalCells = 0;
+    var sunday = 0;
+    if (firstDay !== sunday){
+        const lastMonth = new Date(year, month, 0).getDate();
+        console.log(`last month: ${lastMonth}`);
+        sunday= lastMonth-(firstDay-1);
+        console.log(`sunday: ${sunday}`);
+    }
   
     // Add empty cells before the first day
     for (let i = 0; i < firstDay; i++) {
-      grid.innerHTML += `<div class="day-cell empty"></div>`;
+      grid.innerHTML += `<div class="day-cell-disabled">${sunday}</div>`;
       totalCells++;
+      sunday++;
     }
   
     // Add actual day cells
@@ -31,14 +50,19 @@ function generateCalendar(month, year, today) {
       totalCells++;
     }
 
+    var days = 1;
+
     while (totalCells<(7*6)){
-        grid.innerHTML += `<div class="day-cell empty"></div>`;
+        grid.innerHTML += `<div class="day-cell-disabled">${days}</div>`;
         totalCells++;
+        days++;
     }
   }
   
   const today = new Date();
   generateCalendar(today.getMonth(), today.getFullYear(), today.getDate());
+
+  // Sidebar change view logic
 
   const sidebar = document.getElementById('sidebar-body');
   const calendar = document.getElementById('calendar-view');

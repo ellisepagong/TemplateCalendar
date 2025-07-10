@@ -70,9 +70,6 @@ button:hover{
     transition: width 0.5 s;
 }
 
-/* #sidebar-body.hidden+#calendar-view {
-    width: 65vw;
-} */
 
 .menu-img-container {
     max-height: 32px;
@@ -136,8 +133,12 @@ button:hover{
     font-weight: bold;
 }
 
-.day-cell:empty {
+.day-cell-disabled {
+    border: transparent;
     background-color: var(--calendar-inactive);
+    padding: 10px;
+    text-align: left;
+    height: 15vh;
 }
 
 /*attribution*/
