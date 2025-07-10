@@ -18,24 +18,30 @@ body{
 }
 
 /* Containers */
-.container-login {
+#login-card {
+    position: absolute ;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 450px;
     height: 500px;
-    margin: 32px auto;
     background: var(--color-card);
     border-radius: 12px;
     text-align: center;
-    display: block;
+    z-index: 100;
 }
 
-.container-register{
+#register-card{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 870px;
     height: 500px;
     background: var(--color-card);
-    margin: 64px auto;
     border-radius: 12px;
     text-align: center;
-    display: block;
+    z-index: 100;
 }
 
 .img-container{
@@ -50,16 +56,41 @@ body{
   flex-direction: column;
   row-gap: 20px;
 }
-.attribution {
-    color: var(--color-text);
-    font-size: 15px;
-    position: relative;
-    bottom: 20px;
-    margin-top: 3%;
-    left: 50%;
+
+.hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    pointer-events: none;
+    transition: opacity 0.4s, transform 0.3s;
+}
+
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 0.4s, transform 0.3s;
+}
+
+.button-login {
+    margin-inline: auto;
+}
+
+.button-reg {
+    margin-inline: 10px;
+}
+
+#attribution {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     text-align: center;
-    transform: translate(-50%, -50%);
-    display: block;
+    color: var(--color-text);
+    background: transparent;
+    font-size: 15px;
+    margin: 0;
+    padding: 8px 0;
+    z-index: 100;
 }
 
 /*elements*/
@@ -94,15 +125,5 @@ button{
     border-radius: 5px;
 }
 
-.hidden{
-    display: none;
-}
 
-.button-login{
-    margin-inline: auto;
-}
-
-.button-reg{
-    margin-inline: 10px;
-}
 
