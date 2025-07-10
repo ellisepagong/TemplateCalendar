@@ -48,7 +48,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid #5e5e5e;
+    border-right: 1px solid #262626;
 
 }
 
@@ -121,7 +121,6 @@ button:hover{
     height: 15vh;
 
 }
-
 .calendar-date {
     margin: 0;
     padding: 0;

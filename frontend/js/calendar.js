@@ -57,12 +57,13 @@ function generateCalendar(month, year, today) {
     }
   });
 
-  document.getElementById("day-view").addEventListener("click", ()=>{
+    document.getElementById("day-view").addEventListener("click", ()=>{
     if (sidebar.classList.contains('hidden')){
         //add  saved items view is visible
         sidebar.classList.remove('hidden');
-        calendar.classList.remove('sidebar-hidden');
+        calendar.classList.remove('sidebarhidden');
         console.log('Sidebar is hidden. Showing now')
+
     }else{
         sidebar.classList.add('hidden');
         console.log('Sidebar is showing. Hiding now')
