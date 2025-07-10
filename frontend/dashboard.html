@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Dashboard | Template Calendar</title>
+</head>
+<body>
+    <div id="sidebar-head"> <!--sidebar icon container-->
+        <div><!--sidebar icons on top-->
+            <button id="saved-items">
+                <img src="assets/add-user.png" class="menu-img-container">
+            </button>
+            <button id="day-view">
+                <img src="assets/add-user.png" class="menu-img-container">
+            </button>
+        </div>
+        <div> <!--sidebar icons on bottom-->
+            <button>
+                <img src="assets/add-user.png" class="menu-img-container">
+            </button>
+            <button>
+                <img src="assets/add-user.png" class="menu-img-container">
+            </button>
+        </div>
+    </div>
+    <div id="sidebar-body" class = "hidden"> <!--sidebar variable width-->
+
+    </div>
+    <div id="calendar-view"> <!-- CALENDAR VIEW -->
+        <div id="calendar-head">
+            <img src="assets/add-user.png" class="header-img-container">
+            <h1>MONTH</h1>
+            <img src="assets/add-user.png" class="header-img-container">
+        </div>
+        <div class="weekdays">
+            <h5>SUN</h5>
+            <h5>MON</h5>
+            <h5>TUES</h5>
+            <h5>WED</h5>
+            <h5>THU</h5>
+            <h5>FRI</h5>
+            <h5>SAT</h5>
+        </div>
+        <div id = "calendar-grid"><!--calendar-->
+            <div class="day-cell">
+                <h5 class="calendar-date today">15</h5>
+            </div>
+        </div>
+        <div id="attribution">
+            <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
+            </div>
+    </div>
+    <script src="js/calendar.js" defer></script>
+
+</body>
+</html>
