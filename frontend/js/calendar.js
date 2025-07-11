@@ -19,9 +19,7 @@ function generateCalendar(month, year, today) {
     var sunday = 0;
     if (firstDay !== sunday){
         const lastMonth = new Date(year, month, 0).getDate();
-        console.log(`last month: ${lastMonth}`);
         sunday= lastMonth-(firstDay-1);
-        console.log(`sunday: ${sunday}`);
     }
   
     // Add empty cells before the first day
@@ -39,7 +37,6 @@ function generateCalendar(month, year, today) {
             <div class="day-cell">
                 <h5 class="calendar-date today"><span>${day}</span></h5>
             </div>`;
-            console.log(`today is ${today}`)
         }else{
             grid.innerHTML += `
             <div class="day-cell">
@@ -61,6 +58,37 @@ function generateCalendar(month, year, today) {
   
   const today = new Date();
   generateCalendar(today.getMonth(), today.getFullYear(), today.getDate());
+
+//   month change view logic
+  var month = today.getMonth();
+  var year = today.getFullYear();
+  document.getElementById('next-month').addEventListener("click", ()=>{
+    month += 1
+    document.getElementById("calendar-grid").innerHTML = "";
+    if ((month === today.getMonth()) && (year === today.getFullYear())){
+        generateCalendar(month, year, today.getDate());
+    }else if(month > 11){
+        month = 0;
+        year +=1;
+        generateCalendar(month, year);
+    }else{
+        generateCalendar(month, year);
+    }
+  });
+
+  document.getElementById('prev-month').addEventListener("click", ()=>{
+    month -= 1
+    document.getElementById("calendar-grid").innerHTML = "";
+    if ((month === today.getMonth()) && (year === today.getFullYear())){
+        generateCalendar(month, year, today.getDate());
+    }else if(month < 0){
+        month = 11;
+        year -=1;
+        generateCalendar(month, year);
+    }else{
+        generateCalendar(month, year);
+    }
+  });
 
   // Sidebar change view logic
 

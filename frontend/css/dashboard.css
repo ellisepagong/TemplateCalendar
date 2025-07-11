@@ -24,16 +24,11 @@ body{
     color: var(--color-text);
 }
 
-button{
+button {
     width: 64px;
     height: 64px;
     background-color: transparent;
     border-color: transparent;
-}
-
-button:hover{
-    background-color: #6f6c6c;
-    transition-duration: 1s;
 }
 
 /*sidebar*/
@@ -70,10 +65,14 @@ button:hover{
     transition: width 0.5 s;
 }
 
-
 .menu-img-container {
     max-height: 32px;
     max-width: 32px;
+}
+
+.sidebar-button:hover {
+    background-color: #6f6c6c;
+    transition-duration: 1s;
 }
 
 /* Calendar */
@@ -95,10 +94,27 @@ button:hover{
     grid-template-columns: repeat(7, 1fr);
     gap: 3px;
 }
-.header-img-container {
+.header-img-container-right {
     margin-top: 20px;
     max-height: 32px;
     max-width: 32px;
+}
+
+.header-img-container-right:hover {
+    transform: translateX(-10px);
+    transition: 1s;
+}
+
+
+.header-img-container-left {
+    margin-top: 20px;
+    max-height: 32px;
+    max-width: 32px;
+}
+
+.header-img-container-left:hover {
+    transform: translateX(10px);
+    transition: 1s;
 }
 
 .weekdays {

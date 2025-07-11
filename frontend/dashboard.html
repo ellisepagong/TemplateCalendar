@@ -10,18 +10,18 @@
 <body>
     <div id="sidebar-head"> <!--sidebar icon container-->
         <div><!--sidebar icons on top-->
-            <button id="day-view">
+            <button id="day-view" class="sidebar-button">
                 <img src="assets/calendar.png" class="menu-img-container">
             </button>
-            <button id="saved-items">
+            <button id="saved-items" class="sidebar-button">
                 <img src="assets/favourite.png" class="menu-img-container">
             </button>
         </div>
         <div> <!--sidebar icons on bottom-->
-            <button>
+            <button class="sidebar-button">
                 <img src="assets/cogwheel.png" class="menu-img-container">
             </button>
-            <button>
+            <button class="sidebar-button">
                 <img src="assets/log-out.png" class="menu-img-container">
             </button>
         </div>
@@ -31,9 +31,13 @@
     </div>
     <div id="calendar-view"> <!-- CALENDAR VIEW -->
         <div id="calendar-head">
-            <img src="assets/back.png" class="header-img-container">
+            <button id="prev-month">
+                <img src="assets/back.png" class="header-img-container-left">
+            </button>
             <h1 id ='month-year'></h1>
-            <img src="assets/next.png" class="header-img-container">
+            <button id="next-month">
+                <img src="assets/next.png" class="header-img-container-right">
+            </button>
         </div>
         <div class="weekdays">
             <h5>SUN</h5>
