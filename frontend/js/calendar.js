@@ -1,3 +1,14 @@
+// INIT
+
+// populate calendar
+const today = new Date();
+generateCalendar(today.getMonth(), today.getFullYear(), today.getDate());
+
+// populate saved tasks and templates
+
+// populate day view
+
+
 // Calendar get dates
 
 function generateCalendar(month, year, today) {
@@ -55,9 +66,6 @@ function generateCalendar(month, year, today) {
         days++;
     }
   }
-  
-  const today = new Date();
-  generateCalendar(today.getMonth(), today.getFullYear(), today.getDate());
 
 //   month change view logic
   var month = today.getMonth();
@@ -94,15 +102,21 @@ function generateCalendar(month, year, today) {
 
   const sidebar = document.getElementById('sidebar-body');
   const calendar = document.getElementById('calendar-view');
-
+  const savedView = document.getElementById('saved-items');
+  const dayView = document.getElementById('my-day');
   
-  document.getElementById("saved-items").addEventListener("click", ()=>{
+  document.getElementById("saved-view").addEventListener("click", ()=>{
     if (sidebar.classList.contains('hidden')){
-        //add  saved items view is visible
+        // switch view
+        savedView.classList.remove('hidden');
+        dayView.classList.add('hidden');
+        //show sidebar
         sidebar.classList.remove('hidden');
         calendar.classList.remove('sidebar-hidden');
         console.log('Sidebar is hidden. Showing now')
-
+    }else if(!dayView.classList.contains('hidden')){
+        savedView.classList.remove('hidden');
+        dayView.classList.add('hidden');
     }else{
         sidebar.classList.add('hidden');
         console.log('Sidebar is showing. Hiding now')
@@ -111,13 +125,45 @@ function generateCalendar(month, year, today) {
 
     document.getElementById("day-view").addEventListener("click", ()=>{
     if (sidebar.classList.contains('hidden')){
-        //add  saved items view is visible
+        // switch view
+        dayView.classList.remove('hidden');
+        savedView.classList.add('hidden');
+        //show sidebar
         sidebar.classList.remove('hidden');
         calendar.classList.remove('sidebarhidden');
         console.log('Sidebar is hidden. Showing now')
-
+    }else if(!savedView.classList.contains('hidden')){
+        dayView.classList.remove('hidden');
+        savedView.classList.add('hidden');
     }else{
         sidebar.classList.add('hidden');
         console.log('Sidebar is showing. Hiding now')
     }
   });
+
+  // Task and Template View Logic
+
+document.getElementById("task-toggle").addEventListener("click", ()=>{
+    var parent = document.getElementById("tasks-drawer");
+    var tasksView = document.getElementById("saved-tasks");
+    if(parent.classList.contains('open')){
+        parent.classList.remove('open');
+        tasksView.classList.remove('open');
+    }else{
+        parent.classList.add('open');
+        tasksView.classList.add('open');
+    }
+});
+
+document.getElementById("template-toggle").addEventListener("click", ()=>{
+    var parent = document.getElementById("templates-drawer");
+    var templatesView = document.getElementById("saved-templates");
+    if(parent.classList.contains('open')){
+        parent.classList.remove('open');
+        templatesView.classList.remove('open');
+    }else{
+        parent.classList.add('open');
+        templatesView.classList.add('open');
+    }
+});
+

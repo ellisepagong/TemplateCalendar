@@ -29,6 +29,8 @@ button {
     height: 64px;
     background-color: transparent;
     border-color: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 /*sidebar*/
@@ -43,7 +45,7 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid #262626;
+    border-right: 1px solid #454545;
 
 }
 
@@ -54,6 +56,7 @@ button {
     padding-bottom: 15px;
     width:35vmax;
     height: 96vh;
+    position: sticky;
     display: flex;
     flex-direction: column;
     transition: width 0.5s;
@@ -75,6 +78,179 @@ button {
     transition-duration: 1s;
 }
 
+/* sidebar content*/
+
+#drawer-head{
+    padding-left: 3vh;
+    padding-right: 3vmax;
+    text-align: end;
+}
+
+#collapse {
+    margin-top: 0px;
+    max-height: 32px;
+    max-width: 32px;
+    transition: 0.5s;
+}
+
+#saved-items{
+    padding-left: 15px;
+    overflow-y: auto;
+}
+
+#saved-items::-webkit-scrollbar {
+    width: 5px;
+    background: #2b2a2a;
+}
+
+#saved-items::-webkit-scrollbar-thumb {
+    background: #595959;
+    border-radius: 5px;
+}
+
+#saved-items::-webkit-scrollbar-thumb:hover {
+    background: #8e8e8e;
+}
+
+.saved-drawer {
+    width: 95%;
+    margin-top: 1em;
+    height: 3.5em;
+    background-color: #009696;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: grid;
+    overflow: hidden;
+    transition: 0.5s;
+    padding: 0;
+}
+
+.saved-drawer.open {
+    transition: 0.5s;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+} 
+
+.saved-drawer button{
+    height: 4em;
+}
+
+.saved-drawer h3{
+    margin: 5px;
+    width: 100%;
+    text-align: left;
+}
+
+.saved-drawer img {
+    max-width: 16px;
+    max-height: 16px;
+    transition: transform 0.4s;
+}
+
+.saved-drawer.open img {
+    transform: rotate(90deg);
+}
+
+.saved-drawer-body {
+    background-color: #00474c;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    width: 95%;
+    transition: max-height 1s;
+    overflow:hidden;
+}
+
+.saved-drawer-body.open{
+    max-height: 1000px;
+    padding-bottom: 15px;
+}
+
+/* task and template containers */
+
+.task-item{
+    background-color: #009696;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 8px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 5px;
+    border-radius: 10px;
+    height: 20px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    font-size: small;
+}
+.task-item img{
+    max-width: 10px;
+    max-height: 10px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+}
+.template-item-head{
+    width: 91%;
+    margin-top: 1em;
+    height: 2.5em;
+    margin-left: 15px;
+    background-color: #328c66;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    display: flex;
+    justify-content: space-between;
+    transition: 0.5s;
+    padding: 0;
+}
+.template-item-head h4{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 15px;
+}
+
+.template-item-body{
+    background-color: #1e523c;
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    padding-bottom: 10px;
+    /* max-height: 0; */
+    max-height: 1000px;
+    width: 91%;
+
+    /* transition: max-height 1s; */
+    /* overflow: hidden; */
+}
+
+.template-task{
+    background-color: #009696;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 8px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 5px;
+    border-radius: 10px;
+    height: 20px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    font-size: small;
+}
+
+.template-task img {
+    max-width: 10px;
+    max-height: 10px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+}
+
+
+
 /* Calendar */
 #calendar-head{
     padding-top: 15px;
@@ -94,10 +270,12 @@ button {
     grid-template-columns: repeat(7, 1fr);
     gap: 3px;
 }
+
 .header-img-container-right {
     margin-top: 20px;
     max-height: 32px;
     max-width: 32px;
+    transition: 1s;
 }
 
 .header-img-container-right:hover {
@@ -105,11 +283,11 @@ button {
     transition: 1s;
 }
 
-
 .header-img-container-left {
     margin-top: 20px;
     max-height: 32px;
     max-width: 32px;
+    transition: 1s;
 }
 
 .header-img-container-left:hover {
@@ -123,8 +301,6 @@ button {
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
 }
-
-
 
 .day-cell {
     border: transparent;
@@ -168,4 +344,8 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
+}
+
+.hidden{
+    display: none;
 }

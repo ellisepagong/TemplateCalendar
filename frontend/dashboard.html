@@ -13,7 +13,7 @@
             <button id="day-view" class="sidebar-button">
                 <img src="assets/calendar.png" class="menu-img-container">
             </button>
-            <button id="saved-items" class="sidebar-button">
+            <button id="saved-view" class="sidebar-button">
                 <img src="assets/favourite.png" class="menu-img-container">
             </button>
         </div>
@@ -27,16 +27,105 @@
         </div>
     </div>
     <div id="sidebar-body" class = "hidden"> <!--sidebar variable width-->
+        <div id="drawer-head">
+            <button id="collapse">
+            <img src="assets/left.png" class="header-img-container-right">
+            </button>
+        </div>
+        <div id="saved-items" class="hidden">
+            <div class="saved-drawer" id = "tasks-drawer">
+                <div style="display:flex; align-items: center;" class="open">
+                    <button id="task-toggle">
+                        <img src="assets/right.png">
+                    </button>
+                    <h3>Saved Tasks</h3>
+                </div>
+            </div>
+            <div id = "saved-tasks" class="saved-drawer-body">
+                <div class="task-item">
+                    <img src="assets/circle.png">
+                    Saved task 1
+                </div>
+                <div class="task-item">
+                    <img src="assets/circle.png">
+                    Saved task 2
+                </div>
+                <div class="task-item">
+                    <img src="assets/circle.png">
+                    Saved task 3
+                </div>
+                <div class="task-item">
+                    <img src="assets/circle.png">
+                    Saved task 4
+                </div>
+                <div class="task-item">
+                    <img src="assets/circle.png">
+                    Saved task 5
+                </div>
+                <div class = "task-item">
+                    <img src="assets/plus.png">
+                    Add new Task...
+                </div>
+            </div>
+            <div class="saved-drawer" id = "templates-drawer">
+                <div style="display:flex; align-items: center;">
+                    <button id="template-toggle">
+                        <img src="assets/right.png">
+                    </button>
+                    <h3>Saved Templates</h3>
+                </div>
+            </div>
+            <div id="saved-templates" class="saved-drawer-body">
+                <div id = 'template-item'>
+                    <div class='template-item-head'>
+                        <h4>Template 1</h4>
+                        <h4>5/10</h5>
+                    </div>
+                    <div class="template-item-body">
+                        <div class="template-task">
+                            <img src="assets/circle.png">
+                            Template Task 1
+                        </div>
+                        <div class="template-task">
+                            <img src="assets/circle.png">
+                            Template Task 2
+                        </div>
+                        <div class="template-task">
+                            <img src="assets/circle.png">
+                            Template Task 3
+                        </div>
+                        <div class="template-task">
+                            <img src="assets/circle.png">
+                            Template Task 4
+                        </div>
+                        <div class="template-task">
+                            <img src="assets/circle.png">
+                            Template Task 5
+                        </div>
+                    </div>
+                    <div class = 'template-item-head'>
+                        <h4>Add new template</h4>
+                        <h4>0/10</h5>
+                    </div>
+                    <div class="template-item-body" style = "align-items: center;">
+                        <button><img src = "assets\plus.png" class="menu-img-container" style = "margin: 15px;"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id = 'my-day' class="hidden">
+            <h2>Today</h2>
+        </div>
 
     </div>
     <div id="calendar-view"> <!-- CALENDAR VIEW -->
         <div id="calendar-head">
             <button id="prev-month">
-                <img src="assets/back.png" class="header-img-container-left">
+                <img src="assets/left.png" class="header-img-container-left">
             </button>
             <h1 id ='month-year'></h1>
             <button id="next-month">
-                <img src="assets/next.png" class="header-img-container-right">
+                <img src="assets/right.png" class="header-img-container-right">
             </button>
         </div>
         <div class="weekdays">
