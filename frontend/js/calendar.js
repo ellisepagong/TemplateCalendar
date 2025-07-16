@@ -35,7 +35,7 @@ function generateCalendar(month, year, today) {
   
     // Add empty cells before the first day
     for (let i = 0; i < firstDay; i++) {
-      grid.innerHTML += `<div class="day-cell-disabled">${sunday}</div>`;
+      grid.innerHTML += `<div class="day-cell disabled"><h5>${sunday}</h5></div>`;
       totalCells++;
       sunday++;
     }
@@ -46,13 +46,16 @@ function generateCalendar(month, year, today) {
         if (today===day){
             grid.innerHTML += `
             <div class="day-cell">
-                <h5 class="calendar-date today"><span>${day}</span></h5>
-            </div>`;
+                <h5 class="today"><span>${day}</span></h5></div>`;
         }else{
             grid.innerHTML += `
             <div class="day-cell">
-                <h5 class="calendar-date">${day}</h5>
-            </div>`;
+                <h5>${day}</h5>
+                <div class= "calendar-task">Task 1</div>
+                <div class= "calendar-template">Template 1</div>
+                <div class= "calendar-task done">Task 2</div>
+                <div class= "calendar-template done">Template 2</div>
+                </div>`;
         }
       
       totalCells++;
@@ -61,7 +64,7 @@ function generateCalendar(month, year, today) {
     var days = 1;
 
     while (totalCells<(7*6)){
-        grid.innerHTML += `<div class="day-cell-disabled">${days}</div>`;
+        grid.innerHTML += `<div class="day-cell disabled"><h5>${days}</h5></div>`;
         totalCells++;
         days++;
     }
@@ -141,6 +144,10 @@ function generateCalendar(month, year, today) {
     }
   });
 
+  document.getElementById("collapse").addEventListener("click", ()=>{
+    sidebar.classList.add('hidden');
+    console.log('Hiding Sidebar');
+  });
   // Task and Template View Logic
 
 document.getElementById("task-toggle").addEventListener("click", ()=>{
@@ -167,3 +174,24 @@ document.getElementById("template-toggle").addEventListener("click", ()=>{
     }
 });
 
+document.querySelectorAll('.day-cell').forEach(cell => {
+    let scrollInterval;
+
+    cell.addEventListener('mouseenter', () => {
+        // Start auto-scrolling down
+        scrollInterval = setInterval(() => {
+            // Scroll by 1px every 10ms (adjust speed as needed)
+            cell.scrollTop += 1;
+            // Stop if reached the bottom
+            if (cell.scrollTop + cell.clientHeight >= cell.scrollHeight) {
+                clearInterval(scrollInterval);
+            }
+        }, 10);
+    });
+
+    cell.addEventListener('mouseleave', () => {
+        // Stop scrolling and reset to top
+        clearInterval(scrollInterval);
+        cell.scrollTop = 0;
+    });
+});

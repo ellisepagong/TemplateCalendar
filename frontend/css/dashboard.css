@@ -33,6 +33,10 @@ button {
     margin: 0;
 }
 
+.hidden{
+    display: none;
+}
+
 /*sidebar*/
 #sidebar-head {
     background-color: var(--sidebar-background);
@@ -82,8 +86,13 @@ button {
 
 #drawer-head{
     padding-left: 3vh;
-    padding-right: 3vmax;
+    padding-right: 1.5vmax;
     text-align: end;
+}
+
+#drawer-head img {
+    max-height: 24px;
+    max-width: 24px;
 }
 
 #collapse {
@@ -249,8 +258,6 @@ button {
     margin-bottom: 3px;
 }
 
-
-
 /* Calendar */
 #calendar-head{
     padding-top: 15px;
@@ -306,16 +313,33 @@ button {
     border: transparent;
     background-color: var(--calendar-active);
     padding: 10px;
+    padding-top: 0;
     text-align: left; 
     height: 15vh;
-
+    overflow-y: hidden;
 }
-.calendar-date {
+.day-cell.disabled {
+    background-color: var(--calendar-inactive);
+}
+
+.day-cell h5 {
     margin: 0;
     padding: 0;
+    padding-top: 10px;
     font-size: 9pt;
-        font-family: var(--font-main);
-    }
+    width: 100%;
+    font-family: var(--font-main);
+    background-color: inherit;
+    position: sticky;
+    top: 0;
+}
+
+.day-cell::-webkit-scrollbar {
+    display: none;
+}
+.day-cell:hover {
+    overflow-y: auto;
+}
 
 .today span {
     background-color: #00c9b7;
@@ -325,12 +349,29 @@ button {
     font-weight: bold;
 }
 
-.day-cell-disabled {
-    border: transparent;
-    background-color: var(--calendar-inactive);
-    padding: 10px;
-    text-align: left;
-    height: 15vh;
+
+
+.calendar-task{
+    background-color: #009696;
+    font-size: small;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow-x: hidden;
+}
+
+.calendar-template {
+    background-color:#328c66;
+    font-size: small;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow-x: hidden;
+}
+
+.done {
+    text-decoration: line-through;
+    color: #ffffff80;;
 }
 
 /*attribution*/
@@ -344,8 +385,4 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-}
-
-.hidden{
-    display: none;
 }
