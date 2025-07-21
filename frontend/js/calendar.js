@@ -63,7 +63,7 @@ function generateCalendar(month, year, today) {
 
     var days = 1;
 
-    while (totalCells<(7*6)){
+    while ((totalCells % 7) != 0){
         grid.innerHTML += `<div class="day-cell disabled"><h5>${days}</h5></div>`;
         totalCells++;
         days++;
@@ -181,7 +181,7 @@ document.querySelectorAll('.day-cell').forEach(cell => {
         // Start auto-scrolling down
         scrollInterval = setInterval(() => {
             // Scroll by 1px every 10ms (adjust speed as needed)
-            cell.scrollTop += 1;
+            cell.scrollTop += 2;
             // Stop if reached the bottom
             if (cell.scrollTop + cell.clientHeight >= cell.scrollHeight) {
                 clearInterval(scrollInterval);

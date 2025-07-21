@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/sidebar-layout.css">
+    <link rel="stylesheet" href="css/sidebar-dayview.css">
+    <link rel="stylesheet" href="css/sidebar-saved-items.css">
+    <link rel="stylesheet" href="css/calendar-items.css">
     <title>Dashboard | Template Calendar</title>
 </head>
 <body>
@@ -18,10 +22,10 @@
             </button>
         </div>
         <div> <!--sidebar icons on bottom-->
-            <button class="sidebar-button">
+            <button>
                 <img src="assets/cogwheel.png" class="menu-img-container">
             </button>
-            <button class="sidebar-button">
+            <button>
                 <img src="assets/log-out.png" class="menu-img-container">
             </button>
         </div>
@@ -42,28 +46,16 @@
                 </div>
             </div>
             <div id = "saved-tasks" class="saved-drawer-body">
-                <div class="task-item">
-                    <img src="assets/circle.png">
-                    Saved task 1
+                <div class="saved-task-item">
+                    Saved Task 1
+                    <button><img src="assets/more.png"></button>
                 </div>
-                <div class="task-item">
-                    <img src="assets/circle.png">
-                    Saved task 2
+                <div class="saved-task-item">
+                    Saved Task 2
+                    <button><img src="assets/more.png"></button>
                 </div>
-                <div class="task-item">
-                    <img src="assets/circle.png">
-                    Saved task 3
-                </div>
-                <div class="task-item">
-                    <img src="assets/circle.png">
-                    Saved task 4
-                </div>
-                <div class="task-item">
-                    <img src="assets/circle.png">
-                    Saved task 5
-                </div>
-                <div class = "task-item">
-                    <img src="assets/plus.png">
+                <div class = "saved-task-item" style="justify-content:flex-start;">
+                    <button><img src="assets/plus.png"></button>
                     Add new Task...
                 </div>
             </div>
@@ -76,45 +68,50 @@
                 </div>
             </div>
             <div id="saved-templates" class="saved-drawer-body">
-                <div id = 'template-item'>
-                    <div class='template-item-head'>
+                <div id = 'saved-template-item'>
+                    <div class='saved-template-item-head'>
                         <h4>Template 1</h4>
                         <h4>5/10</h5>
                     </div>
-                    <div class="template-item-body">
-                        <div class="template-task">
-                            <img src="assets/circle.png">
+                    <div class="saved-template-item-body">
+                        <div class="saved-template-task">
                             Template Task 1
+                            <button><img src="assets/more.png"></button>
                         </div>
-                        <div class="template-task">
-                            <img src="assets/circle.png">
+                        <div class="saved-template-task">
                             Template Task 2
-                        </div>
-                        <div class="template-task">
-                            <img src="assets/circle.png">
-                            Template Task 3
-                        </div>
-                        <div class="template-task">
-                            <img src="assets/circle.png">
-                            Template Task 4
-                        </div>
-                        <div class="template-task">
-                            <img src="assets/circle.png">
-                            Template Task 5
+                            <button><img src="assets/more.png"></button>
                         </div>
                     </div>
-                    <div class = 'template-item-head'>
+                    <div class = 'saved-template-item-head'>
                         <h4>Add new template</h4>
                         <h4>0/10</h5>
                     </div>
-                    <div class="template-item-body" style = "align-items: center;">
-                        <button><img src = "assets\plus.png" class="menu-img-container" style = "margin: 15px;"></button>
+                    <div class="saved-template-item-body" style = "align-items: center;">
+                        <img src = "assets\plus.png" class="menu-img-container" style = "margin: 15px;">
                     </div>
                 </div>
             </div>
         </div>
         <div id = 'my-day' class="hidden">
-            <h2>Today</h2>
+            <h2 id = "date-relative">Today</h2>
+            <h3 id = "date">Sunday, March 13, 2025</h3>
+            <hr style = "margin-right: 20px;">
+            <div class = "task-item">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+                Task 1
+            </div>
+            <div>
+                <div class="template-item-head">Template 1</div>
+                <div class="template-item-body">
+                    <div class = "template-task-item">waho</div>
+                </div>
+            </div>
+            <label class="task-item">
+                <img src="assets/plus.png">
+                Add new Task...
+            </label>
         </div>
 
     </div>
