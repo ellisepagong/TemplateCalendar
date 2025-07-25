@@ -1,3 +1,12 @@
+#my-day{
+    text-align: left;
+}
+
+#my-day h2, #my-day h3{
+    margin: 10px 15px 0;
+}
+
+
 .task-item {
     background-color: #009696;
     margin-left: 10px;
@@ -56,7 +65,6 @@
     transition: background-color 0.3s ease;
 }
 
-
 .checkbox-label:hover .checkmark {
     background-color: #1e523c;
 }
@@ -87,7 +95,7 @@
 
 .task-item input:checked~.checkbox-label p {
     text-decoration: line-through;
-    opacity: 0.5;
+    opacity: 0.8;
 }
 
 .template-item-head {
