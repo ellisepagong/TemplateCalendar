@@ -6,16 +6,10 @@
     margin: 10px 15px 0;
 }
 
-
 .task-item {
     background-color: #009696;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 8px;
-    padding-left: 15px;
-    padding-right: 10px;
-    padding-top: 7px;
-    padding-bottom: 5px;
+    margin: 8px 10px 0;
+    padding: 7px 10px 5px 15px;
     border-radius: 10px;
     height: 20px;
     overflow: hidden;
@@ -25,14 +19,7 @@
     position: relative;
 }
 
-.task-item img {
-    max-width: 10px;
-    max-height: 10px;
-    margin-right: 10px;
-    margin-bottom: 3px;
-}
-
-.task-item input {
+.task-item input, .template-task-item input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -69,7 +56,8 @@
     background-color: #1e523c;
 }
 
-.task-item input:checked~.checkbox-label .checkmark {
+.task-item input:checked~.checkbox-label .checkmark,
+.template-task-item input:checked~.checkbox-label .checkmark {
     background-color: #009696;
 }
 
@@ -79,7 +67,8 @@
     display: none;
 }
 
-.task-item input:checked~.checkbox-label .checkmark:after {
+.task-item input:checked~.checkbox-label .checkmark:after,
+.template-task-item input:checked~.checkbox-label .checkmark:after {
     display: block;
 }
 
@@ -93,16 +82,20 @@
     transform: rotate(45deg);
 }
 
-.task-item input:checked~.checkbox-label p {
+.task-item input:checked~.checkbox-label p,
+.template-task-item input:checked~.checkbox-label p{
     text-decoration: line-through;
     opacity: 0.8;
 }
 
 .template-item-head {
-    width: 91%;
-    margin-top: 1em;
-    height: 2.5em;
-    margin-left: 15px;
+    margin: 8px 10px 0;
+    padding: 15px 10px 0px 10px;
+    border-radius: 10px;
+    height: 30px;
+    overflow: hidden;
+    text-align: left;
+    font-size: medium;
     background-color: #328c66;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -110,37 +103,25 @@
     border-bottom-right-radius: 0px;
     display: flex;
     justify-content: space-between;
-    transition: 0.5s;
-    padding: 0;
 }
 
-.template-item-head h4 {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 15px;
-}
 
 .template-item-body {
     background-color: #1e523c;
-    margin: 0;
-    margin-left: 15px;
-    padding: 0;
-    padding-bottom: 10px;
-    padding-top: 8px;
+    margin: 0px 10px;
+    padding: 5px 10px 5px 15px;
     max-height: 1000px;
-    width: 91%;
 }
 
 .template-task-item {
     background-color: #009696;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 8px;
+    margin: 8px 0;
+    padding: 5px 10px 0 15px;
     padding-left: 15px;
     padding-right: 10px;
     padding-top: 5px;
     border-radius: 10px;
-    height: 20px;
+    height: 25px;
     display: flex;
     overflow: hidden;
     align-items: center;
