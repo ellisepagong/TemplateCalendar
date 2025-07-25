@@ -98,9 +98,11 @@
             <h3 id = "date">Sunday, March 13, 2025</h3>
             <hr style = "margin-right: 20px;">
             <div class = "task-item">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-                Task 1
+                <input type="checkbox" id = "taskdone" onclick="console.log('clicked!')">
+                <label for="taskdone" class="checkbox-label">
+                    <span class="checkmark"></span>
+                    <p> Task 1</p>
+                </label>
             </div>
             <div>
                 <div class="template-item-head">Template 1</div>
@@ -108,10 +110,10 @@
                     <div class = "template-task-item">waho</div>
                 </div>
             </div>
-            <label class="task-item">
+            <div class="task-item">
                 <img src="assets/plus.png">
                 Add new Task...
-            </label>
+            </div>
         </div>
 
     </div>
