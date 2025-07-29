@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- displays site properly based on user's device -->
+    <!-- Styles -->
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/sidebar-layout.css">
     <link rel="stylesheet" href="css/sidebar-dayview.css">
@@ -12,7 +12,7 @@
     <title>Dashboard | Template Calendar</title>
 </head>
 <body>
-    <div id="sidebar-head"> <!--sidebar icon container-->
+    <div id="sidebar-head"> <!--sidebar-layout.css-->
         <div><!--sidebar icons on top-->
             <button id="day-view" class="sidebar-button">
                 <img src="assets/calendar.png" class="menu-img-container">
@@ -46,14 +46,14 @@
                 </div>
             </div>
             <div id = "saved-tasks" class="saved-drawer-body">
-                <div class="saved-task-item">
+                <!-- <div class="saved-task-item">
                     Saved Task 1
                     <button><img src="assets/more.png"></button>
                 </div>
                 <div class="saved-task-item">
                     Saved Task 2
                     <button><img src="assets/more.png"></button>
-                </div>
+                </div> -->
                 <div class = "saved-task-item" style="justify-content:flex-start;">
                     <button><img src="assets/plus.png"></button>
                     Add new Task...
@@ -69,7 +69,7 @@
             </div>
             <div id="saved-templates" class="saved-drawer-body">
                 <div id = 'saved-template-item'>
-                    <div class='saved-template-item-head'>
+                    <!-- <div class='saved-template-item-head'>
                         <h4>Template 1</h4>
                         <h4>5/10</h5>
                     </div>
@@ -82,7 +82,7 @@
                             Template Task 2
                             <button><img src="assets/more.png"></button>
                         </div>
-                    </div>
+                    </div> -->
                     <div class = 'saved-template-item-head'>
                         <h4>Add new template</h4>
                         <h4>0/10</h5>
@@ -97,14 +97,14 @@
             <h2 id = "date-relative">Today</h2>
             <h3 id = "date">Sunday, March 13, 2025</h3>
             <hr style = "margin-right: 20px;">
-            <div class = "task-item">
+            <!-- <div class = "task-item">
                 <input type="checkbox" id = "taskdone">
                 <label for="taskdone" class="checkbox-label">
                     <span class="checkmark"></span>
                     <p> Task 1</p>
                 </label>
-            </div>
-            <div>
+            </div> -->
+            <!-- <div>
                 <div class="template-item-head">Template 1 
                 </div>
                 <div class="template-item-body">
@@ -123,13 +123,12 @@
                         </label>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="task-item">
                 <img src="assets/plus.png">
                 Add new Task...
             </div>
         </div>
-
     </div>
     <div id="calendar-view"> <!-- CALENDAR VIEW -->
         <div id="calendar-head">
@@ -157,7 +156,67 @@
             <a href="https://www.flaticon.com/authors/freepik" title="Icons">Icons created by Freepik - Flaticon</a>
         </div>
     </div>
+    <!-- Templates -->
+    <!-- Day view Task -->
+    <template id="dayViewTask">
+        <div class="task-item">
+            <input type="checkbox" id="taskdone">
+            <label for="taskdone" class="checkbox-label">
+                <span class="checkmark"></span>
+                <p> Task 1</p>
+            </label>
+        </div>
+    </template>
+    <!--Day view Template-->
+    <template id="dayViewTemplate">
+        <div>
+            <div class="template-item-head">Template 1
+            </div>
+            <div class="template-item-body">
+            </div>
+        </div>
+    </template>
+    <!--Day view Template Task-->
+    <template id="dayViewTemplateTask">
+        <div class="template-task-item">
+            <input type="checkbox" id="taskdone1">
+            <label for="taskdone1" class="checkbox-label">
+                <span class="checkmark"></span>
+                <p> Task 1</p>
+            </label>
+        </div>
+    </template>
+    <!-- Saved Task -->
+    <template id = "savedTask">
+        <div class="saved-task-item">
+            Saved Task 1
+            <button><img src="assets/more.png"></button>
+        </div>
+    </template>
+    <!--Saved Template-->
+    <template id = "savedTemplate">
+        <div class='saved-template-item-head'>
+            <h4>Template 1</h4>
+            <h4>5/10</h5>
+        </div>
+        <div class="saved-template-item-body">
+        </div>
+    </template>
+    <!--Saved Template Task-->
+    <template id="savedTemplateTask">
+        <div class="saved-template-task">
+            Template Task 1
+            <button><img src="assets/more.png"></button>
+        </div>
+    </template>
+    <!--Calendar Cell-->
+    <div class="day-cell">
+        <h5>1</h5>
+        <div class="calendar-task">Task 1</div>
+        <div class="calendar-template">Template 1</div>
+        <div class="calendar-task done">Task 2</div>
+        <div class="calendar-template done">Template 2</div>
+    </div>
     <script src="js/calendar.js" defer></script>
-
 </body>
 </html>

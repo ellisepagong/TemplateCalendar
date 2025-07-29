@@ -3,8 +3,7 @@
     background-color: var(--sidebar-background);
     position: sticky;
     top: 0;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 15px 0;
     width: 64px;
     height: 96vh;
     display: flex;
@@ -17,8 +16,7 @@
 #sidebar-body {
     background-color: var(--sidebar-background);
     top: 0;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 15px 0;
     width: 35vmax;
     height: 96vh;
     position: sticky;
