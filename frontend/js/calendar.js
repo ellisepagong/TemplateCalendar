@@ -26,16 +26,21 @@ function generateCalendar(month, year, today) {
         monthYearHeader.textContent = `${monthNames[month]} ${year}`;
     }
 
+
+
     var totalCells = 0;
     var sunday = 0;
     if (firstDay !== sunday){
         const lastMonth = new Date(year, month, 0).getDate();
         sunday= lastMonth-(firstDay-1);
     }
+
+
   
     // Add empty cells before the first day
     for (let i = 0; i < firstDay; i++) {
-      grid.innerHTML += `<div class="day-cell disabled"><h5>${sunday}</h5></div>`;
+    //   grid.innerHTML += `<div class="day-cell disabled"><h5>${sunday}</h5></div>`;
+        grid.appendChild(createCalendarCell(sunday, [], [], 'disabled'));
       totalCells++;
       sunday++;
     }
@@ -44,18 +49,23 @@ function generateCalendar(month, year, today) {
     for (let day = 1; day <= daysInMonth; day++) {
         //REPLACE WITH DOM
         if (today===day){
-            grid.innerHTML += `
-            <div class="day-cell">
-                <h5 class="today"><span>${day}</span></h5></div>`;
+            // grid.innerHTML += `
+            // <div class="day-cell">
+            //     <h5 class="today"><span>${day}</span></h5></div>`;
+            grid.appendChild(createCalendarCell(day, [], [], 'today'));
         }else{
-            grid.innerHTML += `
-            <div class="day-cell">
-                <h5>${day}</h5>
-                <div class= "calendar-task">Task 1</div>
-                <div class= "calendar-template">Template 1</div>
-                <div class= "calendar-task done">Task 2</div>
-                <div class= "calendar-template done">Template 2</div>
-                </div>`;
+            // grid.innerHTML += `
+            // <div class="day-cell">
+            //     <h5>${day}</h5>
+            //     <div class= "calendar-task">Task 1</div>
+            //     <div class= "calendar-template">Template 1</div>
+            //     <div class= "calendar-task done">Task 2</div>
+            //     <div class= "calendar-template done">Template 2</div>
+            //     </div>`;
+            grid.appendChild(createCalendarCell(day, 
+                    [{ name: 'Task 1', done: false }, { name: 'Task 2', done: true }], 
+                    [{ name: 'Template 1', done: false }, { name: 'Template 2', done: true }],
+                    'normal'));
         }
       
       totalCells++;
@@ -64,11 +74,58 @@ function generateCalendar(month, year, today) {
     var days = 1;
 
     while ((totalCells % 7) != 0){
-        grid.innerHTML += `<div class="day-cell disabled"><h5>${days}</h5></div>`;
+        // grid.innerHTML += `<div class="day-cell disabled"><h5>${days}</h5></div>`;
+        grid.appendChild(createCalendarCell(days, [], [], 'disabled'));
         totalCells++;
         days++;
     }
   }
+
+function createCalendarCell(dayNumber, tasks, templates, status = 'normal') {
+    // Access the template
+    const template = document.getElementById('calendarCell');
+    
+    // Clone the template content
+    const clone = template.content.cloneNode(true);
+    
+    // Modify the cloned content
+    const dayCell = clone.querySelector('.day-cell');
+
+    // Add the day number
+    const dayNumberElement = document.createElement('h5');
+    if (status === 'today') {
+        dayNumberElement.className = 'today';
+        const todaySpan = document.createElement('span');
+        todaySpan.textContent = dayNumber;  
+        dayNumberElement.appendChild(todaySpan);
+    }else{
+        dayNumberElement.textContent = dayNumber;
+    }
+    dayCell.appendChild(dayNumberElement);
+    
+    if(status === 'disabled') {
+        dayCell.classList.add('disabled');
+    }else{
+        // Add tasks
+        tasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = task.done ? 'calendar-task done' : 'calendar-task';
+            taskElement.textContent = task.name;
+            dayCell.appendChild(taskElement);
+        });
+        
+        // Add templates
+        templates.forEach(template => {
+            const templateElement = document.createElement('div');
+            templateElement.className = template.done ? 'calendar-template done' : 'calendar-template';
+            templateElement.textContent = template.name;
+            dayCell.appendChild(templateElement);
+        });
+    }
+    
+    // Return the modified cell
+    return clone;
+}
 
 //   month change view logic
   var month = today.getMonth();
