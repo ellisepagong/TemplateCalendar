@@ -46,15 +46,7 @@
                 </div>
             </div>
             <div id = "saved-tasks" class="saved-drawer-body">
-                <!-- <div class="saved-task-item">
-                    Saved Task 1
-                    <button><img src="assets/more.png"></button>
-                </div>
-                <div class="saved-task-item">
-                    Saved Task 2
-                    <button><img src="assets/more.png"></button>
-                </div> -->
-                <div class = "saved-task-item" style="justify-content:flex-start;">
+                <div class = "saved-task-item" style="justify-content:flex-start;" id="new-saved-task">
                     <button><img src="assets/plus.png"></button>
                     Add new Task...
                 </div>
@@ -68,21 +60,7 @@
                 </div>
             </div>
             <div id="saved-templates" class="saved-drawer-body">
-                <div id = 'saved-template-item'>
-                    <!-- <div class='saved-template-item-head'>
-                        <h4>Template 1</h4>
-                        <h4>5/10</h5>
-                    </div>
-                    <div class="saved-template-item-body">
-                        <div class="saved-template-task">
-                            Template Task 1
-                            <button><img src="assets/more.png"></button>
-                        </div>
-                        <div class="saved-template-task">
-                            Template Task 2
-                            <button><img src="assets/more.png"></button>
-                        </div>
-                    </div> -->
+                <div id = new-template>
                     <div class = 'saved-template-item-head'>
                         <h4>Add new template</h4>
                         <h4>0/10</h5>
@@ -124,7 +102,7 @@
                     </div>
                 </div>
             </div> -->
-            <div class="task-item">
+            <div class="task-item" id="day-view-new-task">
                 <img src="assets/plus.png">
                 Add new Task...
             </div>
@@ -159,11 +137,10 @@
     <!-- Templates -->
     <!-- Day view Task -->
     <template id="dayViewTask">
-        <div class="task-item">
+        <div class="task-item" id = "task">
             <input type="checkbox" id="taskdone">
             <label for="taskdone" class="checkbox-label">
                 <span class="checkmark"></span>
-                <p> Task 1</p>
             </label>
         </div>
     </template>
@@ -182,41 +159,31 @@
             <input type="checkbox" id="taskdone1">
             <label for="taskdone1" class="checkbox-label">
                 <span class="checkmark"></span>
-                <p> Task 1</p>
             </label>
         </div>
     </template>
     <!-- Saved Task -->
     <template id = "savedTask">
         <div class="saved-task-item">
-            Saved Task 1
-            <button><img src="assets/more.png"></button>
         </div>
     </template>
     <!--Saved Template-->
     <template id = "savedTemplate">
-        <div class='saved-template-item-head'>
-            <h4>Template 1</h4>
-            <h4>5/10</h5>
-        </div>
-        <div class="saved-template-item-body">
+        <div>
+            <div class='saved-template-item-head'>
+            </div>
+            <div class="saved-template-item-body">
+            </div>
         </div>
     </template>
     <!--Saved Template Task-->
     <template id="savedTemplateTask">
         <div class="saved-template-task">
-            Template Task 1
-            <button><img src="assets/more.png"></button>
         </div>
     </template>
     <!--Calendar Cell-->
     <template id="calendarCell">
         <div class="day-cell">
-            <!-- <h5>1</h5>
-            <div class="calendar-task">Task 1</div>
-            <div class="calendar-template">Template 1</div>
-            <div class="calendar-task done">Task 2</div>
-            <div class="calendar-template done">Template 2</div> -->
         </div>
     </template>
     <script src="js/calendar.js" defer></script>
