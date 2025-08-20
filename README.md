@@ -15,8 +15,8 @@ That’s not too bad for one chore, but multiply that across groceries and clean
 
 ### That's where this app comes in. Check this out:
 
-![Tasks View](frontend\assets\mockup\tasks.png)
-![Templates View](frontend\assets\mockup\templates.png)
+![Tasks View](frontend/assets/mockup/tasks.png)
+![Templates View](frontend/assets/mockup/templates.png)
 
 See those saved tasks and templates? Instead of strict recurring events, you save flexible tasks and groups of tasks called templates. Just drag and drop them onto any free day. Got a sudden conflict? No worries, just drag that to another date, and you're all set.
 
@@ -49,12 +49,12 @@ This project serves as a hands-on refresher of backend Java development, as well
 
 ##  🖼️ UI Mockup
 
-![Login page](frontend\assets\mockup\login.png)
-![Register page](frontend\assets\mockup\register.png)
-![Calendar View](frontend\assets\mockup\calendar.png)
-![Tasks View](frontend\assets\mockup\tasks.png)
-![Templates View](frontend\assets\mockup\templates.png)
-![Day View 1](frontend\assets\mockup\today.png)
-![Day View 2](frontend\assets\mockup\empty.png)
+![Login page](frontend/assets/mockup/login.png)
+![Register page](frontend/assets/mockup/register.png)
+![Calendar View](frontend/assets/mockup/calendar.png)
+![Tasks View](frontend/assets/mockup/tasks.png)
+![Templates View](frontend/assets/mockup/templates.png)
+![Day View 1](frontend/assets/mockup/today.png)
+![Day View 2](frontend/assets/mockup/empty.png)
 
 
