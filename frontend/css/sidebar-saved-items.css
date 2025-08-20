@@ -7,23 +7,23 @@
 
 #saved-items::-webkit-scrollbar {
     width: 5px;
-    background: #2b2a2a;
+    background: var(--sidebar-background);
 }
 
 #saved-items::-webkit-scrollbar-thumb {
-    background: #595959;
+    background: var(--sidebar-scroll-bg);
     border-radius: 5px;
 }
 
 #saved-items::-webkit-scrollbar-thumb:hover {
-    background: #8e8e8e;
+    background: var(--sidebar-scroll-hover);
 }
 
 
 .saved-drawer {
     width: 95%;
     margin-top: 1em;
-    background-color: #009696;
+    background-color: var(--task);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -61,7 +61,7 @@
 }
 
 .saved-drawer-body {
-    background-color: #00474c;
+    background-color: var(--task-body);
     margin: 0;
     padding: 0;
     max-height: 0;
@@ -83,22 +83,22 @@
 
 #saved-items::-webkit-scrollbar {
     width: 5px;
-    background: #2b2a2a;
+    background: var(--sidebar-background);
 }
 
 #saved-items::-webkit-scrollbar-thumb {
-    background: #595959;
+    background: var(--sidebar-scroll-bg);
     border-radius: 5px;
 }
 
 #saved-items::-webkit-scrollbar-thumb:hover {
-    background: #8e8e8e;
+    background: var(--sidebar-scroll-hover);
 }
 
 /* Saved Tasks */
 
 .saved-task-item {
-    background-color: #009696;
+    background-color: var(--task);
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 8px;
@@ -155,7 +155,7 @@
 }
 
 .saved-template-item-body {
-    background-color: #1e523c;
+    background-color: var(--template-body);
     margin: 0;
     margin-left: 10px;
     margin-right: 10px;
@@ -166,7 +166,7 @@
 }
 
 .saved-template-task {
-    background-color: #009696;
+    background-color: var(--task);
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 8px;
@@ -190,7 +190,7 @@
 
 .saved-template-toggle{
     text-align: center;
-    background-color: #1e523c;
+    background-color: var(--template);
     margin: 0;
     margin-left: 10px;
     margin-right: 10px;

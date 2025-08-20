@@ -34,8 +34,8 @@
 }
 
 .today span {
-    background-color: #00c9b7;
-    color: white;
+    background-color: var(--date-highlight);
+    color: var(--text);
     padding: 4px 8px;
     border-radius: 12px;
     font-weight: bold;
@@ -44,7 +44,7 @@
 
 
 .calendar-task {
-    background-color: #009696;
+    background-color: var(--task);
     font-size: small;
     padding: 5px;
     margin-top: 5px;
@@ -53,7 +53,7 @@
 }
 
 .calendar-template {
-    background-color: #328c66;
+    background-color: var(--template-head);
     font-size: small;
     padding: 5px;
     margin-top: 5px;

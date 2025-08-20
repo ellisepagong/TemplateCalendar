@@ -2,28 +2,38 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
 
-/* Color Variables */
+/* Constants */
 :root {
-    --color-card: #00474c;
-    --color-input: #001517;
-    --color-background: #1e1f2a;
+    --background: #1e1f2a;
     --sidebar-background: #2b2a2a;
+    --sidebar-border: #454545;
+    --sidebar-highlight: #6f6c6c;
+    --sidebar-scroll-bg: #595959;
+    --sidebar-scroll-hover:#8e8e8e;
+
     --calendar-active: #6d6c6c;
     --calendar-inactive: #3e3d3d;
-    --color-text: #fafafa;
-    --color-button: #009696;
+    --date-highlight: #00c9b7;
+
+    --text: #fafafa;
+    --task: #009696;
+    --task-body: #00474c;
+    --template: #328c66;
+    --template-body:#1e523c;
+
     --font-main: 'Overpass', sans-serif;
     --font-heading: 'Zain', sans-serif;
+
 }
 
 body{
-    background-color: var(--color-background);
+    background-color: var(--background);
     font-family: var(--font-main);
     margin: 0px;
     display: flex;
     flex-wrap: nowrap;
     text-align: center;
-    color: var(--color-text);
+    color: var(--text);
 }
 
 button {
@@ -92,7 +102,7 @@ button {
 /*attribution*/
 
 #attribution {
-    color: var(--color-text);
+    color: var(--text);
     font-size: 15px;
     position: relative;
     bottom: 20px;

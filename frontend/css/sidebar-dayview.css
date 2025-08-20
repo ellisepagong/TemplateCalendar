@@ -5,16 +5,16 @@
 
 #my-day::-webkit-scrollbar {
     width: 5px;
-    background: #2b2a2a;
+    background: var(--sidebar-background);
 }
 
 #my-day::-webkit-scrollbar-thumb {
-    background: #595959;
+    background: var(--sidebar-scroll-bg);
     border-radius: 5px;
 }
 
 #my-day::-webkit-scrollbar-thumb:hover {
-    background: #8e8e8e;
+    background: var(--sidebar-scroll-hover);
 }
 
 
@@ -30,7 +30,7 @@
 }
 
 .task-item {
-    background-color: #009696;
+    background-color: var(--task);
     margin: 8px 10px 0;
     padding: 7px 10px 5px 15px;
     border-radius: 10px;
@@ -71,17 +71,17 @@
     width: 15px;
     border-radius: 15px;
     border: 1.5px solid #eee;
-    background-color: #009696;
+    background-color: var(--task);
     transition: background-color 0.3s ease;
 }
 
 .checkbox-label:hover .checkmark {
-    background-color: #1e523c;
+    background-color: var(--template-body);
 }
 
 .task-item input:checked~.checkbox-label .checkmark,
 .template-task-item input:checked~.checkbox-label .checkmark {
-    background-color: #009696;
+    background-color: var(--task);
 }
 
 .checkmark:after {
@@ -119,7 +119,7 @@
     overflow: hidden;
     text-align: left;
     font-size: medium;
-    background-color: #328c66;
+    background-color: var(--template);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 0px;
@@ -130,14 +130,14 @@
 
 
 .template-item-body {
-    background-color: #1e523c;
+    background-color: var(--template-body);
     margin: 0px 10px;
     padding: 5px 10px 5px 15px;
     max-height: 1000px;
 }
 
 .template-task-item {
-    background-color: #009696;
+    background-color: var(--task);
     margin: 8px 0;
     padding: 5px 10px 0 15px;
     padding-left: 15px;
