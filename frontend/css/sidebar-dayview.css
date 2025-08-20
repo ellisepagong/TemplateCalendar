@@ -1,9 +1,32 @@
 #my-day{
     text-align: left;
+    overflow-y: auto;
 }
+
+#my-day::-webkit-scrollbar {
+    width: 5px;
+    background: #2b2a2a;
+}
+
+#my-day::-webkit-scrollbar-thumb {
+    background: #595959;
+    border-radius: 5px;
+}
+
+#my-day::-webkit-scrollbar-thumb:hover {
+    background: #8e8e8e;
+}
+
 
 #my-day h2, #my-day h3{
     margin: 10px 15px 0;
+    position: sticky;
+    top:10;
+}
+
+#my-day hr{
+    margin: 10px 20px;
+    position: sticky;
 }
 
 .task-item {

@@ -13,6 +13,10 @@ populateDayView(today);
 
 // LOGIC and EVENT LISTENERS
 
+// Template collapse logic
+
+
+
 // Month navigation logic
   var month = today.getMonth();
   var year = today.getFullYear();

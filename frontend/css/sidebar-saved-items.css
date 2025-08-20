@@ -19,10 +19,10 @@
     background: #8e8e8e;
 }
 
+
 .saved-drawer {
     width: 95%;
     margin-top: 1em;
-    height: 3.5em;
     background-color: #009696;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -32,7 +32,7 @@
     overflow: hidden;
     transition: 0.5s;
     padding: 0;
-}
+} 
 
 .saved-drawer.open {
     transition: 0.5s;
@@ -71,7 +71,7 @@
 }
 
 .saved-drawer-body.open {
-    max-height: 1000px;
+    max-height: none;
     padding-bottom: 15px;
 }
 
@@ -93,62 +93,6 @@
 
 #saved-items::-webkit-scrollbar-thumb:hover {
     background: #8e8e8e;
-}
-
-.saved-drawer {
-    width: 95%;
-    margin-top: 1em;
-    height: 3.5em;
-    background-color: #009696;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    display: grid;
-    overflow: hidden;
-    transition: 0.5s;
-    padding: 0;
-}
-
-.saved-drawer.open {
-    transition: 0.5s;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-} 
-
-.saved-drawer button{
-    height: 4em;
-}
-
-.saved-drawer h3{
-    margin: 5px;
-    width: 100%;
-    text-align: left;
-}
-
-.saved-drawer img {
-    max-width: 16px;
-    max-height: 16px;
-    transition: transform 0.4s;
-}
-
-.saved-drawer.open img {
-    transform: rotate(90deg);
-}
-
-.saved-drawer-body {
-    background-color: #00474c;
-    margin: 0;
-    padding: 0;
-    max-height: 0;
-    width: 95%;
-    transition: max-height 1s;
-    overflow:hidden;
-}
-
-.saved-drawer-body.open{
-    max-height: 1000px;
-    padding-bottom: 15px;
 }
 
 /* Saved Tasks */
@@ -187,10 +131,11 @@
 /* Saved Template and Template Tasks */
 
 .saved-template-item-head {
-    width: 91%;
     margin-top: 1em;
     height: 2.5em;
-    margin-left: 15px;
+    /* margin-left: 15px; */
+        margin-left: 10px;
+    margin-right: 10px;
     background-color: #328c66;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -212,12 +157,12 @@
 .saved-template-item-body {
     background-color: #1e523c;
     margin: 0;
-    margin-left: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 0;
-    padding-bottom: 10px;
+    padding-bottom: 0;
     padding-top: 8px;
     max-height: 1000px;
-    width: 91%;
 }
 
 .saved-template-task {
@@ -236,9 +181,29 @@
     font-size: small;
 }
 
-.saved-template-task img {
+/* .saved-template-task img {
     max-width: 10px;
     max-height: 10px;
     margin-right: 10px;
     margin-bottom: 3px;
 }
+
+.saved-template-toggle{
+    text-align: center;
+    background-color: #1e523c;
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 3px;
+}
+
+.saved-template-toggle img{
+    max-width: 20px;
+    max-height: 20px;
+    transition: 0.5s;
+}
+
+.saved-template-toggle img.toggled{
+    transform: rotate(180deg);
+    transition: 0.5s;
+} */
