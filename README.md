@@ -1,19 +1,26 @@
 
-# 📚 Template Calendar (Ongoing Project)
+# 📚 Template Calendar
+
+This is an ongoing project of mine to improve my understanding of JavaScript, learn Spring, Hibernate JPA, and Docker!
 
 ## 🗓️ Project Description
 
-This is an ongoing project for a web-based calendar application designed around flexible, habit-based planning. Instead of assigning recurring tasks to rigid schedules, users can create reusable task templates (like a "Grocery Run" or "Monthly budget check") and assign them to any date that fits their availability.
+Everyone has those tasks and commitments that happen pretty regularly, but you *don’t really care which day you do them.* Sure, you could set a reminder saying 'Do laundry' every saturday, but... 
 
-The app aims to support:
+> Oh no! You get invited to an all-day event this Saturday.
 
-- Delegation of grouped tasks
+Now you have to reschedule your laundry day to sunday, and your calendar asks if *every* laundry day should move to Sunday. 
 
-- Scheduling of recurring but irregular routines
+That’s not too bad for one chore, but multiply that across groceries and cleaning, not to mention your professional commitments... and your calendar suddenly becomes a headache.
 
-- A more adaptable alternative to traditional calendar apps
+### That's where this app comes in. Check this out:
 
-Designed for users who plan around routines but need the flexibility to shift things when life gets busy.
+![Tasks View](frontend\assets\mockup\tasks.png)
+![Templates View](frontend\assets\mockup\templates.png)
+
+See those saved tasks and templates? Instead of strict recurring events, you save flexible tasks and groups of tasks called templates. Just drag and drop them onto any free day. Got a sudden conflict? No worries, just drag that to another date, and you're all set.
+
+No rescheduling. No endless confirmations. Just a simple way to keep up with the things that matter, at the pace that works for you.
 
 
 ## 🧩 Personal Goals
@@ -37,19 +44,8 @@ This project serves as a hands-on refresher of backend Java development, as well
 | Java 21.0.3        |   HTML   |
 | Spring Boot/Security|   CSS   | 
 | Spring Data JPA/Hibernate   |  JavaScript   |
-| PostgreSQL   |  React   |
-| Postman   |  Selenium   |
-
-
-
-
-##  📌 Current Progress and Future Directives
-
-| Implemented       | In Progress | To-Do |
-| :---------------- | :------ | :------ |
-| HTTPS endpoints | Frontend Implementation | API Containerization |
-| User Authentication | ------ | Frontend Integration|
-| Testing with Postman | ------ | Testing with Selenium |
+| PostgreSQL   |  Selenium   |
+| Postman   |     |
 
 ##  🖼️ UI Mockup
 
