@@ -1,0 +1,159 @@
+#my-day{
+    text-align: left;
+    overflow-y: auto;
+}
+
+#my-day::-webkit-scrollbar {
+    width: 5px;
+    background: var(--sidebar-background);
+}
+
+#my-day::-webkit-scrollbar-thumb {
+    background: var(--sidebar-scroll-bg);
+    border-radius: 5px;
+}
+
+#my-day::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-scroll-hover);
+}
+
+
+#my-day h2, #my-day h3{
+    margin: 10px 15px 0;
+    position: sticky;
+    top:10;
+}
+
+#my-day hr{
+    margin: 10px 20px;
+    position: sticky;
+}
+
+.task-item {
+    background-color: var(--task);
+    margin: 8px 10px 0;
+    padding: 7px 10px 5px 15px;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    text-align: left;
+    font-size: small;
+    display: flex;
+    position: relative;
+}
+
+.task-item input, .template-task-item input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    margin: 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 15px;
+    width: 15px;
+    border-radius: 15px;
+    border: 1.5px solid var(--text);
+    background-color: var(--task);
+    transition: background-color 0.3s ease;
+}
+
+.checkbox-label:hover .checkmark {
+    background-color: var(--template-body);
+}
+
+.task-item input:checked~.checkbox-label .checkmark,
+.template-task-item input:checked~.checkbox-label .checkmark {
+    background-color: var(--task);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.task-item input:checked~.checkbox-label .checkmark:after,
+.template-task-item input:checked~.checkbox-label .checkmark:after {
+    display: block;
+}
+
+.checkmark:after {
+    left: 3.5px;
+    top: 1px;   
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.task-item input:checked~.checkbox-label p,
+.template-task-item input:checked~.checkbox-label p{
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.template-item-head {
+    margin: 8px 10px 0;
+    padding: 15px 10px 0px 10px;
+    border-radius: 10px;
+    height: 30px;
+    overflow: hidden;
+    text-align: left;
+    font-size: medium;
+    background-color: var(--template);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.template-item-body {
+    background-color: var(--template-body);
+    margin: 0px 10px;
+    padding: 5px 10px 5px 15px;
+    max-height: 1000px;
+}
+
+.template-task-item {
+    background-color: var(--task);
+    margin: 8px 0;
+    padding: 5px 10px 0 15px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 5px;
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    font-size: small;
+}
+
+.saved-template-task img {
+    max-width: 10px;
+    max-height: 10px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+}

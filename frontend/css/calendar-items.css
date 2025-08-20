@@ -1,0 +1,65 @@
+.day-cell {
+    border: transparent;
+    background-color: var(--calendar-active);
+    padding: 10px;
+    padding-top: 0;
+    text-align: left;
+    height: 20vh;
+    overflow-y: hidden;
+}
+
+.day-cell.disabled {
+    background-color: var(--calendar-inactive);
+}
+
+.day-cell h5 {
+    margin: 0;
+    padding: 10px 0 5px;
+    font-size: 9pt;
+    width: 100%;
+    font-family: var(--font-main);
+    background-color: inherit;
+    position: sticky;
+    top: 0;
+}
+
+.day-cell::-webkit-scrollbar {
+    display: none;
+}
+
+.day-cell:hover {
+    overflow-y: auto;
+}
+
+.today span {
+    background-color: var(--date-highlight);
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+
+
+.calendar-task {
+    background-color: var(--task);
+    font-size: small;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow-x: hidden;
+}
+
+.calendar-template {
+    background-color: var(--template);
+    font-size: small;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow-x: hidden;
+}
+
+.done {
+    text-decoration: line-through;
+    color: #ffffff80;
+}

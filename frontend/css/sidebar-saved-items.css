@@ -1,0 +1,184 @@
+/* Saved Tasks and Saved Templates Elements */
+
+#saved-items {
+    padding-left: 15px;
+    overflow-y: auto;
+}
+
+#saved-items::-webkit-scrollbar {
+    width: 5px;
+    background: var(--sidebar-background);
+}
+
+#saved-items::-webkit-scrollbar-thumb {
+    background: var(--sidebar-scroll-bg);
+    border-radius: 5px;
+}
+
+#saved-items::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-scroll-hover);
+}
+
+
+.saved-drawer {
+    width: 95%;
+    margin-top: 1em;
+    background-color: var(--task);
+    border-radius: 8px;
+    display: grid;
+    overflow: hidden;
+    transition: 0.5s;
+    padding: 0;
+} 
+
+.saved-drawer.open {
+    transition: 0.5s;
+    border-radius: 8px 8px 0 0;
+}
+
+.saved-drawer button {
+    height: 4em;
+}
+
+.saved-drawer h3 {
+    margin: 5px;
+    width: 100%;
+    text-align: left;
+}
+
+.saved-drawer img {
+    max-width: 16px;
+    max-height: 16px;
+    transition: transform 0.4s;
+}
+
+.saved-drawer.open img {
+    transform: rotate(90deg);
+}
+
+.saved-drawer-body {
+    background-color: var(--task-body);
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    width: 95%;
+    transition: max-height 1s;
+    overflow: hidden;
+}
+
+.saved-drawer-body.open {
+    max-height: 3000px;
+    padding-bottom: 15px;
+}
+
+
+#saved-items{
+    padding-left: 15px;
+    overflow-y: auto;
+}
+
+#saved-items::-webkit-scrollbar {
+    width: 5px;
+    background: var(--sidebar-background);
+}
+
+#saved-items::-webkit-scrollbar-thumb {
+    background: var(--sidebar-scroll-bg);
+    border-radius: 5px;
+}
+
+#saved-items::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-scroll-hover);
+}
+
+/* Saved Tasks */
+
+.saved-task-item {
+    background-color: var(--task);
+    margin: 8px 10px 0;
+    padding: 5px 10px 0 15px;
+    border-radius: 10px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    font-size: small;
+}
+
+.saved-task-item img,
+.saved-template-task img {
+    max-width: 10px;
+    max-height: 10px;
+    margin: 0 10px 3px 0;
+}
+.saved-task-item button, 
+.saved-template-task button {
+    max-width: 10px;
+    max-height: 10px;
+    margin: 0 10px 3px 0;
+}
+
+/* Saved Template and Template Tasks */
+
+.saved-template-item-head {
+    height: 2.5em;
+    margin: 1em 10px 0;
+    background-color: var(--template);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    overflow-y: hidden; 
+    transition: 0.5s;
+    padding: 0;
+}
+
+.saved-template-item-head h4 {
+    padding: 0 10px;
+    margin-top: 15px;
+}
+
+.saved-template-item-body {
+    background-color: var(--template-body);
+    margin: 0 10px;
+    padding-top: 8px;
+    max-height: 1000px;
+}
+
+.saved-template-task {
+    background-color: var(--task);
+    margin: 8px 10px 0;
+    padding: 5px 10px 0 15px;
+    border-radius: 10px;
+    height: 20px;
+    display: flex;
+    align-items: left;
+    justify-content: space-between;
+    font-size: small;
+}
+
+/* .saved-template-task img {
+    max-width: 10px;
+    max-height: 10px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+}
+
+.saved-template-toggle{
+    text-align: center;
+    background-color: var(--template);
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 3px;
+}
+
+.saved-template-toggle img{
+    max-width: 20px;
+    max-height: 20px;
+    transition: 0.5s;
+}
+
+.saved-template-toggle img.toggled{
+    transform: rotate(180deg);
+    transition: 0.5s;
+} */

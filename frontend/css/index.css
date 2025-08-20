@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+
+/* Color Variables */
+:root {
+    --color-card: #00474c;
+    --color-input: #001517;
+    --color-background: #1e1f2a;
+    --color-text: #fafafa;
+    --color-button: #009696;
+    --font-main: 'Overpass', sans-serif;
+    --font-heading: 'Zain', sans-serif;
+}
+
+body{
+    background-color: var(--color-background);
+    padding-top: 50px;
+    font-family: var(--font-main);
+}
+
+/* Containers */
+#login-card {
+    position: absolute ;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 500px;
+    background: var(--color-card);
+    border-radius: 12px;
+    text-align: center;
+    z-index: 100;
+}
+
+#register-card{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 870px;
+    height: 500px;
+    background: var(--color-card);
+    border-radius: 12px;
+    text-align: center;
+    z-index: 100;
+}
+
+.img-container{
+    margin-top: 40px;
+	max-height: 64px;
+	max-width: 64px;
+    margin-inline: auto;
+}
+.form{
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    pointer-events: none;
+    transition: opacity 0.4s, transform 0.3s;
+}
+
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 0.4s, transform 0.3s;
+}
+
+.button-login {
+    margin-inline: auto;
+}
+
+.button-reg {
+    margin-inline: 10px;
+}
+
+#attribution {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--color-text);
+    background: transparent;
+    font-size: 15px;
+    margin: 0;
+    padding: 8px 0;
+    z-index: 100;
+}
+
+/*elements*/
+h1{
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    font-size: x-large;
+    font-weight: 600;
+    width: 100%;
+}
+
+input{
+    background-color: var(--color-input);
+    height: 45px;
+    width: 380px;
+    color: var(--color-text);
+    border: transparent;
+    font-weight: bold; 
+    text-align: center;
+    border-radius: 5px;
+    margin-inline: auto;
+}
+
+button{
+    background-color: var(--color-button);
+    border: transparent;
+    color: var(--color-text);
+    height: 45px;
+    font-weight: bold;
+    text-align: center;
+    width: 250px;
+    border-radius: 5px;
+}
+
+
+

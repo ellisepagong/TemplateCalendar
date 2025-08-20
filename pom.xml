@@ -21,10 +21,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.github.ellisepagong</groupId>-->
+<!--            <artifactId>TemplateCalendar</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.github.ellisepagong</groupId>
-            <artifactId>TemplateCalendar</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -34,8 +39,9 @@
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if you prefer -->
+            <version>0.11.5</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

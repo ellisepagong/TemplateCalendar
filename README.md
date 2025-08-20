@@ -1,55 +1,60 @@
 
 # 📚 Template Calendar
 
+This is an ongoing project of mine to improve my understanding of JavaScript, learn Spring, Hibernate JPA, and Docker!
 
-## 🗓️ Application Goal
-The application is a calendar planner focused on helping users maintain routines and structure. Specifically, it:
+## 🗓️ Project Description
 
-- Allows users to delegate “sets” of tasks and chores for habit/routine-based planning
+Everyone has those tasks and commitments that happen pretty regularly, but you *don’t really care which day you do them.* Sure, you could set a reminder saying 'Do laundry' every saturday, but... 
 
-- Enables day-to-day task tracking, as well as template-based task delegation
+> Oh no! You get invited to an all-day event this Saturday.
 
-- Aims to help users:
+Now you have to reschedule your laundry day to sunday, and your calendar asks if *every* laundry day should move to Sunday. 
 
-    - Build and maintain good habits
+That’s not too bad for one chore, but multiply that across groceries and cleaning, not to mention your professional commitments... and your calendar suddenly becomes a headache.
 
-    - Manage stress
+### That's where this app comes in. Check this out:
 
-    - Provide a sense of control over time and personal responsibilities
+![Tasks View](frontend\assets\mockup\tasks.png)
+![Templates View](frontend\assets\mockup\templates.png)
 
-    - Stay organized around household or personal needs
+See those saved tasks and templates? Instead of strict recurring events, you save flexible tasks and groups of tasks called templates. Just drag and drop them onto any free day. Got a sudden conflict? No worries, just drag that to another date, and you're all set.
+
+No rescheduling. No endless confirmations. Just a simple way to keep up with the things that matter, at the pace that works for you.
 
 
-## 🧩 Project Description & Personal Goals
-This project serves as a hands-on refresher of backend Java development, as well as a learning tool and a portfolio piece with a strong focus on:
+## 🧩 Personal Goals
+This project serves as a hands-on refresher of backend Java development, as well as a learning tool and a portfolio piece with the goals of:
 
 - Reviewing and recalling **Java backend** and **OOP fundamentals**
 
-- Strengthening **database design** and SQL proficiency through **PostgreSQL**, with prior experience in MySQL, MariaDB, and JDBC
-
 - Building familiarity with the **Spring Boot ecosystem** (JPA, repositories, controllers, and service layers)
 
-- Applying previous experience in **API testing** using tools like **Postman** and manual API validation
+- Learning **API containerization** with Docker
+
+- Improving understanding of **JavaScript**, with previous experience with in-line JavaScript in HTML and CSS
+
+- Applying previous experience in **software automation testing** with Selenium, and learning **API testing** with Postman.
 
 
-## 🛠️ Tech Stack
-- Java 21.0.3
+## 🛠️ Tech Stack and Tools
 
-- Spring Boot
+| Backend           | Frontend |
+| :---------------- | :------ | 
+| Java 21.0.3        |   HTML   |
+| Spring Boot/Security|   CSS   | 
+| Spring Data JPA/Hibernate   |  JavaScript   |
+| PostgreSQL   |  Selenium   |
+| Postman   |     |
 
-- Spring Data JPA
+##  🖼️ UI Mockup
 
-- PostgreSQL
-
-
-
-##  📌 Future Directives
-
-- Add authentication and user sessions
-
-- Integrate with a frontend (TypeScript, React, etc.)
-
-    - Apply frontend web testing methods with Selenium
-
+![Login page](frontend\assets\mockup\login.png)
+![Register page](frontend\assets\mockup\register.png)
+![Calendar View](frontend\assets\mockup\calendar.png)
+![Tasks View](frontend\assets\mockup\tasks.png)
+![Templates View](frontend\assets\mockup\templates.png)
+![Day View 1](frontend\assets\mockup\today.png)
+![Day View 2](frontend\assets\mockup\empty.png)
 
 

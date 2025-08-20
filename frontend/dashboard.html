@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/dashboard.css"> 
+    <link rel="stylesheet" href="css/sidebar-layout.css">
+    <link rel="stylesheet" href="css/sidebar-dayview.css">
+    <link rel="stylesheet" href="css/sidebar-saved-items.css">
+    <link rel="stylesheet" href="css/calendar-items.css">
+    <title>Dashboard | Template Calendar</title>
+</head>
+<body>
+    <div id="sidebar-head"> <!--sidebar-layout.css-->
+        <!-- 
+            Sidebar header
+            
+            Contains buttons to open the sidebar body and page navigation
+        -->
+        <div>
+            <button id="day-view" class="sidebar-button">
+                <img src="assets/calendar.png" class="menu-img-container">
+            </button>
+            <button id="saved-view" class="sidebar-button">
+                <img src="assets/favourite.png" class="menu-img-container">
+            </button>
+        </div>
+        <div>
+            <button>
+                <img src="assets/cogwheel.png" class="menu-img-container">
+            </button>
+            <button>
+                <img src="assets/log-out.png" class="menu-img-container">
+            </button>
+        </div>
+    </div>
+    <div id="sidebar-body" class = "hidden"> 
+    <!-- 
+        Sidebar drawer
+
+        Open/close using sidebar header drawers or 'back' button in drawer head 
+
+        Contains per day agenda and saved items
+    -->
+        <div id="drawer-head">
+            <button id="collapse">
+            <img src="assets/left.png" class="header-img-container-right">
+            </button>
+        </div>
+        <div id="saved-items" class="hidden"> <!-- sidebar-saved-items.css-->
+
+            <!-- 
+            
+            Saved Items container
+
+            Saved task id format - saved-task-{database id}
+
+            Saved template id format - saved-temp-{db id}
+
+            No ids for template tasks
+            
+            -->
+
+            <div class="saved-drawer" id = "tasks-drawer">
+                <div style="display:flex; align-items: center;" class="open">
+                    <button id="task-toggle">
+                        <img src="assets/right.png">
+                    </button>
+                    <h3>Saved Tasks</h3>
+                </div>
+            </div>
+            <div id = "saved-tasks" class="saved-drawer-body">
+                <div class = "saved-task-item" style="justify-content:flex-start;" id="new-saved-task">
+                    <button><img src="assets/plus.png"></button>
+                    Add new Task...
+                </div>
+            </div>
+            <div class="saved-drawer" id = "templates-drawer">
+                <div style="display:flex; align-items: center;">
+                    <button id="template-toggle">
+                        <img src="assets/right.png">
+                    </button>
+                    <h3>Saved Templates</h3>
+                </div>
+            </div>
+            <div id="saved-templates" class="saved-drawer-body">
+                <div id = new-template>
+                    <div class = 'saved-template-item-head'>
+                        <h4>Add new template</h4>
+                        <h4>0/10</h5>
+                    </div>
+                    <div class="saved-template-item-body" style = "align-items: center;">
+                        <img src = "assets\plus.png" class="menu-img-container" style = "margin: 15px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id = 'my-day' class="hidden"> <!-- sidebar-dayview.css-->
+
+            <!-- 
+            
+                Agenda container
+
+                Content dynamic based on selected date, but default is current date
+
+                Task id format - agenda-task-{database id}
+
+                Template id format - agenda-temp-{db id}
+
+                Template task id format - agenda-temp-task-{db id}
+            
+            -->
+
+            <h2 id = "date-relative">Today</h2>
+            <h3 id = "date">Sunday, March 13, 2025</h3>
+            <hr>
+            <div class="task-item" id="day-view-new-task">
+                <img src="assets/plus.png">
+                Add new Task...
+            </div>
+        </div>
+    </div>
+    <div id="calendar-view"> <!-- calendar-items.css -->
+
+        <!-- 
+            Calendar container
+
+            calendar-head: Month navigation and weekday label
+
+            calendar-grid: Dynamic calendar view with template and task names
+
+            calendar cell id format: YYMMDD [ex. October 11, 2025 -> 251011]
+            
+            id format is used to call get by date from backend
+        -->
+
+        <div id="calendar-head">
+            <button id="prev-month">
+                <img src="assets/left.png" class="header-img-container-left">
+            </button>
+            <h1 id ='month-year'></h1>
+            <button id="next-month">
+                <img src="assets/right.png" class="header-img-container-right">
+            </button>
+        </div>
+        <div class="weekdays">
+            <h5>SUN</h5>
+            <h5>MON</h5>
+            <h5>TUES</h5>
+            <h5>WED</h5>
+            <h5>THU</h5>
+            <h5>FRI</h5>
+            <h5>SAT</h5>
+        </div>
+        <div id = "calendar-grid">
+
+        </div>
+        <div id="attribution">
+            <a href="https://www.flaticon.com/authors/freepik" title="Icons">Icons created by Freepik - Flaticon</a>
+        </div>
+    </div>
+    <!-- Templates -->
+    <!-- Day view  -->
+    <template id="dayViewTask">
+        <div class="task-item" id = "task">
+            <input type="checkbox" id="taskdone">
+            <label for="taskdone" class="checkbox-label">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </template>
+    <template id="dayViewTemplate">
+        <div>
+            <div class="template-item-head">Template 1
+            </div>
+            <div class="template-item-body">
+            </div>
+        </div>
+    </template>
+    <template id="dayViewTemplateTask">
+        <div class="template-task-item">
+            <input type="checkbox" id="taskdone1">
+            <label for="taskdone1" class="checkbox-label">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </template>
+    <!-- Saved View -->
+    <template id = "savedTask">
+        <div class="saved-task-item">
+        </div>
+    </template>
+    <template id = "savedTemplate">
+        <div>
+            <div class='saved-template-item-head'>
+            </div>
+            <div class="saved-template-item-body">
+                
+            </div>
+            <!-- <div class = "saved-template-toggle">
+                    <img src ="assets/down.png">
+                </div> -->
+        </div>
+    </template>
+    <template id="savedTemplateTask">
+        <div class="saved-template-task">
+        </div>
+    </template>
+    <!--Calendar Cell-->
+    <template id="calendarCell">
+        <div class="day-cell">
+        </div>
+    </template>
+    <script src="js/calendar.js" defer></script>
+</body>
+</html>

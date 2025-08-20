@@ -1,0 +1,1850 @@
+{
+	"info": {
+		"_postman_id": "c75a1a20-4b1b-4ada-9e80-ce2b1d2e9dc5",
+		"name": "Calendar API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44254197",
+		"_collection_link": "https://ellise-192406.postman.co/workspace/Ellise's-Workspace~cec690e0-e7d6-4100-8775-ce72e8e5db11/collection/44254197-c75a1a20-4b1b-4ada-9e80-ce2b1d2e9dc5?action=share&source=collection_link&creator=44254197"
+	},
+	"item": [
+		{
+			"name": "black box tests",
+			"item": [
+				{
+					"name": "USERS Test Flow",
+					"item": [
+						{
+							"name": "New User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"    let response = pm.response.json();\r",
+											"    pm.environment.set(\"userIdToDelete\", response.user.userId);\r",
+											"    pm.environment.set(\"firstNameSaved\", response.user.firstName);\r",
+											"    pm.environment.set(\"lastNameSaved\", response.user.lastName);\r",
+											"    pm.environment.set(\"emailSaved\", response.user.email);\r",
+											"    pm.environment.set(\"registeredUserToken\", response.token);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"0987654321\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/auth/register",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check for new user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.firstName).to.eql(pm.environment.get(\"firstNameSaved\"));\r",
+											"    pm.expect(jsonData.lastName).to.eql(pm.environment.get(\"lastNameSaved\"));\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"emailSaved\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{registeredUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{userIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{userIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "changes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful Patch\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.firstName).to.eql(\"Patched first name\");\r",
+											"    pm.expect(jsonData.lastName).to.eql(\"Patched last name\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{registeredUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"firstName\": \"Patched first name\",\r\n    \"lastName\": \"Patched last name\",\r\n    \"oldPassword\" : \"0987654321\",\r\n    \"newPassword\" : \"1234567890\"\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{userIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{userIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Test password patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 202\", function () {\r",
+											"    pm.response.to.have.status(202);\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.user.firstName).to.eql(\"Patched first name\");\r",
+											"    pm.expect(jsonData.user.lastName).to.eql(\"Patched last name\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{emailSaved}}\",\r\n  \"password\": \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{registeredUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{userIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{userIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check if DELETE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Deleted User not found\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{registeredUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{userIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{userIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "All requests for testing USER model and controller"
+				},
+				{
+					"name": "Tasks Test Flow",
+					"item": [
+						{
+							"name": "Get Admin Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 202\", function () {\r",
+											"    pm.response.to.have.status(202);\r",
+											"    let response = pm.response.json();\r",
+											"    pm.environment.set(\"adminUserToken\", response.token);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"email@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New plain task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"let response = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"plainTaskResponse\", response)\r",
+											"pm.environment.set(\"taskIdToDelete\", response.taskId);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskUserId\" : \"{{admin}}\",\r\n    \"taskName\" : \"POSTMAN Task test\",\r\n    \"taskDesc\" : \"Testing POST request\",\r\n    \"taskDate\" : \"{{dateToday}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New plain task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.eql(pm.variables.get(\"plainTaskResponse\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/{{taskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{taskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "plain task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful Patch\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.taskUserId).to.eql(7);\r",
+											"    pm.expect(jsonData.taskName).to.eql(\"PATCHED POSTMAN Task test\");\r",
+											"    pm.expect(jsonData.taskDesc).to.eql(\"Testing PATCH request\");\r",
+											"    pm.expect(jsonData.taskDate).to.eql(pm.variables.get(\"dateToday\"));\r",
+											"    pm.expect(jsonData.archived).to.eql(false);     \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskName\" : \"PATCHED POSTMAN Task test\",\r\n    \"taskDesc\" : \"Testing PATCH request\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/{{taskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{taskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "plain task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/{{taskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{taskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check if plain task deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Deleted Task not found\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/{{taskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{taskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{adminUserToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Saved Tasks Test Flow",
+					"item": [
+						{
+							"name": "New Saved Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"savedTaskIdToDelete\", response.savedTaskId); "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"savedTaskName\": \"POST saved task item\",\r\n    \"savedTaskUserId\": {{admin}},\r\n    \"savedTaskDesc\": \"Testing POST from POSTMAN\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/savedTasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Saved Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = pm.response.json();\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/savedTasks/{{savedTaskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTasks",
+										"{{savedTaskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New From Saved",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.expect(jsonData.taskUserId).to.eql(7);\r",
+											"    pm.expect(jsonData.taskName).to.eql(\"POST saved task item\");\r",
+											"    pm.expect(jsonData.taskDesc).to.eql(\"Testing POST from POSTMAN\");\r",
+											"    pm.expect(jsonData.taskDate).to.eql(pm.variables.get(\"dateToday\"));\r",
+											"    pm.expect(jsonData.archived).to.eql(false);     \r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"taskFromSavedId\", jsonData.taskId)\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskDate\": \"{{dateToday}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/saved/{{savedTaskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"saved",
+										"{{savedTaskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New From Saved",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/{{taskFromSavedId}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{taskFromSavedId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saved Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.savedTaskUserId).to.eql(7);\r",
+											"    pm.expect(jsonData.savedTaskName).to.eql(\"PATCHED saved task item\");\r",
+											"    pm.expect(jsonData.savedTaskDesc).to.eql(\"Testing PATCH from POSTMAN\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"savedTaskName\": \"PATCHED saved task item\",\r\n        \"savedTaskDesc\": \"Testing PATCH from POSTMAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/savedTasks/{{savedTaskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTasks",
+										"{{savedTaskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saved Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/savedTasks/{{savedTaskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTasks",
+										"{{savedTaskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check if Saved Task Deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/savedTasks/{{savedTaskIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTasks",
+										"{{savedTaskIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{adminUserToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Saved Template + Task Test Flow",
+					"item": [
+						{
+							"name": "New Saved Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.environment.set(\"savedTemplateIdToDelete\", response.savedTemplateId); \r",
+											"pm.environment.set(\"savedTemplateResponse\", response)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"savedTemplateUserId\" : {{admin}},\r\n    \"savedTemplateName\" : \"POST saved template test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/savedTemplates",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTemplates"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saved Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var response = pm.response.json();\r",
+											"    pm.expect(response).to.eql(pm.variables.get(\"savedTemplateResponse\"))\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/savedTemplates/{{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTemplates",
+										"{{savedTemplateIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tasks for saved template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.environment.set(\"savedTemplateTaskResponse\", response)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n    \"savedTemplateTaskUserId\": {{admin}},\r\n    \"savedTemplateTaskTemplateId\" : {{savedTemplateIdToDelete}},\r\n    \"savedTemplateTaskName\": \"POST template task item 1-{{dateToday}}\",\r\n    \"savedTemplateTaskDesc\": \"Testing POST from POSTMAN\"\r\n    },\r\n    {\r\n    \"savedTemplateTaskUserId\": {{admin}},\r\n    \"savedTemplateTaskTemplateId\" : {{savedTemplateIdToDelete}},\r\n    \"savedTemplateTaskName\": \"POST template task item 2-{{dateToday}}\",\r\n    \"savedTemplateTaskDesc\": \"Testing POST from POSTMAN\"\r\n    }\r\n] ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/templateTasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templateTasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tasks for saved template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var response = pm.response.json();\r",
+											"    pm.expect(response).to.eql(pm.variables.get(\"savedTemplateTaskResponse\"))\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/templateTasks/?templateId={{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templateTasks",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{savedTemplateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saved Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "   {\r\n   \"savedTemplateName\": \"PATCH saved template test\"\r\n   }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/savedTemplates/{{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTemplates",
+										"{{savedTemplateIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Template From Saved",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.expect(response.templateName).to.eql(\"PATCH saved template test\");\r",
+											"});\r",
+											"pm.environment.set(\"templateIdToDelete\", response.templateId);\r",
+											"pm.environment.set(\"newTemplate\", response)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"templateDate\": \"{{dateToday}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/templates/saved/{{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templates",
+										"saved",
+										"{{savedTemplateIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check for New Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let res = pm.response.json();\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(res).to.contain(pm.environment.get(\"newTemplate\"))\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/templates/?templateId={{templateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templates",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{templateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check for New Template Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"let dateToday = pm.environment.get(\"dateToday\");\r",
+											"let expectedTaskNames = [\r",
+											"    `POST template task item 1-${dateToday}`,\r",
+											"    `POST template task item 2-${dateToday}`\r",
+											"];\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    response.forEach((task, index) => {\r",
+											"        pm.expect(task.taskName).to.eql(expectedTaskNames[index]);\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/?templateId={{templateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{templateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saved Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/savedTemplates/{{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"savedTemplates",
+										"{{savedTemplateIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check if Saved Template Tasks Deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/templateTasks/?templateId={{savedTemplateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templateTasks",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{savedTemplateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/templates/{{templateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templates",
+										"{{templateIdToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check if new template is deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/templates/?templateId={{templateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"templates",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{templateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check for New Template Tasks Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks/?templateId={{templateIdToDelete}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										""
+									],
+									"query": [
+										{
+											"key": "templateId",
+											"value": "{{templateIdToDelete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{adminUserToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"let firstName = pm.environment.replaceIn(\"{{$randomFirstName}}\")\r",
+					"let lastName = pm.environment.replaceIn(\"{{$randomLastName}}\")\r",
+					"let email = pm.environment.replaceIn(\"{{$randomEmail}}\")\r",
+					"let username = pm.environment.replaceIn(\"{{$randomUserName}}\")\r",
+					"let password = pm.environment.replaceIn(\"{{$randomPassword}}\")\r",
+					"const today = new Date();\r",
+					"const yyyy = today.getFullYear();\r",
+					"const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed\r",
+					"const dd = String(today.getDate()).padStart(2, '0');\r",
+					"\r",
+					"const dateToday = `${yyyy}-${mm}-${dd}`;\r",
+					"\r",
+					"\r",
+					"\r",
+					"pm.environment.set(\"firstName\", firstName)\r",
+					"pm.environment.set(\"lastName\", lastName)\r",
+					"pm.environment.set(\"email\", email)\r",
+					"pm.environment.set(\"username\", username)\r",
+					"pm.environment.set(\"password\", password)\r",
+					"pm.environment.set(\"dateToday\", dateToday);\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

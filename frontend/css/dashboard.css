@@ -1,0 +1,112 @@
+/* Global Elements and classes */
+
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+
+/* Constants */
+:root {
+    --background: #191a20;
+    --sidebar-background: #2b2a2a;
+    --sidebar-border: #454545;
+    --sidebar-highlight: #6f6c6c;
+    --sidebar-scroll-bg: #595959;
+    --sidebar-scroll-hover:#8e8e8e;
+
+    --calendar-inactive: #2f303f;
+    --calendar-active: #4a4848;
+    --date-highlight: #049baf;
+
+    --text: #fafafa;
+    --task: #009696;
+    --task-body: #00474c;
+    --template: #328c66;
+    --template-body:#1e523c;
+
+    --font-main: 'Overpass', sans-serif;
+    --font-heading: 'Zain', sans-serif;
+
+}
+
+body{
+    background-color: var(--background);
+    font-family: var(--font-main);
+    margin: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    color: var(--text);
+}
+
+button {
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.hidden{
+    display: none;
+}
+
+#calendar-head{
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#calendar-view{
+    width: 93vw;
+    transition: width 0.5s;
+    padding: 0 30px;
+}
+
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.header-img-container-right {
+    margin-top: 20px;
+    max-height: 32px;
+    max-width: 32px;
+    transition: 1s;
+}
+
+.header-img-container-right:hover {
+    transform: translateX(-10px);
+    transition: 1s;
+}
+
+.header-img-container-left {
+    margin-top: 20px;
+    max-height: 32px;
+    max-width: 32px;
+    transition: 1s;
+}
+
+.header-img-container-left:hover {
+    transform: translateX(10px);
+    transition: 1s;
+}
+
+.weekdays {
+    display: grid;
+    padding-left: 30px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+/*attribution*/
+
+#attribution {
+    color: var(--text);
+    font-size: 15px;
+    position: relative;
+    bottom: 20px;
+    margin-top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+}
