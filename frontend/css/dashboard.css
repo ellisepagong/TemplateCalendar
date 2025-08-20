@@ -4,16 +4,16 @@
 
 /* Constants */
 :root {
-    --background: #1e1f2a;
+    --background: #191a20;
     --sidebar-background: #2b2a2a;
     --sidebar-border: #454545;
     --sidebar-highlight: #6f6c6c;
     --sidebar-scroll-bg: #595959;
     --sidebar-scroll-hover:#8e8e8e;
 
-    --calendar-active: #6d6c6c;
-    --calendar-inactive: #3e3d3d;
-    --date-highlight: #00c9b7;
+    --calendar-inactive: #2f303f;
+    --calendar-active: #4a4848;
+    --date-highlight: #049baf;
 
     --text: #fafafa;
     --task: #009696;
@@ -29,7 +29,7 @@
 body{
     background-color: var(--background);
     font-family: var(--font-main);
-    margin: 0px;
+    margin: 0;
     display: flex;
     flex-wrap: nowrap;
     text-align: center;
@@ -58,8 +58,7 @@ button {
 #calendar-view{
     width: 93vw;
     transition: width 0.5s;
-    padding-right: 30px;
-    padding-left: 30px;
+    padding: 0 30px;
 }
 
 #calendar-grid {

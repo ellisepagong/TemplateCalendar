@@ -24,10 +24,7 @@
     width: 95%;
     margin-top: 1em;
     background-color: var(--task);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-radius: 8px;
     display: grid;
     overflow: hidden;
     transition: 0.5s;
@@ -36,8 +33,7 @@
 
 .saved-drawer.open {
     transition: 0.5s;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 8px 8px 0 0;
 }
 
 .saved-drawer button {
@@ -71,7 +67,7 @@
 }
 
 .saved-drawer-body.open {
-    max-height: none;
+    max-height: 3000px;
     padding-bottom: 15px;
 }
 
@@ -99,12 +95,8 @@
 
 .saved-task-item {
     background-color: var(--task);
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 8px;
-    padding-left: 15px;
-    padding-right: 10px;
-    padding-top: 5px;
+    margin: 8px 10px 0;
+    padding: 5px 10px 0 15px;
     border-radius: 10px;
     height: 20px;
     display: flex;
@@ -117,30 +109,22 @@
 .saved-template-task img {
     max-width: 10px;
     max-height: 10px;
-    margin-right: 10px;
-    margin-bottom: 3px;
+    margin: 0 10px 3px 0;
 }
 .saved-task-item button, 
 .saved-template-task button {
     max-width: 10px;
     max-height: 10px;
-    margin-right: 10px;
-    margin-bottom: 3px;
+    margin: 0 10px 3px 0;
 }
 
 /* Saved Template and Template Tasks */
 
 .saved-template-item-head {
-    margin-top: 1em;
     height: 2.5em;
-    /* margin-left: 15px; */
-        margin-left: 10px;
-    margin-right: 10px;
-    background-color: #328c66;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    margin: 1em 10px 0;
+    background-color: var(--template);
+    border-radius: 8px 8px 0 0;
     display: flex;
     justify-content: space-between;
     overflow-y: hidden; 
@@ -149,30 +133,21 @@
 }
 
 .saved-template-item-head h4 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px;
     margin-top: 15px;
 }
 
 .saved-template-item-body {
     background-color: var(--template-body);
-    margin: 0;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 0;
-    padding-bottom: 0;
+    margin: 0 10px;
     padding-top: 8px;
     max-height: 1000px;
 }
 
 .saved-template-task {
     background-color: var(--task);
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 8px;
-    padding-left: 15px;
-    padding-right: 10px;
-    padding-top: 5px;
+    margin: 8px 10px 0;
+    padding: 5px 10px 0 15px;
     border-radius: 10px;
     height: 20px;
     display: flex;

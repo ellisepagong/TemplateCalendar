@@ -70,7 +70,7 @@
     height: 15px;
     width: 15px;
     border-radius: 15px;
-    border: 1.5px solid #eee;
+    border: 1.5px solid var(--text);
     background-color: var(--task);
     transition: background-color 0.3s ease;
 }
