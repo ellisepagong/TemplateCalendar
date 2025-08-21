@@ -294,6 +294,11 @@ function populateSavedTemplates(){
         // add template name and task count
         const templateName = document.createElement('H4');
         templateName.textContent = `Template ${i}`;
+
+        const collapsible = templateClone.querySelector('.saved-template-toggle');
+        collapsible.id = `template-collapse-${i}`;
+        // Collapsibe id format: template-collapse-{template db id}
+
         //TODO: populate based on API data
 
         const taskCount = document.createElement('H4');

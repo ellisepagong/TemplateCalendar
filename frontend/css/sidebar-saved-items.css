@@ -156,7 +156,7 @@
     font-size: small;
 }
 
-/* .saved-template-task img {
+.saved-template-task img {
     max-width: 10px;
     max-height: 10px;
     margin-right: 10px;
@@ -165,7 +165,7 @@
 
 .saved-template-toggle{
     text-align: center;
-    background-color: var(--template);
+    background-color: var(--template-body);
     margin: 0;
     margin-left: 10px;
     margin-right: 10px;
@@ -181,4 +181,4 @@
 .saved-template-toggle img.toggled{
     transform: rotate(180deg);
     transition: 0.5s;
-} */
+}
