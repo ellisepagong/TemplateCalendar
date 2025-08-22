@@ -1,0 +1,5 @@
+/*
+
+    Manages changes for calendar and agenda events
+
+*/
