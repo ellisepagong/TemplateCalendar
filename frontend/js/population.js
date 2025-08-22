@@ -9,6 +9,8 @@
 export function populateDayView(date){
     let numTasks = Math.floor(Math.random() * 5) + 1;
     let numTemplates = Math.floor(Math.random() * 5) + 1;
+    const dateLabel = document.getElementById('date');
+    dateLabel.textContent = setDateLabel(date);
 
     //get templates
     const dayTask = document.getElementById('dayViewTask');
@@ -144,6 +146,11 @@ export function populateSavedTemplates(){
 }
 
 // Calendar
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 export function generateCalendar(month, year, today) {
     // Get the calendar grid and clears content
     const grid = document.getElementById("calendar-grid"); 
@@ -151,14 +158,10 @@ export function generateCalendar(month, year, today) {
     const monthYearHeader = document.getElementById("month-year");
     const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const monthNames = [
-        "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
-        "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
-    ];
     
     // Set month and year in header
     if (monthYearHeader) {
-        monthYearHeader.textContent = `${monthNames[month]} ${year}`; 
+        monthYearHeader.textContent = `${monthNames[month].toUpperCase()} ${year}`; 
     }
 
     var totalCells = 0;
@@ -202,6 +205,9 @@ export function generateCalendar(month, year, today) {
         days++;
     }
 }
+
+
+// Non-export functions
 function createCalendarCell(dayNumber, tasks, templates, status = 'normal') {
     // Get template
     const template = document.getElementById('calendarCell');
@@ -247,4 +253,9 @@ function createCalendarCell(dayNumber, tasks, templates, status = 'normal') {
     
     // Return the modified cell
     return clone;
+}
+function setDateLabel(date){
+    const daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday", "Saturday"];
+    const label = `${daysOfWeek[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    return label;
 }
