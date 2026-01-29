@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "localhost", maxAge = 3600)
 @RestController
 @RequestMapping("/templates")
 public class TemplateController {
